@@ -3,4 +3,7 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-export type NzDirectionVHType = 'vertical' | 'horizontal';
+export * from './splitter.component';
+export * from './splitter-bar.component';
+export * from './splitter-panel.directive';
+export * from './splitter.module';

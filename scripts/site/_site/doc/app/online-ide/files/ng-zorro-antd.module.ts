@@ -76,6 +76,7 @@ import { NzCodeEditorModule } from 'ng-zorro-antd/code-editor';
 import { NzGraphModule } from 'ng-zorro-antd/graph';
 import { NzCronExpressionModule } from 'ng-zorro-antd/cron-expression';
 import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
+import { NzSplitterModule } from 'ng-zorro-antd/splitter';
 import { NzWaterMarkModule } from 'ng-zorro-antd/water-mark';
 
 @NgModule({
@@ -155,6 +156,7 @@ import { NzWaterMarkModule } from 'ng-zorro-antd/water-mark';
     NzCodeEditorModule,
     NzGraphModule,
     NzQRCodeModule,
+    NzSplitterModule,
     NzWaterMarkModule
   ]
 })

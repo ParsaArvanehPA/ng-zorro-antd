@@ -127,6 +127,8 @@
 /components/upload/zh
 /components/qr-code/en
 /components/qr-code/zh
+/components/splitter/en
+/components/splitter/zh
 /components/water-mark/en
 /components/water-mark/zh
 /components/color-picker/en
