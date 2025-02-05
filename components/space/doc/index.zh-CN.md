@@ -23,7 +23,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 ## API
 
-### nz-space:standalone
+### nz-space
 
 | 参数            | 说明                                   | 类型                                         | 默认值       | 支持全局配置 |
 | --------------- | -------------------------------------- | -------------------------------------------- | ------------ | ------------ |
@@ -33,7 +33,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 | `[nzWrap]`      | 是否自动换行，仅在 `horizontal` 时有效 | `boolean`                                    | `false`      |              |
 | `[nzSplit]`     | 设置分隔符                             | `TemplateRef \| string`                      | -            |              |
 
-### nz-space-compact:standalone
+### nz-space-compact
 
 需要表单组件之间紧凑连接且合并边框时，使用 `<nz-space-compact>`。支持的组件有：
 

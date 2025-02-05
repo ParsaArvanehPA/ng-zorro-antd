@@ -37,7 +37,6 @@ interface ExampleFlatNode {
 
 @Component({
   selector: 'nz-demo-tree-view-virtual-scroll',
-  standalone: true,
   imports: [NzIconModule, NzTreeViewModule],
   template: `
     <nz-tree-virtual-scroll-view class="virtual-scroll-tree" [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
@@ -48,7 +47,7 @@ interface ExampleFlatNode {
 
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
         <nz-tree-node-toggle>
-          <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+          <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
         </nz-tree-node-toggle>
         {{ node.name }}
       </nz-tree-node>

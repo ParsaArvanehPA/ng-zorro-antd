@@ -4,7 +4,6 @@
  */
 
 import { OverlayModule } from '@angular/cdk/overlay';
-import { NgClass, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,12 +37,12 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'popover';
   exportAs: 'nzPopover',
   host: {
     '[class.ant-popover-open]': 'visible'
-  },
-  standalone: true
+  }
 })
 export class NzPopoverDirective extends NzTooltipBaseDirective {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;
 
+  /* eslint-disable @angular-eslint/no-input-rename, @angular-eslint/no-output-rename */
   @Input({ alias: 'nzPopoverArrowPointAtCenter', transform: booleanAttribute }) override arrowPointAtCenter?: boolean;
   @Input('nzPopoverTitle') override title?: NzTSType;
   @Input('nzPopoverContent') override content?: NzTSType;
@@ -56,10 +55,12 @@ export class NzPopoverDirective extends NzTooltipBaseDirective {
   @Input('nzPopoverMouseLeaveDelay') override mouseLeaveDelay?: number;
   @Input('nzPopoverOverlayClassName') override overlayClassName?: string;
   @Input('nzPopoverOverlayStyle') override overlayStyle?: NgStyleInterface;
+  @Input('nzPopoverOverlayClickable') override overlayClickable?: boolean;
+
+  override directiveContent?: NzTSType | null = null;
 
   @Input() @WithConfig() nzPopoverBackdrop?: boolean = false;
 
-  // eslint-disable-next-line @angular-eslint/no-output-rename
   @Output('nzPopoverVisibleChange') override readonly visibleChange = new EventEmitter<boolean>();
 
   protected override getProxyPropertyMap(): PropertyMapping {
@@ -99,8 +100,8 @@ export class NzPopoverDirective extends NzTooltipBaseDirective {
       <div
         class="ant-popover"
         [class.ant-popover-rtl]="dir === 'rtl'"
-        [ngClass]="_classMap"
-        [ngStyle]="nzOverlayStyle"
+        [class]="_classMap"
+        [style]="nzOverlayStyle"
         [@.disabled]="!!noAnimation?.nzNoAnimation"
         [nzNoAnimation]="noAnimation?.nzNoAnimation"
         [@zoomBigMotion]="'active'"
@@ -125,8 +126,7 @@ export class NzPopoverDirective extends NzTooltipBaseDirective {
       </div>
     </ng-template>
   `,
-  imports: [OverlayModule, NzOverlayModule, NgClass, NgStyle, NzNoAnimationDirective, NzOutletModule],
-  standalone: true
+  imports: [OverlayModule, NzOverlayModule, NzNoAnimationDirective, NzOutletModule]
 })
 export class NzPopoverComponent extends NzToolTipComponent {
   override _prefix = 'ant-popover';

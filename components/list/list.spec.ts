@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { AsyncPipe } from '@angular/common';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
@@ -20,7 +25,7 @@ describe('list', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideNzIconsTesting()]
-    }).compileComponents();
+    });
     fixture = TestBed.createComponent(TestListComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
@@ -241,7 +246,6 @@ describe('list RTL', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzListModule, AsyncPipe],
   selector: 'nz-test-list',
   template: `
@@ -307,7 +311,6 @@ class TestListComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzListModule],
   template: `
     <button (click)="footer = nzFooter" id="change">change</button>
@@ -324,13 +327,12 @@ class TestListWithTemplateComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzListModule],
   template: `
     <nz-list id="item-string">
       <nz-list-item [nzContent]="'content'" [nzActions]="[action]" [nzExtra]="extra" [nzNoFlex]="noFlex">
         <ng-template #action>
-          <span nz-icon nzType="star-o" style="margin-right: 8px;"></span>
+          <nz-icon nzType="star-o" style="margin-right: 8px;" />
           156
         </ng-template>
         <ng-template #extra>
@@ -365,7 +367,6 @@ class TestListItemComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, TestListComponent],
   template: `
     <div [dir]="direction">

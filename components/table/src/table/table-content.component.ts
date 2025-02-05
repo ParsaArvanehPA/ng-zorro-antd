@@ -15,8 +15,12 @@ import { NzTableLayout } from '../table.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    @for (width of listOfColWidth; track $index) {
-      <col [style.width]="width" [style.minWidth]="width" />
+    @if (listOfColWidth.length > 0) {
+      <colgroup>
+        @for (width of listOfColWidth; track $index) {
+          <col [style.width]="width" [style.minWidth]="width" />
+        }
+      </colgroup>
     }
     @if (theadTemplate) {
       <thead class="ant-table-thead">
@@ -37,8 +41,7 @@ import { NzTableLayout } from '../table.types';
     '[style.width]': 'scrollX',
     '[style.min-width]': `scrollX ? '100%' : null`
   },
-  imports: [NgTemplateOutlet],
-  standalone: true
+  imports: [NgTemplateOutlet]
 })
 export class NzTableContentComponent {
   @Input() tableLayout: NzTableLayout = 'auto';

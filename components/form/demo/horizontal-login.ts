@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -7,7 +7,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-horizontal-login',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzInputModule],
   template: `
     <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -34,6 +33,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   `
 })
 export class NzDemoFormHorizontalLoginComponent {
+  private fb = inject(NonNullableFormBuilder);
   validateForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
@@ -43,6 +43,4 @@ export class NzDemoFormHorizontalLoginComponent {
   submitForm(): void {
     console.log('submit', this.validateForm.value);
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 }

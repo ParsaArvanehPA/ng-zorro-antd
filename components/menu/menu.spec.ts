@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ConnectedOverlayPositionChange, OverlayContainer } from '@angular/cdk/overlay';
 import { Component, DebugElement, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
@@ -22,7 +27,7 @@ describe('menu', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideNzIconsTesting(), provideNoopAnimations()]
-    }).compileComponents();
+    });
 
     inject([OverlayContainer], (oc: OverlayContainer) => {
       overlayContainer = oc;
@@ -557,7 +562,6 @@ describe('menu', () => {
 
 @Component({
   selector: 'nz-test-menu-horizontal',
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu [nzMode]="'horizontal'">
@@ -569,7 +573,7 @@ describe('menu', () => {
         [style.width.px]="width"
       >
         <span title>
-          <span nz-icon nzType="setting"></span>
+          <nz-icon nzType="setting" />
           Navigation Three - Submenu
         </span>
         <ul>
@@ -618,13 +622,12 @@ export class NzTestMenuHorizontalComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="collapse">
       <li nz-submenu [nzMenuClassName]="submenuClassName" [nzDisabled]="disabled">
         <span title>
-          <span nz-icon nzType="mail"></span>
+          <nz-icon nzType="mail" />
           Navigation One
         </span>
         <ul>
@@ -644,14 +647,13 @@ export class NzTestMenuInlineComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu [nzMode]="'inline'" style="width: 240px;">
       @for (l1 of menus; track l1) {
         <li nz-submenu>
           <span title>
-            <span nz-icon nzType="appstore"></span>
+            <nz-icon nzType="appstore" />
             {{ l1.text }}
           </span>
           <ul>
@@ -686,16 +688,15 @@ export class NzTestMenuNgForComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu nzMode="horizontal">
       <li nz-menu-item>
-        <span nz-icon nzType="mail"></span>
+        <nz-icon nzType="mail" />
         Navigation One
       </li>
       <li nz-menu-item nzDisabled>
-        <span nz-icon nzType="appstore"></span>
+        <nz-icon nzType="appstore" />
         Navigation Two
       </li>
       <li nz-submenu nzTitle="Navigation Three - Submenu" nzIcon="setting">
@@ -736,7 +737,6 @@ export class NzTestMenuNgForComponent {
 export class NzTestBasicMenuHorizontalComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzMenuModule],
   template: `
     <ul nz-menu nzMode="inline">
@@ -788,7 +788,6 @@ export class NzTestBasicMenuInlineComponent {}
 
 // https://github.com/NG-ZORRO/ng-zorro-antd/issues/3023
 @Component({
-  standalone: true,
   imports: [NzMenuModule],
   template: `
     <ul nz-menu nzMode="horizontal">
@@ -810,12 +809,11 @@ export class NzTestNgIfMenuComponent {
 
 // https://github.com/NG-ZORRO/ng-zorro-antd/issues/3345
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu nzMode="inline" nzTheme="dark" nzInlineCollapsed>
       <li nz-menu-item>
-        <span nz-icon nzType="mail"></span>
+        <nz-icon nzType="mail" />
         <span>Navigation One</span>
       </li>
       <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">
@@ -830,16 +828,15 @@ export class NzTestNgIfMenuComponent {
 export class NzTestSubMenuSelectedComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule, NzIconModule, NzMenuModule],
   template: `
     <div class="wrapper">
       <button nz-button nzType="primary" (click)="toggleCollapsed()">
-        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+        <nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
       </button>
       <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
         <li nz-menu-item nzSelected>
-          <span nz-icon nzType="mail"></span>
+          <nz-icon nzType="mail" />
           <span>Navigation One</span>
         </li>
         <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">
@@ -885,7 +882,6 @@ export class NzTestMenuInlineCollapsedComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzMenuModule],
   template: `
     <ul nz-menu nzMode="inline" style="width: 240px;">
@@ -946,7 +942,7 @@ export class NzTestMenuInlineCollapsedComponent {
   `
 })
 export class NzTestMenuSiderCurrentComponent {
-  openMap: { [name: string]: boolean } = {
+  openMap: Record<string, boolean> = {
     sub1: true,
     sub2: false,
     sub3: false
@@ -962,7 +958,6 @@ export class NzTestMenuSiderCurrentComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzMenuModule],
   template: `
     <ul nz-menu [nzMode]="mode ? 'vertical' : 'inline'" [nzTheme]="dark ? 'dark' : 'light'">
@@ -1017,7 +1012,6 @@ export class NzTestMenuSwitchModeComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzMenuModule],
   template: `
     <ul nz-menu nzMode="inline" style="width: 240px;" [nzTheme]="theme ? 'dark' : 'light'">
@@ -1064,7 +1058,6 @@ export class NzTestMenuThemeComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestMenuHorizontalComponent],
   template: `
     <div [dir]="direction">

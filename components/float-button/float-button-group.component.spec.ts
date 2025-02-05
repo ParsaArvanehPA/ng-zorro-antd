@@ -1,10 +1,16 @@
-import { BidiModule, Dir } from '@angular/cdk/bidi';
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
+import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { NzIconTestModule } from 'ng-zorro-antd/icon/testing';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { provideNzIconsTesting } from 'ng-zorro-antd/icon/testing';
 
 import { NzFloatButtonGroupComponent } from './float-button-group.component';
 import { NzFloatButtonModule } from './float-button.module';
@@ -12,10 +18,8 @@ import { NzFloatButtonModule } from './float-button.module';
 describe('nz-float-button-group', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BidiModule, NzFloatButtonModule, NzIconTestModule, NoopAnimationsModule],
-      declarations: [NzTestFloatButtonGroupBasicComponent]
+      providers: [provideNoopAnimations(), provideNzIconsTesting()]
     });
-    TestBed.compileComponents();
   }));
 
   describe('float-button-group basic', () => {
@@ -103,9 +107,8 @@ describe('nz-float-button-group RTL', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BidiModule, NzFloatButtonModule, NzIconTestModule, NoopAnimationsModule],
-      declarations: [NzTestFloatButtonRtlComponent]
-    }).compileComponents();
+      providers: [provideNoopAnimations(), provideNzIconsTesting()]
+    });
     fixture = TestBed.createComponent(NzTestFloatButtonRtlComponent);
     resultEl = fixture.debugElement.query(By.directive(NzFloatButtonGroupComponent));
   }));
@@ -117,8 +120,8 @@ describe('nz-float-button-group RTL', () => {
 });
 
 @Component({
-  // eslint-disable-next-line
   selector: 'nz-test-basic-float-button-group',
+  imports: [NzFloatButtonModule, NzIconModule],
   template: `
     <nz-float-button-group
       [nzIcon]="nzIcon"
@@ -129,7 +132,7 @@ describe('nz-float-button-group RTL', () => {
     >
     </nz-float-button-group>
     <ng-template #icon>
-      <span nz-icon nzType="question-circle" nzTheme="outline"></span>
+      <nz-icon nzType="question-circle" nzTheme="outline" />
     </ng-template>
   `
 })
@@ -142,14 +145,13 @@ export class NzTestFloatButtonGroupBasicComponent {
 
   isClick: boolean = false;
 
-  constructor() {}
-
   onClick(value: boolean): void {
     this.isClick = value;
   }
 }
 
 @Component({
+  imports: [BidiModule, NzFloatButtonModule],
   template: `
     <div [dir]="direction">
       <nz-float-button-group></nz-float-button-group>
@@ -158,5 +160,5 @@ export class NzTestFloatButtonGroupBasicComponent {
 })
 export class NzTestFloatButtonRtlComponent {
   @ViewChild(Dir) dir!: Dir;
-  direction = 'rtl';
+  direction: Direction = 'rtl';
 }

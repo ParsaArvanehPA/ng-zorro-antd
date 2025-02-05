@@ -16,7 +16,7 @@ import { ModalOptions } from './modal-types';
   template: `
     <span class="ant-modal-close-x">
       <ng-container *nzStringTemplateOutlet="config.nzCloseIcon; let closeIcon">
-        <span nz-icon [nzType]="closeIcon" class="ant-modal-close-icon"></span>
+        <nz-icon [nzType]="closeIcon" class="ant-modal-close-icon" />
       </ng-container>
     </span>
   `,
@@ -25,8 +25,7 @@ import { ModalOptions } from './modal-types';
     'aria-label': 'Close'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NzIconModule, NzOutletModule],
-  standalone: true
+  imports: [NzIconModule, NzOutletModule]
 })
 export class NzModalCloseComponent {
   constructor(public config: ModalOptions) {}

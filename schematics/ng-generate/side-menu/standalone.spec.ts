@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { Style } from '@schematics/angular/ng-new/schema';
@@ -45,7 +50,8 @@ describe('[standalone] side-menu schematic', () => {
 
     expect(tree.exists('/projects/material/src/app/app.module.ts')).toBe(false);
 
-    expect(appContent).toContain('standalone: true');
+    // since v19, the standalone option is removed
+    expect(appContent).not.toContain('standalone: true');
     expect(appContent).toContain('imports: [');
   });
 
@@ -70,7 +76,7 @@ describe('[standalone] side-menu schematic', () => {
 
     it('should fall back to the @schematics/angular:component option value', async () => {
       const options = { ...defaultOptions, template: 'sidemenu' };
-      appTree = await createTestApp(runner, { style: Style.Less, standalone: true });
+      appTree = await createTestApp(runner, { style: Style.Less });
       const tree = await runner.runSchematic('ng-add', options, appTree);
 
       expect(tree.files).toEqual(

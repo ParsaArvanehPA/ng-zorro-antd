@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { ApplicationRef, Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -354,7 +359,7 @@ describe('tree', () => {
         expect(component.treeComponent.getExpandedNodeList().length).toEqual(1);
       }));
 
-      it('should check node when clicking checkBox', fakeAsync(() => {
+      it('should check node when clicking checkbox', fakeAsync(() => {
         const spy = spyOn(component, 'nzEvent');
         // get first node 0-0
         const node = nativeElement.querySelector('.ant-tree-checkbox')!;
@@ -610,7 +615,6 @@ describe('tree', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzTreeModule],
   template: `
     <button (click)="changeIcon(expandedIconTpl)">Custom expand icon</button>
@@ -638,10 +642,10 @@ describe('tree', () => {
       (nzDblClick)="nzEvent($event)"
       (nzContextMenu)="nzEvent($event)"
       (nzExpandChange)="nzEvent($event)"
-      (nzCheckBoxChange)="nzEvent($event)"
+      (nzCheckboxChange)="nzEvent($event)"
     ></nz-tree>
     <ng-template #expandedIconTpl let-node>
-      <span nz-icon nzType="smile" class="ant-tree-switcher-icon"></span>
+      <nz-icon nzType="smile" class="ant-tree-switcher-icon" />
     </ng-template>
   `
 })
@@ -703,7 +707,6 @@ export class NzTestTreeBasicControlledComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTreeModule],
   template: `
     <nz-tree
@@ -772,7 +775,6 @@ export class NzTestTreeDraggableComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTreeModule],
   template: `
     <nz-tree

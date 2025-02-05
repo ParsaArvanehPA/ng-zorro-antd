@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -18,7 +23,6 @@ describe('nz-element', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzElementPatchDirective],
   template: `<button nz-element>Action</button> `
 })

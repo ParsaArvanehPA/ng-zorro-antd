@@ -22,11 +22,12 @@ import {
   inject
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subject, fromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { NzSafeAny, OnChangeType, OnTouchedType } from 'ng-zorro-antd/core/types';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 
 import { NzRadioService } from './radio.service';
 
@@ -76,8 +77,7 @@ import { NzRadioService } from './radio.service';
     '[class.ant-radio-button-wrapper-disabled]': 'nzDisabled && isRadioButton',
     '[class.ant-radio-wrapper-rtl]': `!isRadioButton && dir === 'rtl'`,
     '[class.ant-radio-button-wrapper-rtl]': `isRadioButton && dir === 'rtl'`
-  },
-  standalone: true
+  }
 })
 export class NzRadioComponent implements ControlValueAccessor, AfterViewInit, OnDestroy, OnInit {
   private isNgModel = false;
@@ -198,26 +198,24 @@ export class NzRadioComponent implements ControlValueAccessor, AfterViewInit, On
   }
 
   private setupClickListener(): void {
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent<MouseEvent>(this.elementRef.nativeElement, 'click')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(event => {
-          /** prevent label click triggered twice. **/
-          event.stopPropagation();
-          event.preventDefault();
-          if (this.nzDisabled || this.isChecked) {
-            return;
+    fromEventOutsideAngular<MouseEvent>(this.elementRef.nativeElement, 'click')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(event => {
+        /** prevent label click triggered twice. **/
+        event.stopPropagation();
+        event.preventDefault();
+        if (this.nzDisabled || this.isChecked) {
+          return;
+        }
+        this.ngZone.run(() => {
+          this.focus();
+          this.nzRadioService?.select(this.nzValue);
+          if (this.isNgModel) {
+            this.isChecked = true;
+            this.onChange(true);
           }
-          this.ngZone.run(() => {
-            this.focus();
-            this.nzRadioService?.select(this.nzValue);
-            if (this.isNgModel) {
-              this.isChecked = true;
-              this.onChange(true);
-            }
-            this.cdr.markForCheck();
-          });
+          this.cdr.markForCheck();
         });
-    });
+      });
   }
 }

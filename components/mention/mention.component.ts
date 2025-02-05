@@ -39,14 +39,19 @@ import {
   booleanAttribute,
   inject
 } from '@angular/core';
-import { Observable, Subscription, fromEvent, merge, of as observableOf } from 'rxjs';
+import { Subscription, merge, of as observableOf } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
-import { NzFormNoStatusService, NzFormPatchModule, NzFormStatusService } from 'ng-zorro-antd/core/form';
+import { NzFormItemFeedbackIconComponent, NzFormNoStatusService, NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { DEFAULT_MENTION_BOTTOM_POSITIONS, DEFAULT_MENTION_TOP_POSITIONS } from 'ng-zorro-antd/core/overlay';
 import { NzDestroyService } from 'ng-zorro-antd/core/services';
 import { NgClassInterface, NzSafeAny, NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
-import { getCaretCoordinates, getMentions, getStatusClassNames } from 'ng-zorro-antd/core/util';
+import {
+  fromEventOutsideAngular,
+  getCaretCoordinates,
+  getMentions,
+  getStatusClassNames
+} from 'ng-zorro-antd/core/util';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -97,7 +102,7 @@ export type MentionPlacement = 'top' | 'bottom';
           @if (filteredSuggestions.length === 0) {
             <li class="ant-mentions-dropdown-menu-item ant-mentions-dropdown-menu-item-disabled">
               @if (nzLoading) {
-                <span><span nz-icon nzType="loading"></span></span>
+                <span><nz-icon nzType="loading" /></span>
               } @else {
                 <span>
                   <nz-embed-empty nzComponentName="select" [specificContent]="nzNotFoundContent!" />
@@ -119,8 +124,7 @@ export type MentionPlacement = 'top' | 'bottom';
     class: 'ant-mentions',
     '[class.ant-mentions-rtl]': `dir === 'rtl'`
   },
-  imports: [NgTemplateOutlet, NzIconModule, NzEmptyModule, NzFormPatchModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzIconModule, NzEmptyModule, NzFormItemFeedbackIconComponent]
 })
 export class NzMentionComponent implements OnDestroy, OnInit, AfterViewInit, OnChanges {
   @Input() nzValueWith: (value: NzSafeAny) => string = value => value;
@@ -130,8 +134,8 @@ export class NzMentionComponent implements OnDestroy, OnInit, AfterViewInit, OnC
   @Input() nzPlacement: MentionPlacement = 'bottom';
   @Input() nzSuggestions: NzSafeAny[] = [];
   @Input() nzStatus: NzStatus = '';
-  @Output() readonly nzOnSelect: EventEmitter<NzSafeAny> = new EventEmitter();
-  @Output() readonly nzOnSearchChange: EventEmitter<MentionOnSearchTypes> = new EventEmitter();
+  @Output() readonly nzOnSelect = new EventEmitter<NzSafeAny>();
+  @Output() readonly nzOnSearchChange = new EventEmitter<MentionOnSearchTypes>();
 
   trigger!: NzMentionTriggerDirective;
   @ViewChild(TemplateRef, { static: false }) suggestionsTemp?: TemplateRef<void>;
@@ -240,14 +244,7 @@ export class NzMentionComponent implements OnDestroy, OnInit, AfterViewInit, OnC
         startWith(this.items),
         switchMap(() => {
           const items = this.items.toArray();
-          // Caretaker note: we explicitly should call `subscribe()` within the root zone.
-          // `runOutsideAngular(() => fromEvent(...))` will just create an observable within the root zone,
-          // but `addEventListener` is called when the `fromEvent` is subscribed.
-          return new Observable<MouseEvent>(subscriber =>
-            this.ngZone.runOutsideAngular(() =>
-              merge(...items.map(item => fromEvent<MouseEvent>(item.nativeElement, 'mousedown'))).subscribe(subscriber)
-            )
-          );
+          return merge(...items.map(item => fromEventOutsideAngular<MouseEvent>(item.nativeElement, 'mousedown')));
         })
       )
       .subscribe(event => {
@@ -461,10 +458,8 @@ export class NzMentionComponent implements OnDestroy, OnInit, AfterViewInit, OnC
     );
 
     subscription.add(
-      this.ngZone.runOutsideAngular(() =>
-        fromEvent<TouchEvent>(this.document, 'touchend').subscribe(
-          event => canCloseDropdown(event) && this.ngZone.run(() => this.closeDropdown())
-        )
+      fromEventOutsideAngular<TouchEvent>(this.document, 'touchend').subscribe(
+        event => canCloseDropdown(event) && this.ngZone.run(() => this.closeDropdown())
       )
     );
 

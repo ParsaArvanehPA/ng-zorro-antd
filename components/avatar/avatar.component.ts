@@ -16,11 +16,12 @@ import {
   ViewChild,
   ViewEncapsulation,
   afterRender,
+  inject,
   numberAttribute
 } from '@angular/core';
 
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
-import { NgClassInterface, NzShapeSCType, NzSizeLDSType } from 'ng-zorro-antd/core/types';
+import { NzShapeSCType, NzSizeLDSType } from 'ng-zorro-antd/core/types';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'avatar';
@@ -28,11 +29,10 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'avatar';
 @Component({
   selector: 'nz-avatar',
   exportAs: 'nzAvatar',
-  standalone: true,
   imports: [NzIconModule, PlatformModule],
   template: `
     @if (nzIcon && hasIcon) {
-      <span nz-icon [nzType]="nzIcon"></span>
+      <nz-icon [nzType]="nzIcon" />
     } @else if (nzSrc && hasSrc) {
       <img [src]="nzSrc" [attr.srcset]="nzSrcSet" [attr.alt]="nzAlt" (error)="imgError($event)" />
     } @else if (nzText && hasText) {
@@ -72,16 +72,14 @@ export class NzAvatarComponent implements OnChanges {
   hasText: boolean = false;
   hasSrc: boolean = true;
   hasIcon: boolean = false;
-  classMap: NgClassInterface = {};
   customSize: string | null = null;
 
   @ViewChild('textEl', { static: false }) textEl?: ElementRef<HTMLSpanElement>;
 
-  private el: HTMLElement = this.elementRef.nativeElement;
+  private el: HTMLElement = inject(ElementRef).nativeElement;
 
   constructor(
     public nzConfigService: NzConfigService,
-    private elementRef: ElementRef,
     private cdr: ChangeDetectorRef
   ) {
     afterRender(() => this.calcStringSize());

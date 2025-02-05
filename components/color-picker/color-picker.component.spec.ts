@@ -1,6 +1,11 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, inject, tick, discardPeriodicTasks, TestBed } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -126,9 +131,9 @@ describe('nz-color-picker', () => {
     const dom = resultEl.nativeElement.querySelector('.ant-color-picker-trigger');
     dispatchMouseEvent(dom, 'click');
     waitingForTooltipToggling();
-    expect(
-      overlayContainerElement.querySelector('.ant-color-picker-title-content')?.querySelector('span')?.innerText
-    ).toBe('Color Picker');
+    expect(overlayContainerElement.querySelector('.ant-color-picker-title-content')?.textContent?.trim()).toBe(
+      'Color Picker'
+    );
   }));
 
   it('color-picker nzFlipFlop', () => {
@@ -168,7 +173,7 @@ describe('nz-color-picker', () => {
     dispatchMouseEvent(dom, 'click');
     waitingForTooltipToggling();
     const clear = overlayContainerElement.querySelector('.ant-color-picker-clear');
-    if (!!clear) {
+    if (clear) {
       dispatchMouseEvent(clear, 'click');
       fixture.detectChanges();
       waitingForTooltipToggling();
@@ -218,7 +223,7 @@ describe('nz-color-picker', () => {
     items.forEach(item => {
       dispatchMouseEvent(item, 'click');
       waitingForTooltipToggling();
-      let alphaInputElement = overlayContainerElement.querySelector('.ant-color-picker-alpha-input') as Element;
+      const alphaInputElement = overlayContainerElement.querySelector('.ant-color-picker-alpha-input') as Element;
       expect(alphaInputElement).toBeFalsy();
     });
     discardPeriodicTasks();
@@ -226,7 +231,6 @@ describe('nz-color-picker', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule, NzColorPickerModule],
   template: `
     <nz-color-picker
@@ -317,7 +321,6 @@ describe('nz-color-picker form', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzColorPickerModule, NzFormModule, ReactiveFormsModule],
   template: `
     <form nz-form [formGroup]="validateForm">

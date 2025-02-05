@@ -25,18 +25,18 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
       <span>{{ listOfValue.length }} / {{ nzMaxMultipleCount }}</span>
     }
     @if (loading) {
-      <span nz-icon nzType="loading"></span>
+      <nz-icon nzType="loading" />
     } @else {
       @if (showArrow && !suffixIcon) {
         @if (search) {
-          <span nz-icon nzType="search"></span>
+          <nz-icon nzType="search" />
         } @else {
-          <span nz-icon nzType="down"></span>
+          <nz-icon nzType="down" />
         }
       } @else {
         <ng-container *nzStringTemplateOutlet="suffixIcon; let suffixIcon">
           @if (suffixIcon) {
-            <span nz-icon [nzType]="suffixIcon"></span>
+            <nz-icon [nzType]="suffixIcon" />
           }
         </ng-container>
       }
@@ -47,8 +47,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     class: 'ant-select-arrow',
     '[class.ant-select-arrow-loading]': 'loading'
   },
-  imports: [NzIconModule, NzOutletModule],
-  standalone: true
+  imports: [NzIconModule, NzOutletModule]
 })
 export class NzSelectArrowComponent {
   @Input() listOfValue: NzSafeAny[] = [];
@@ -59,6 +58,4 @@ export class NzSelectArrowComponent {
   @Input() suffixIcon: TemplateRef<NzSafeAny> | string | null = null;
   @Input() feedbackIcon: TemplateRef<NzSafeAny> | string | null = null;
   @Input({ transform: numberAttribute }) nzMaxMultipleCount: number = Infinity;
-
-  constructor() {}
 }

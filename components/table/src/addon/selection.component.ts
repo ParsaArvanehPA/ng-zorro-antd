@@ -31,7 +31,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     @if (showRowSelection) {
       <div class="ant-table-selection-extra">
         <span nz-dropdown class="ant-table-selection-down" nzPlacement="bottomLeft" [nzDropdownMenu]="selectionMenu">
-          <span nz-icon nzType="down"></span>
+          <nz-icon nzType="down" />
         </span>
         <nz-dropdown-menu #selectionMenu="nzDropdownMenu">
           <ul nz-menu class="ant-table-selection-menu">
@@ -46,8 +46,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     }
   `,
   host: { class: 'ant-table-selection' },
-  imports: [FormsModule, NzCheckboxModule, NzDropDownModule, NzIconModule],
-  standalone: true
+  imports: [FormsModule, NzCheckboxModule, NzDropDownModule, NzIconModule]
 })
 export class NzTableSelectionComponent {
   @Input() listOfSelections: Array<{ text: string; onSelect(...args: NzSafeAny[]): NzSafeAny }> = [];
@@ -58,8 +57,6 @@ export class NzTableSelectionComponent {
   @Input() showCheckbox = false;
   @Input() showRowSelection = false;
   @Output() readonly checkedChange = new EventEmitter<boolean>();
-
-  constructor() {}
 
   onCheckedChange(checked: boolean): void {
     this.checked = checked;

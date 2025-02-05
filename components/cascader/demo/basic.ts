@@ -84,7 +84,6 @@ const otherOptions: NzCascaderOption[] = [
 
 @Component({
   selector: 'nz-demo-cascader-basic',
-  standalone: true,
   imports: [FormsModule, NzCascaderModule],
   template: `
     <nz-cascader [nzOptions]="nzOptions" [(ngModel)]="values" (ngModelChange)="onChanges($event)"></nz-cascader>
@@ -95,7 +94,7 @@ const otherOptions: NzCascaderOption[] = [
       .change-options {
         display: inline-block;
         font-size: 12px;
-        margin-top: 8px;
+        margin-left: 8px;
       }
     `
   ]

@@ -9,7 +9,6 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
   selector: 'nz-demo-card-loading',
-  standalone: true,
   imports: [FormsModule, NzAvatarModule, NzCardModule, NzIconModule, NzSwitchModule, NzSkeletonModule],
   template: `
     <nz-switch [(ngModel)]="loading"></nz-switch>
@@ -33,13 +32,13 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
       <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
     </ng-template>
     <ng-template #actionSetting>
-      <span nz-icon nzType="setting"></span>
+      <nz-icon nzType="setting" />
     </ng-template>
     <ng-template #actionEdit>
-      <span nz-icon nzType="edit"></span>
+      <nz-icon nzType="edit" />
     </ng-template>
     <ng-template #actionEllipsis>
-      <span nz-icon nzType="ellipsis"></span>
+      <nz-icon nzType="ellipsis" />
     </ng-template>
   `
 })

@@ -15,7 +15,7 @@ Common Pipe Collections in Projects
 
 ## When To Use
 
-- After introducing Pipe, use it like angular's default Pipe
+- After introducing Pipe, use it like Angular's built-in Pipe
 
 ```ts
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
@@ -23,35 +23,35 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes';
 
 ## API
 
-### **nzBytes**:standalone
+### nzBytes
 
 | Property  | Description                     | Type     | Default |
-| --------- | ------------------------------- | -------- | ------- |
+|-----------|---------------------------------|----------|---------|
 | `decimal` | Decimal                         | `number` | '0'     |
 | `from`    | Unit of current value           | `string` | 'B'     |
 | `to`      | Units converted to target value | `string` | ''      |
 
-### **nzToCssUnit**:standalone
+### nzToCssUnit
 
 | Property      | Description  | Type     | Default |
-| ------------- | ------------ | -------- | ------- |
+|---------------|--------------|----------|---------|
 | `defaultUnit` | Default Unit | `string` | 'px'    |
 
-### **nzEllipsis**:standalone
+### nzEllipsis
 
 | Property | Description       | Type     | Default |
-| -------- | ----------------- | -------- | ------- |
+|----------|-------------------|----------|---------|
 | `length` | Truncate length   | `number` | ''      |
 | `suffix` | Replace character | `string` | ''      |
 
-### **nzAggregate**:standalone
+### nzAggregate
 
 | Property | Description | Type                               | Default |
-| -------- | ----------- | ---------------------------------- | ------- |
+|----------|-------------|------------------------------------|---------|
 | `method` | Aggregation | `'sum' \| 'max' \| 'min' \| 'avg'` | ''      |
 
-### **nzSanitizer**:standalone
+### nzSanitizer
 
 | Property | Description    | Type     | Default |
-| -------- | -------------- | -------- | ------- |
+|----------|----------------|----------|---------|
 | `type`   | sanitizer type | `string` | 'html'  |

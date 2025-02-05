@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -235,7 +240,6 @@ describe('nz-layout', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzLayoutModule],
   template: `
     <nz-layout>
@@ -256,7 +260,7 @@ describe('nz-layout', () => {
       </nz-layout>
     </nz-layout>
     <ng-template #trigger>
-      <span nz-icon nzType="up"></span>
+      <nz-icon nzType="up" />
     </ng-template>
   `
 })
@@ -272,7 +276,6 @@ export class NzLayoutCustomTriggerComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzLayoutModule],
   template: `
     <nz-layout>
@@ -299,7 +302,6 @@ export class NzLayoutSideComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzLayoutModule],
   template: `
     <nz-layout>
@@ -319,7 +321,7 @@ export class NzLayoutSideComponent {
       </nz-layout>
     </nz-layout>
     <ng-template #zeroTrigger>
-      <span nz-icon nzType="menu-fold" nzTheme="outline"></span>
+      <nz-icon nzType="menu-fold" nzTheme="outline" />
     </ng-template>
   `
 })
@@ -328,7 +330,6 @@ export class NzLayoutResponsiveComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzLayoutModule],
   selector: 'nz-test-layout-basic',
   template: `
@@ -369,7 +370,6 @@ export class NzLayoutResponsiveComponent {
 export class NzLayoutBasicComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzLayoutBasicComponent],
   template: `
     <div [dir]="direction">

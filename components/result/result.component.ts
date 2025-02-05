@@ -47,7 +47,7 @@ const ExceptionStatus = ['404', '500', '403'];
       @if (!isException) {
         @if (icon) {
           <ng-container *nzStringTemplateOutlet="icon; let icon">
-            <span nz-icon [nzType]="icon" nzTheme="fill"></span>
+            <nz-icon [nzType]="icon" nzTheme="fill" />
           </ng-container>
         } @else {
           <ng-content select="[nz-result-icon]"></ng-content>
@@ -104,8 +104,7 @@ const ExceptionStatus = ['404', '500', '403'];
     NzResultNotFoundComponent,
     NzResultServerErrorComponent,
     NzResultUnauthorizedComponent
-  ],
-  standalone: true
+  ]
 })
 export class NzResultComponent implements OnChanges, OnDestroy, OnInit {
   @Input() nzIcon?: string | TemplateRef<void>;

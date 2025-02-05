@@ -4,7 +4,6 @@
  */
 
 import { Direction } from '@angular/cdk/bidi';
-import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -38,7 +37,7 @@ import { NzSliderShowTooltip } from './typings';
       class="ant-slider-handle"
       tabindex="0"
       nz-tooltip
-      [ngStyle]="style"
+      [style]="style"
       [nzTooltipTitle]="tooltipFormatter === null || tooltipVisible === 'never' ? null : tooltipTitle"
       [nzTooltipTitleContext]="{ $implicit: value }"
       [nzTooltipTrigger]="null"
@@ -49,8 +48,7 @@ import { NzSliderShowTooltip } from './typings';
     '(mouseenter)': 'enterHandle()',
     '(mouseleave)': 'leaveHandle()'
   },
-  imports: [NzToolTipModule, NgStyle],
-  standalone: true
+  imports: [NzToolTipModule]
 })
 export class NzSliderHandleComponent implements OnChanges {
   @ViewChild('handle', { static: false }) handleEl?: ElementRef;

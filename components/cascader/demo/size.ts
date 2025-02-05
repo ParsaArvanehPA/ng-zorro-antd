@@ -47,7 +47,6 @@ const options: NzCascaderOption[] = [
 
 @Component({
   selector: 'nz-demo-cascader-size',
-  standalone: true,
   imports: [FormsModule, NzCascaderModule],
   template: `
     <nz-cascader
@@ -56,22 +55,18 @@ const options: NzCascaderOption[] = [
       [(ngModel)]="value1"
       (ngModelChange)="onChanges($event)"
     ></nz-cascader>
+    <br />
+    <br />
     <nz-cascader [nzOptions]="nzOptions" [(ngModel)]="value2" (ngModelChange)="onChanges($event)"></nz-cascader>
+    <br />
+    <br />
     <nz-cascader
       nzSize="small"
       [nzOptions]="nzOptions"
       [(ngModel)]="value3"
       (ngModelChange)="onChanges($event)"
     ></nz-cascader>
-  `,
-  styles: [
-    `
-      .ant-cascader {
-        width: 300px;
-        margin-bottom: 8px;
-      }
-    `
-  ]
+  `
 })
 export class NzDemoCascaderSizeComponent {
   nzOptions: NzCascaderOption[] = options;

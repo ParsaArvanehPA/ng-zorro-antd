@@ -16,12 +16,12 @@ import {
   OnInit,
   Output,
   Renderer2,
-  SimpleChange,
+  SimpleChanges,
   TemplateRef,
   booleanAttribute,
   inject
 } from '@angular/core';
-import { Observable, Subject, fromEvent } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { NzNoAnimationDirective } from 'ng-zorro-antd/core/no-animation';
@@ -32,6 +32,7 @@ import {
   NzTreeNode,
   NzTreeNodeOptions
 } from 'ng-zorro-antd/core/tree';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 
 import { NzTreeIndentComponent } from './tree-indent.component';
 import { NzTreeNodeBuiltinCheckboxComponent } from './tree-node-checkbox.component';
@@ -64,7 +65,7 @@ import { NzTreeNodeTitleComponent } from './tree-node-title.component';
     @if (nzCheckable) {
       <nz-tree-node-checkbox
         builtin
-        (click)="clickCheckBox($event)"
+        (click)="clickCheckbox($event)"
         [nzSelectMode]="nzSelectMode"
         [isChecked]="isChecked"
         [isHalfChecked]="isHalfChecked"
@@ -121,8 +122,7 @@ import { NzTreeNodeTitleComponent } from './tree-node-title.component';
     NzTreeNodeSwitcherComponent,
     NzTreeNodeBuiltinCheckboxComponent,
     NzTreeNodeTitleComponent
-  ],
-  standalone: true
+  ]
 })
 export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -160,7 +160,7 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
   @Output() readonly nzClick = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzDblClick = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzContextMenu = new EventEmitter<NzFormatEmitEvent>();
-  @Output() readonly nzCheckBoxChange = new EventEmitter<NzFormatEmitEvent>();
+  @Output() readonly nzCheckboxChange = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzExpandChange = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzOnDragStart = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzOnDragEnter = new EventEmitter<NzFormatEmitEvent>();
@@ -174,7 +174,7 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
    */
   destroy$ = new Subject<boolean>();
   dragPos = 2;
-  dragPosClass: { [key: string]: string } = {
+  dragPosClass: Record<string, string> = {
     0: 'drag-over',
     1: 'drag-over-gap-bottom',
     '-1': 'drag-over-gap-top'
@@ -245,7 +245,7 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
    *
    * @param event
    */
-  clickCheckBox(event: MouseEvent): void {
+  clickCheckbox(event: MouseEvent): void {
     event.preventDefault();
     // return if node is disabled
     if (this.isDisabled || this.isDisableCheckbox) {
@@ -255,7 +255,7 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
     this.nzTreeNode.isHalfChecked = false;
     this.nzTreeService.setCheckedNodeList(this.nzTreeNode);
     const eventNext = this.nzTreeService.formatEvent('check', this.nzTreeNode, event);
-    this.nzCheckBoxChange.emit(eventNext);
+    this.nzCheckboxChange.emit(eventNext);
   }
 
   clearDragClass(): void {
@@ -275,8 +275,8 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
       // ie throw error
       // firefox-need-it
       e.dataTransfer!.setData('text/plain', this.nzTreeNode.key!);
-    } catch (error) {
-      // empty
+    } catch {
+      // noop
     }
     this.nzTreeService.setSelectedNode(this.nzTreeNode);
     this.draggingKey = this.nzTreeNode.key;
@@ -372,33 +372,31 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
    * Listening to dragging events.
    */
   handDragEvent(): void {
-    this.ngZone.runOutsideAngular(() => {
-      if (this.nzDraggable) {
-        const nativeElement = this.elementRef.nativeElement;
-        this.destroy$ = new Subject();
-        fromEvent<DragEvent>(nativeElement, 'dragstart')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragStart(e));
-        fromEvent<DragEvent>(nativeElement, 'dragenter')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragEnter(e));
-        fromEvent<DragEvent>(nativeElement, 'dragover')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragOver(e));
-        fromEvent<DragEvent>(nativeElement, 'dragleave')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragLeave(e));
-        fromEvent<DragEvent>(nativeElement, 'drop')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragDrop(e));
-        fromEvent<DragEvent>(nativeElement, 'dragend')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((e: DragEvent) => this.handleDragEnd(e));
-      } else {
-        this.destroy$.next(true);
-        this.destroy$.complete();
-      }
-    });
+    if (this.nzDraggable) {
+      const nativeElement = this.elementRef.nativeElement;
+      this.destroy$ = new Subject();
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'dragstart')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragStart(e));
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'dragenter')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragEnter(e));
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'dragover')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragOver(e));
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'dragleave')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragLeave(e));
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'drop')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragDrop(e));
+      fromEventOutsideAngular<DragEvent>(nativeElement, 'dragend')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((e: DragEvent) => this.handleDragEnd(e));
+    } else {
+      this.destroy$.next(true);
+      this.destroy$.complete();
+    }
   }
 
   markForCheck(): void {
@@ -418,18 +416,16 @@ export class NzTreeNodeBuiltinComponent implements OnInit, OnChanges, OnDestroy 
   ngOnInit(): void {
     this.nzTreeNode.component = this;
 
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent(this.elementRef.nativeElement, 'mousedown')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(event => {
-          if (this.nzSelectMode) {
-            event.preventDefault();
-          }
-        });
-    });
+    fromEventOutsideAngular(this.elementRef.nativeElement, 'mousedown')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(event => {
+        if (this.nzSelectMode) {
+          event.preventDefault();
+        }
+      });
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }): void {
+  ngOnChanges(changes: SimpleChanges): void {
     const { nzDraggable } = changes;
     if (nzDraggable) {
       this.handDragEvent();

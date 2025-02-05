@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormRecord, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -8,7 +8,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-advanced-search',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzIconModule, NzInputModule],
   template: `
     <form nz-form [formGroup]="validateForm" class="ant-advanced-search-form">
@@ -35,7 +34,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
           <button nz-button (click)="resetForm()">Clear</button>
           <a class="collapse" (click)="toggleCollapse()">
             Collapse
-            <span nz-icon [nzType]="isCollapse ? 'down' : 'up'"></span>
+            <nz-icon [nzType]="isCollapse ? 'down' : 'up'" />
           </a>
         </div>
       </div>
@@ -81,6 +80,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   ]
 })
 export class NzDemoFormAdvancedSearchComponent implements OnInit {
+  private fb = inject(NonNullableFormBuilder);
   validateForm: FormRecord<FormControl<string>> = this.fb.record({});
   controlArray: Array<{ index: number; show: boolean }> = [];
   isCollapse = true;
@@ -95,8 +95,6 @@ export class NzDemoFormAdvancedSearchComponent implements OnInit {
   resetForm(): void {
     this.validateForm.reset();
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 
   ngOnInit(): void {
     for (let i = 0; i < 10; i++) {

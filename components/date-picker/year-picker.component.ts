@@ -9,10 +9,8 @@ import { NzDatePickerComponent } from './date-picker.component';
 
 @Directive({
   selector: 'nz-year-picker',
-  exportAs: 'nzYearPicker',
-  standalone: true
+  exportAs: 'nzYearPicker'
 })
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class NzYearPickerComponent {
   datePicker = inject(NzDatePickerComponent, { host: true });
 

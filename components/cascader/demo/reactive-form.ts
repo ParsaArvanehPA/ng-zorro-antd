@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -49,7 +49,6 @@ const options: NzCascaderOption[] = [
 
 @Component({
   selector: 'nz-demo-cascader-reactive-form',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzCascaderModule],
   template: `
     <form [formGroup]="form" novalidate>
@@ -68,15 +67,15 @@ const options: NzCascaderOption[] = [
   ]
 })
 export class NzDemoCascaderReactiveFormComponent implements OnDestroy {
+  private fb = inject(FormBuilder);
   form = this.fb.group({
     name: this.fb.control<string[] | null>(null, Validators.required)
   });
   nzOptions: NzCascaderOption[] = options;
   changeSubscription: Subscription;
 
-  constructor(private fb: FormBuilder) {
-    const control = this.form.controls.name;
-    this.changeSubscription = control.valueChanges.subscribe(data => {
+  constructor() {
+    this.changeSubscription = this.form.controls.name.valueChanges.subscribe(data => {
       this.onChanges(data);
     });
   }

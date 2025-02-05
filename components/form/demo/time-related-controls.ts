@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -8,7 +8,6 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @Component({
   selector: 'nz-demo-form-time-related-controls',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzDatePickerModule, NzFormModule, NzTimePickerModule],
   template: `
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -64,6 +63,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
   ]
 })
 export class NzDemoFormTimeRelatedControlsComponent {
+  private fb = inject(FormBuilder);
   validateForm = this.fb.group({
     datePicker: this.fb.control<Date | null>(null),
     datePickerTime: this.fb.control<Date | null>(null),
@@ -76,6 +76,4 @@ export class NzDemoFormTimeRelatedControlsComponent {
   submitForm(): void {
     console.log(this.validateForm.value);
   }
-
-  constructor(private fb: FormBuilder) {}
 }

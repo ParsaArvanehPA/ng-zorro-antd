@@ -7,7 +7,6 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'nz-demo-select-custom-dropdown-menu',
-  standalone: true,
   imports: [NzDividerModule, NzIconModule, NzInputModule, NzSelectModule],
   template: `
     <nz-select nzShowSearch nzAllowClear [nzDropdownRender]="renderTemplate" nzPlaceHolder="custom dropdown render">
@@ -20,7 +19,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
       <div class="container">
         <input type="text" nz-input #inputElement />
         <a class="add-item" (click)="addItem(inputElement)">
-          <span nz-icon nzType="plus"></span>
+          <nz-icon nzType="plus" />
           Add item
         </a>
       </div>

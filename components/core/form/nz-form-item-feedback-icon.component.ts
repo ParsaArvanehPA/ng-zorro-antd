@@ -26,14 +26,13 @@ const iconTypeMap = {
 @Component({
   selector: 'nz-form-item-feedback-icon',
   exportAs: 'nzFormFeedbackIcon',
-  standalone: true,
   imports: [NzIconModule],
   preserveWhitespaces: false,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (iconType) {
-      <span nz-icon [nzType]="iconType"></span>
+      <nz-icon [nzType]="iconType" />
     }
   `,
   host: {

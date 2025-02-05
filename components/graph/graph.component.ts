@@ -127,8 +127,7 @@ export function isDataSource(value: NzSafeAny): value is NzGraphData {
     '[class.nz-graph]': 'true',
     '[class.nz-graph-auto-size]': 'nzAutoSize'
   },
-  imports: [NgTemplateOutlet, NzGraphEdgeComponent, NzGraphNodeComponent, NzGraphDefsComponent],
-  standalone: true
+  imports: [NgTemplateOutlet, NzGraphEdgeComponent, NzGraphNodeComponent, NzGraphDefsComponent]
 })
 export class NzGraphComponent implements OnInit, OnChanges, AfterContentChecked, OnDestroy, NzGraph {
   @ViewChildren(NzGraphNodeComponent, { read: ElementRef }) listOfNodeElement!: QueryList<ElementRef>;
@@ -154,14 +153,14 @@ export class NzGraphComponent implements OnInit, OnChanges, AfterContentChecked,
 
   @Output() readonly nzGraphInitialized = new EventEmitter<NzGraphComponent>();
   @Output() readonly nzGraphRendered = new EventEmitter<NzGraphComponent>();
-  @Output() readonly nzNodeClick: EventEmitter<NzGraphNode | NzGraphGroupNode> = new EventEmitter();
+  @Output() readonly nzNodeClick = new EventEmitter<NzGraphNode | NzGraphGroupNode>();
 
   requestId: number = -1;
   transformStyle = '';
   graphRenderedSubject$ = new ReplaySubject<void>(1);
   renderInfo: NzGraphGroupNode = { labelHeight: 0 } as NzGraphGroupNode;
-  mapOfNodeAttr: { [key: string]: NzGraphNodeDef } = {};
-  mapOfEdgeAttr: { [key: string]: NzGraphEdgeDef } = {};
+  mapOfNodeAttr: Record<string, NzGraphNodeDef> = {};
+  mapOfEdgeAttr: Record<string, NzGraphEdgeDef> = {};
   zoom = 1;
 
   public readonly typedNodes = nzTypeDefinition<Array<NzGraphNode | NzGraphGroupNode>>();

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -68,7 +73,6 @@ interface Person {
 }
 
 @Component({
-  standalone: true,
   imports: [NzDividerModule, NzTableModule],
   template: `
     <nz-table #basicTable [nzData]="listOfData" [nzCustomColumn]="customColumn">

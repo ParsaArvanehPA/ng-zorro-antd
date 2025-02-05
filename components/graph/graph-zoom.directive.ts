@@ -27,16 +27,15 @@ import { NzZoomTransform, RelativePositionInfo } from './interface';
 
 @Directive({
   selector: '[nz-graph-zoom]',
-  exportAs: 'nzGraphZoom',
-  standalone: true
+  exportAs: 'nzGraphZoom'
 })
 export class NzGraphZoomDirective implements OnDestroy, AfterViewInit {
   @Input({ transform: numberAttributeWithOneFallback }) nzZoom?: number;
   @Input() nzMinZoom = 0.1;
   @Input() nzMaxZoom = 10;
 
-  @Output() readonly nzTransformEvent: EventEmitter<NzZoomTransform> = new EventEmitter();
-  @Output() readonly nzZoomChange: EventEmitter<number> = new EventEmitter();
+  @Output() readonly nzTransformEvent = new EventEmitter<NzZoomTransform>();
+  @Output() readonly nzZoomChange = new EventEmitter<number>();
 
   svgSelection!: Selection<NzSafeAny, NzSafeAny, NzSafeAny, NzSafeAny>;
   zoomBehavior!: ZoomBehavior<NzSafeAny, NzSafeAny>;

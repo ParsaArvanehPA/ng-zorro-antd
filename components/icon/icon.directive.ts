@@ -7,12 +7,10 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Directive,
-  ElementRef,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
-  OnInit,
   Renderer2,
   SimpleChanges,
   booleanAttribute,
@@ -32,11 +30,10 @@ import { NzIconPatchService, NzIconService } from './icon.service';
   selector: 'nz-icon,[nz-icon]',
   exportAs: 'nzIcon',
   host: {
-    '[class.anticon]': 'true'
-  },
-  standalone: true
+    class: 'anticon'
+  }
 })
-export class NzIconDirective extends IconDirective implements OnInit, OnChanges, AfterContentChecked, OnDestroy {
+export class NzIconDirective extends IconDirective implements OnChanges, AfterContentChecked, OnDestroy {
   cacheClassName: string | null = null;
   @Input({ transform: booleanAttribute })
   set nzSpin(value: boolean) {
@@ -76,18 +73,17 @@ export class NzIconDirective extends IconDirective implements OnInit, OnChanges,
   constructor(
     private readonly ngZone: NgZone,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    elementRef: ElementRef,
     public readonly iconService: NzIconService,
     public readonly renderer: Renderer2
   ) {
-    super(iconService, elementRef, renderer);
+    super(iconService);
 
     const iconPatch = inject(NzIconPatchService, { optional: true });
     if (iconPatch) {
       iconPatch.doPatch();
     }
 
-    this.el = elementRef.nativeElement;
+    this.el = this._elementRef.nativeElement;
   }
 
   override ngOnChanges(changes: SimpleChanges): void {
@@ -100,10 +96,6 @@ export class NzIconDirective extends IconDirective implements OnInit, OnChanges,
     } else {
       this._setSVGElement(this.iconService.createIconfontIcon(`#${this.iconfont}`));
     }
-  }
-
-  ngOnInit(): void {
-    this.renderer.setAttribute(this.el, 'class', `anticon ${this.el.className}`.trim());
   }
 
   /**

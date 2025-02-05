@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ENTER } from '@angular/cdk/keycodes';
 import { Component, DebugElement, ViewChild } from '@angular/core';
@@ -19,7 +24,7 @@ describe('pagination', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideNoopAnimations()]
-    }).compileComponents();
+    });
   }));
 
   describe('pagination complex', () => {
@@ -410,7 +415,6 @@ describe('pagination', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzPaginationModule],
   template: `
     <nz-pagination
@@ -446,7 +450,6 @@ export class NzTestPaginationComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzPaginationModule],
   template: `
     <nz-pagination [nzPageIndex]="1" [nzTotal]="50" [nzItemRender]="renderItemTemplate"></nz-pagination>
@@ -468,7 +471,6 @@ export class NzTestPaginationComponent {
 export class NzTestPaginationRenderComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzPaginationModule],
   template: `
     <nz-pagination
@@ -487,14 +489,12 @@ export class NzTestPaginationTotalComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzPaginationModule],
   template: `<nz-pagination nzResponsive></nz-pagination>`
 })
 export class NzTestPaginationAutoResizeComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzPaginationModule],
   template: `
     <div [dir]="direction">

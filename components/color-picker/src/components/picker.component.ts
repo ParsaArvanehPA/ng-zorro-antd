@@ -20,11 +20,11 @@ import {
   inject
 } from '@angular/core';
 
+import { HandlerComponent } from './handler.component';
+import { PaletteComponent } from './palette.component';
 import { Color } from '../interfaces/color';
 import { HsbaColorType, TransformOffset } from '../interfaces/type';
 import { calculateColor, calculateOffset } from '../util/util';
-import { HandlerComponent } from './handler.component';
-import { PaletteComponent } from './palette.component';
 
 type EventType = MouseEvent | TouchEvent;
 
@@ -40,7 +40,6 @@ function getPosition(e: EventType): { pageX: number; pageY: number } {
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'color-picker',
-  standalone: true,
   imports: [HandlerComponent, PaletteComponent],
   template: `
     <div

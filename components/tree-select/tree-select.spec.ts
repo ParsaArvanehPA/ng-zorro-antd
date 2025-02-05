@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BACKSPACE } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { TestKey } from '@angular/cdk/testing';
@@ -6,7 +11,7 @@ import { Component, DebugElement, NgZone, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import {
   createKeyboardEvent,
@@ -29,16 +34,8 @@ describe('tree-select component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NzTreeSelectModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule, NzFormModule],
-      declarations: [
-        NzTestTreeSelectBasicComponent,
-        NzTestTreeSelectCheckableComponent,
-        NzTestTreeSelectFormComponent,
-        NzTestTreeSelectCustomizedIconComponent,
-        NzTestTreeSelectStatusComponent,
-        NzTestTreeSelectInFormComponent
-      ],
       providers: [
+        provideNoopAnimations(),
         {
           provide: NgZone,
           useFactory: () => {
@@ -48,7 +45,6 @@ describe('tree-select component', () => {
         }
       ]
     });
-    TestBed.compileComponents();
     inject([OverlayContainer], (oc: OverlayContainer) => {
       overlayContainer = oc;
       overlayContainerElement = oc.getContainerElement();
@@ -614,7 +610,7 @@ describe('tree-select component', () => {
       treeSelect.nativeElement.click();
       flush();
       fixture.detectChanges();
-      expect(overlayContainerElement.querySelector('span.anticon.anticon-frown-o')).toBeTruthy();
+      expect(overlayContainerElement.querySelector('.anticon.anticon-frown-o')).toBeTruthy();
     }));
   });
 
@@ -670,6 +666,7 @@ describe('tree-select component', () => {
 });
 
 @Component({
+  imports: [NzTreeSelectModule, FormsModule],
   template: `
     <nz-tree-select
       style="width:250px;position: relative;display: block;"
@@ -768,6 +765,7 @@ export class NzTestTreeSelectBasicComponent {
 }
 
 @Component({
+  imports: [FormsModule, NzTreeSelectModule],
   template: `
     <nz-tree-select
       style="width: 250px"
@@ -853,6 +851,7 @@ export class NzTestTreeSelectCheckableComponent {
 }
 
 @Component({
+  imports: [ReactiveFormsModule, NzTreeSelectModule],
   template: `
     <form>
       <nz-tree-select [formControl]="formControl" style="width: 250px" [nzNodes]="nodes"></nz-tree-select>
@@ -888,6 +887,7 @@ export class NzTestTreeSelectFormComponent {
 }
 
 @Component({
+  imports: [FormsModule, NzTreeSelectModule],
   template: `
     <nz-tree-select [nzNodes]="nodes" [(ngModel)]="value">
       <ng-template #nzTreeTemplate let-node>
@@ -920,6 +920,7 @@ export class NzTestTreeSelectCustomizedIconComponent {
 }
 
 @Component({
+  imports: [FormsModule, NzTreeSelectModule],
   template: `
     <nz-tree-select
       style="width:100%;margin:20px 0;"
@@ -958,6 +959,7 @@ export class NzTestTreeSelectStatusComponent {
 }
 
 @Component({
+  imports: [ReactiveFormsModule, NzFormModule, NzTreeSelectModule],
   template: `
     <form nz-form>
       <nz-form-item>

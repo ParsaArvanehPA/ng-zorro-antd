@@ -6,14 +6,13 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'nz-demo-notification-custom-icon',
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <ng-template #template>
       <div class="ant-notification-notice-content">
         <div class="ant-notification-notice-with-icon">
           <span class="ant-notification-notice-icon">
-            <span nz-icon nzType="smile" style="color: rgb(16, 142, 233);"></span>
+            <nz-icon nzType="smile" style="color: rgb(16, 142, 233);" />
           </span>
           <div class="ant-notification-notice-message">Notification Title</div>
           <div class="ant-notification-notice-description">

@@ -19,7 +19,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 ## API
 
-### [nz-input]:standalone
+### [nz-input]
 
 All props of input supported by [w3c standards](https://www.w3schools.com/tags/tag_input.asp) and Angular can used in `nz-input`.
 
@@ -31,7 +31,7 @@ All props of input supported by [w3c standards](https://www.w3schools.com/tags/t
 | `[nzStatus]`      | Set validation status                                                                                                | `'error' \| 'warning'`                            | -           |
 | `[nzStepperless]` | Whether hide stepper when input type is number                                                                       | `'boolean' \| 'true'`                             | -           |
 
-### nz-input-group:standalone
+### nz-input-group
 
 | Property          | Description                                                                                          | Type                              | Default     |
 | ----------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------- | ----------- |
@@ -43,9 +43,20 @@ All props of input supported by [w3c standards](https://www.w3schools.com/tags/t
 | `[nzSize]`        | The size of `nz-input-group` specifies the size of the included `nz-input` fields                    | `'large' \| 'small' \| 'default'` | `'default'` |
 | `[nzStatus]`      | Set validation status                                                                                | `'error' \| 'warning'`            | -           |
 
-### nz-textarea-count:standalone
+### nz-textarea-count
 
 | Property                    | Description                                      | Type                    | Default         |
 | --------------------------- | ------------------------------------------------ | ----------------------- | --------------- |
 | `[nzMaxCharacterCount]`     | `textarea` maximum character count displayed     | `number`                | -               |
 | `[nzComputeCharacterCount]` | customized `characterCount` computation function | `(v: string) => number` | `v => v.length` |
+
+### nz-input-otp
+
+| Property        | Description                                             | Type                              | Default   |
+| --------------- | ------------------------------------------------------- | --------------------------------- | --------- |
+| `[disabled]`    | Whether the input is disabled                           | boolean                           | `false`   |
+| `[nzFormatter]` | Format display, blank fields will be filled with ` `    | `(value: string) => string`       | -         |
+| `[nzMask]`      | Custom display, the original value will not be modified | `boolean  \| null`                | `null`    |
+| `[nzLength]`    | The number of input elements                            | `number`                          | 6         |
+| `[nzStatus]`    | Set validation status                                   | `'error' \| 'warning'`            | -         |
+| `[nzSize]`      | The size of the input box                               | `'large' \| 'small' \| 'default'` | `default` |

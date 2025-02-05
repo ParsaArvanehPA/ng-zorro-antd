@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -230,7 +235,6 @@ describe('nz-timeline', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzTimelineModule],
   selector: 'nz-test-basic-timeline',
   template: `
@@ -256,7 +260,6 @@ export class NzTestTimelineBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTimelineModule],
   template: `
     <nz-timeline>
@@ -270,7 +273,6 @@ export class NzTestTimelineBasicComponent {
 export class NzTestTimelineCustomColorComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzTimelineModule],
   template: `
     <ng-template #pendingTemplate>template</ng-template>
@@ -283,7 +285,6 @@ export class NzTestTimelineCustomColorComponent {}
 export class NzTestTimelinePendingComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzTimelineModule],
   template: `
     <nz-timeline nzMode="custom">
@@ -295,7 +296,6 @@ export class NzTestTimelinePendingComponent {}
 export class NzTestTimelineCustomPositionComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestTimelineBasicComponent],
   template: `
     <div [dir]="direction">
@@ -309,7 +309,6 @@ export class NzTestTimelineRtlComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTimelineModule],
   template: `
     <nz-timeline nzMode="custom">

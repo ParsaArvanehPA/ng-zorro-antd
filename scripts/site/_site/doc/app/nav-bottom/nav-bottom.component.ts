@@ -7,7 +7,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ROUTER_LIST } from '../router';
 
 @Component({
-  standalone: true,
   selector: 'nz-nav-bottom',
   imports: [RouterLink, NzIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,16 +14,16 @@ import { ROUTER_LIST } from '../router';
     <section class="prev-next-nav">
       @if (index > 1) {
         <a class="prev-page" [routerLink]="list[index - 1]?.path">
-          <span nz-icon nzType="left" class="footer-nav-icon-before"></span>
+          <nz-icon nzType="left" class="footer-nav-icon-before" />
           {{ list[index - 1]?.label }}
-          <span nz-icon nzType="right" class="footer-nav-icon-after"></span>
+          <nz-icon nzType="right" class="footer-nav-icon-after" />
         </a>
       }
       @if (index < list.length - 1) {
         <a class="next-page" [routerLink]="list[index + 1]?.path">
-          <span nz-icon nzType="left" class="footer-nav-icon-before"></span>
+          <nz-icon nzType="left" class="footer-nav-icon-before" />
           {{ list[index + 1]?.label }}
-          <span nz-icon nzType="right" class="footer-nav-icon-after"></span>
+          <nz-icon nzType="right" class="footer-nav-icon-after" />
         </a>
       }
     </section>
@@ -35,7 +34,7 @@ export class NzNavBottomComponent implements OnInit {
   index = 0;
   language = 'en';
 
-  constructor(private router: Router, private platform: Platform, private cdr: ChangeDetectorRef) {}
+  constructor(private router: Router, private platform: Platform, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     if (!this.platform.isBrowser) {

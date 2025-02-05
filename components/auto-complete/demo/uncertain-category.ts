@@ -7,7 +7,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
-  standalone: true,
   selector: 'nz-demo-auto-complete-uncertain-category',
   imports: [FormsModule, NzAutocompleteModule, NzButtonModule, NzIconModule, NzInputModule],
   encapsulation: ViewEncapsulation.None,
@@ -23,7 +22,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSize="large" nzSearch>
-        <span nz-icon nzType="search" nzTheme="outline"></span>
+        <nz-icon nzType="search" nzTheme="outline" />
       </button>
     </ng-template>
     <nz-autocomplete #auto>

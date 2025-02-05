@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction, Directionality } from '@angular/cdk/bidi';
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
@@ -10,7 +15,6 @@ import { NzScrollService } from 'ng-zorro-antd/core/services';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 import { NzAffixComponent } from './affix.component';
-import { NzAffixModule } from './affix.module';
 
 interface Offset {
   top: number;
@@ -48,15 +52,13 @@ describe('affix', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NzAffixModule],
-      declarations: [TestAffixComponent],
       providers: [
         {
           provide: NzScrollService,
           useClass: NzScrollService
         }
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(TestAffixComponent);
     context = fixture.componentInstance;
@@ -370,8 +372,8 @@ describe('affix', () => {
   });
 
   class NzAffixPageObject {
-    offsets: { [key: string]: Offset };
-    scrolls: { [key: string]: Scroll };
+    offsets: Record<string, Offset>;
+    scrolls: Record<string, Scroll>;
 
     constructor() {
       spyOn(component, 'getOffset').and.callFake(this.getOffset.bind(this));
@@ -466,10 +468,6 @@ describe('affix-extra', () => {
   let dl: DebugElement;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [NzAffixModule],
-      declarations: [TestAffixComponent]
-    }).compileComponents();
     fixture = TestBed.createComponent(TestAffixComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
@@ -515,10 +513,6 @@ describe('affix RTL', () => {
   let dl: DebugElement;
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [BidiModule, NzAffixModule],
-      declarations: [TestAffixRtlComponent]
-    }).compileComponents();
     fixture = TestBed.createComponent(TestAffixRtlComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
@@ -544,7 +538,9 @@ describe('affix RTL', () => {
     fixture.destroy();
   }));
 });
+
 @Component({
+  imports: [NzAffixComponent],
   template: `
     <nz-affix id="affix" [nzTarget]="fakeTarget" [nzOffsetTop]="newOffset" [nzOffsetBottom]="newOffsetBottom">
       <button id="content">Affix Button</button>
@@ -560,6 +556,7 @@ class TestAffixComponent {
 }
 
 @Component({
+  imports: [NzAffixComponent, BidiModule],
   template: `
     <div [dir]="direction">
       <nz-affix id="affix" [nzTarget]="fakeTarget" [nzOffsetTop]="newOffset" [nzOffsetBottom]="newOffsetBottom">
@@ -583,6 +580,7 @@ class MockDirectionality {
   value = 'ltr';
   change = new Subject();
 }
+
 describe('NzAffixComponent', () => {
   let component: NzAffixComponent;
   let fixture: ComponentFixture<NzAffixComponent>;
@@ -601,7 +599,7 @@ describe('NzAffixComponent', () => {
         { provide: Directionality, useClass: MockDirectionality },
         { provide: Platform, useValue: { isBrowser: true } }
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(NzAffixComponent);
     component = fixture.componentInstance;

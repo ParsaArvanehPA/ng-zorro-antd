@@ -125,7 +125,6 @@ class DynamicDatasource implements DataSource<FlatNode> {
 
 @Component({
   selector: 'nz-demo-tree-view-dynamic',
-  standalone: true,
   imports: [NzIconModule, NzTreeViewModule],
   template: `
     <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
@@ -136,11 +135,11 @@ class DynamicDatasource implements DataSource<FlatNode> {
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
         @if (!node.loading) {
           <nz-tree-node-toggle>
-            <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+            <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
           </nz-tree-node-toggle>
         } @else {
           <nz-tree-node-toggle nzTreeNodeNoopToggle>
-            <span nz-icon nzType="loading" nzTreeNodeToggleActiveIcon></span>
+            <nz-icon nzType="loading" nzTreeNodeToggleActiveIcon />
           </nz-tree-node-toggle>
         }
         {{ node.label }}
@@ -155,8 +154,6 @@ export class NzDemoTreeViewDynamicComponent {
   );
 
   dataSource = new DynamicDatasource(this.treeControl, TREE_DATA);
-
-  constructor() {}
 
   hasChild = (_: number, node: FlatNode): boolean => node.expandable;
 }

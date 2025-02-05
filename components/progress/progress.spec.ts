@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -422,7 +427,6 @@ describe('progress', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzProgressModule],
   template: `
     <nz-progress
@@ -455,7 +459,6 @@ export class NzTestProgressLineComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzProgressModule],
   template: `
     <nz-progress
@@ -481,7 +484,6 @@ export class NzTestProgressDashBoardComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzProgressModule],
   template: `
     <nz-progress
@@ -502,14 +504,12 @@ export class NzTestProgressCircleComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzProgressModule],
   template: ` <nz-progress nzType="circle" [nzPercent]="75" [nzSuccessPercent]="60"></nz-progress>`
 })
 export class NzTestProgressCircleSuccessComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzProgressModule],
   template: `
     <div [dir]="direction">

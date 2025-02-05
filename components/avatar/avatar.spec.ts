@@ -1,10 +1,15 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { createFakeEvent } from 'ng-zorro-antd/core/testing';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { NzIconTestModule } from 'ng-zorro-antd/icon/testing';
+import { provideNzIconsTesting } from 'ng-zorro-antd/icon/testing';
 
 import { NzAvatarGroupComponent } from './avatar-group.component';
 import { NzAvatarComponent } from './avatar.component';
@@ -23,13 +28,10 @@ function getType(dl: DebugElement): string {
   }
   return el.innerText.trim().length === 0 ? '' : 'text';
 }
+
 describe('avatar group', () => {
   let fixture: ComponentFixture<TestAvatarGroupComponent>;
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [NzAvatarModule],
-      declarations: [TestAvatarGroupComponent]
-    }).compileComponents();
     fixture = TestBed.createComponent(TestAvatarGroupComponent);
     fixture.detectChanges();
   });
@@ -40,15 +42,16 @@ describe('avatar group', () => {
     expect(avatarGroup.nativeElement.classList).toContain('ant-avatar-group');
   });
 });
+
 describe('avatar', () => {
   let fixture: ComponentFixture<TestAvatarComponent>;
   let context: TestAvatarComponent;
   let dl: DebugElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NzAvatarModule, NzIconTestModule],
-      declarations: [TestAvatarComponent]
-    }).compileComponents();
+      providers: [provideNzIconsTesting()]
+    });
+
     fixture = TestBed.createComponent(TestAvatarComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
@@ -316,6 +319,7 @@ function getScaleFromCSSTransform(transform: string): number {
 }
 
 @Component({
+  imports: [NzAvatarModule],
   template: `
     <nz-avatar
       #comp
@@ -347,6 +351,7 @@ class TestAvatarComponent {
 }
 
 @Component({
-  template: ` <nz-avatar-group></nz-avatar-group> `
+  imports: [NzAvatarModule],
+  template: `<nz-avatar-group></nz-avatar-group>`
 })
 class TestAvatarGroupComponent {}

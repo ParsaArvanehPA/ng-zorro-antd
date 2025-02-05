@@ -32,13 +32,14 @@ import {
   inject,
   numberAttribute
 } from '@angular/core';
-import { Subject, fromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { NzResizeObserver } from 'ng-zorro-antd/cdk/resize-observer';
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
 import { NzDragService, NzResizeService } from 'ng-zorro-antd/core/services';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 
 import { NzCarouselContentDirective } from './carousel-content.directive';
 import { NzCarouselBaseStrategy } from './strategies/base-strategy';
@@ -108,8 +109,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'carousel';
     '[class.ant-carousel-vertical]': 'vertical',
     '[class.ant-carousel-rtl]': `dir === 'rtl'`
   },
-  imports: [NgTemplateOutlet],
-  standalone: true
+  imports: [NgTemplateOutlet]
 })
 export class NzCarouselComponent implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges, OnInit {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;
@@ -138,11 +138,7 @@ export class NzCarouselComponent implements AfterContentInit, AfterViewInit, OnD
   @WithConfig()
   set nzDotPosition(value: NzCarouselDotPosition) {
     this._dotPosition = value;
-    if (value === 'left' || value === 'right') {
-      this.vertical = true;
-    } else {
-      this.vertical = false;
-    }
+    this.vertical = value === 'left' || value === 'right';
   }
 
   get nzDotPosition(): NzCarouselDotPosition {
@@ -197,28 +193,26 @@ export class NzCarouselComponent implements AfterContentInit, AfterViewInit, OnD
       this.cdr.detectChanges();
     });
 
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent<KeyboardEvent>(this.slickListEl, 'keydown')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(event => {
-          const { keyCode } = event;
+    fromEventOutsideAngular<KeyboardEvent>(this.slickListEl, 'keydown')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(event => {
+        const { keyCode } = event;
 
-          if (keyCode !== LEFT_ARROW && keyCode !== RIGHT_ARROW) {
-            return;
+        if (keyCode !== LEFT_ARROW && keyCode !== RIGHT_ARROW) {
+          return;
+        }
+
+        event.preventDefault();
+
+        this.ngZone.run(() => {
+          if (keyCode === LEFT_ARROW) {
+            this.pre();
+          } else {
+            this.next();
           }
-
-          event.preventDefault();
-
-          this.ngZone.run(() => {
-            if (keyCode === LEFT_ARROW) {
-              this.pre();
-            } else {
-              this.next();
-            }
-            this.cdr.markForCheck();
-          });
+          this.cdr.markForCheck();
         });
-    });
+      });
 
     this.nzResizeObserver
       .observe(this.el)

@@ -47,7 +47,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'pageHeader';
           <div (click)="onBack()" class="ant-page-header-back">
             <div role="button" tabindex="0" class="ant-page-header-back-button">
               <ng-container *nzStringTemplateOutlet="nzBackIcon; let backIcon">
-                <span nz-icon [nzType]="backIcon || getBackIcon()" nzTheme="outline"></span>
+                <nz-icon [nzType]="backIcon || getBackIcon()" nzTheme="outline" />
               </ng-container>
             </div>
           </div>
@@ -91,8 +91,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'pageHeader';
     '[class.ant-page-header-compact]': 'compact',
     '[class.ant-page-header-rtl]': `dir === 'rtl'`
   },
-  imports: [NzOutletModule, NzIconModule],
-  standalone: true
+  imports: [NzOutletModule, NzIconModule]
 })
 export class NzPageHeaderComponent implements AfterViewInit, OnDestroy, OnInit {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;

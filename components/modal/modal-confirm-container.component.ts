@@ -5,7 +5,6 @@
 
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { CdkPortalOutlet, PortalModule } from '@angular/cdk/portal';
-import { NgClass, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,8 +35,8 @@ import { BaseModalContainerComponent } from './modal-container.directive';
       #modalElement
       role="document"
       class="ant-modal"
-      [ngClass]="config.nzClassName!"
-      [ngStyle]="config.nzStyle!"
+      [class]="config.nzClassName!"
+      [style]="config.nzStyle!"
       [style.width]="config?.nzWidth! | nzToCssUnit"
     >
       <div class="ant-modal-content">
@@ -45,10 +44,10 @@ import { BaseModalContainerComponent } from './modal-container.directive';
           <button nz-modal-close (click)="onCloseClick()"></button>
         }
 
-        <div class="ant-modal-body" [ngStyle]="config.nzBodyStyle!">
+        <div class="ant-modal-body" [style]="config.nzBodyStyle!">
           <div class="ant-modal-confirm-body-wrapper">
             <div class="ant-modal-confirm-body">
-              <span nz-icon [nzType]="config.nzIconType!"></span>
+              <nz-icon [nzType]="config.nzIconType!" />
               <span class="ant-modal-confirm-title">
                 <ng-container *nzStringTemplateOutlet="config.nzTitle">
                   <span [innerHTML]="config.nzTitle"></span>
@@ -109,21 +108,15 @@ import { BaseModalContainerComponent } from './modal-container.directive';
     '(@modalContainer.done)': 'onAnimationDone($event)',
     '(click)': 'onContainerClick($event)'
   },
-  imports: [
-    NgClass,
-    NgStyle,
-    NzPipesModule,
-    NzIconModule,
-    NzModalCloseComponent,
-    NzOutletModule,
-    PortalModule,
-    NzButtonModule
-  ],
-  standalone: true
+  imports: [NzPipesModule, NzIconModule, NzModalCloseComponent, NzOutletModule, PortalModule, NzButtonModule]
 })
 export class NzModalConfirmContainerComponent extends BaseModalContainerComponent implements OnInit {
-  @ViewChild(CdkPortalOutlet, { static: true }) override portalOutlet!: CdkPortalOutlet;
-  @ViewChild('modalElement', { static: true }) override modalElementRef!: ElementRef<HTMLDivElement>;
+  @ViewChild(CdkPortalOutlet, { static: true }) set _portalOutlet(portalOutlet: CdkPortalOutlet) {
+    this.portalOutlet = portalOutlet;
+  }
+  @ViewChild('modalElement', { static: true }) set _modalElementRef(elementRef: ElementRef<HTMLDivElement>) {
+    this.modalElementRef = elementRef;
+  }
   @Output() override readonly cancelTriggered = new EventEmitter<void>();
   @Output() override readonly okTriggered = new EventEmitter<void>();
   locale!: NzModalI18nInterface;

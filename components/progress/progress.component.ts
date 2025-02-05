@@ -4,7 +4,7 @@
  */
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -60,14 +60,13 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
   selector: 'nz-progress',
   exportAs: 'nzProgress',
   preserveWhitespaces: false,
-  standalone: true,
-  imports: [NzIconModule, NzOutletModule, NgClass, NgTemplateOutlet, NgStyle],
+  imports: [NzIconModule, NzOutletModule, NgTemplateOutlet],
   template: `
     <ng-template #progressInfoTemplate>
       @if (nzShowInfo) {
         <span class="ant-progress-text">
           @if ((status === 'exception' || status === 'success') && !nzFormat) {
-            <span nz-icon [nzType]="icon"></span>
+            <nz-icon [nzType]="icon" />
           } @else {
             <ng-container *nzStringTemplateOutlet="formatter; context: { $implicit: nzPercent }; let formatter">
               {{ formatter(nzPercent) }}
@@ -78,7 +77,7 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
     </ng-template>
 
     <div
-      [ngClass]="'ant-progress ant-progress-status-' + status"
+      [class]="'ant-progress ant-progress-status-' + status"
       [class.ant-progress-line]="nzType === 'line'"
       [class.ant-progress-small]="nzSize === 'small'"
       [class.ant-progress-default]="nzSize === 'default'"
@@ -92,8 +91,8 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
           <!-- normal line style -->
           @if (isSteps) {
             <div class="ant-progress-steps-outer">
-              @for (step of steps; track step) {
-                <div class="ant-progress-steps-item" [ngStyle]="step"></div>
+              @for (step of steps; track $index) {
+                <div class="ant-progress-steps-item" [style]="step"></div>
               }
               <ng-template [ngTemplateOutlet]="progressInfoTemplate" />
             </div>
@@ -138,7 +137,7 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
             @if (isGradient) {
               <defs>
                 <linearGradient [id]="'gradient-' + gradientId" x1="100%" y1="0%" x2="0%" y2="0%">
-                  @for (i of circleGradient; track i) {
+                  @for (i of circleGradient; track $index) {
                     <stop [attr.offset]="i.offset" [attr.stop-color]="i.color"></stop>
                   }
                 </linearGradient>
@@ -151,9 +150,9 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
               fill-opacity="0"
               [attr.stroke-width]="strokeWidth"
               [attr.d]="pathString"
-              [ngStyle]="trailPathStyle"
+              [style]="trailPathStyle"
             ></path>
-            @for (p of progressCirclePath; track p) {
+            @for (p of progressCirclePath; track $index) {
               <path
                 class="ant-progress-circle-path"
                 fill-opacity="0"
@@ -161,7 +160,7 @@ const defaultFormatter: NzProgressFormatter = (p: number): string => `${p}%`;
                 [attr.stroke-linecap]="nzStrokeLinecap"
                 [attr.stroke]="p.stroke"
                 [attr.stroke-width]="nzPercent ? strokeWidth : 0"
-                [ngStyle]="p.strokePathStyle"
+                [style]="p.strokePathStyle"
               ></path>
             }
           </svg>

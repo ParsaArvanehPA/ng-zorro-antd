@@ -7,7 +7,6 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'nz-demo-layout-custom-trigger',
-  standalone: true,
   imports: [NzBreadCrumbModule, NzIconModule, NzMenuModule, NzLayoutModule],
   template: `
     <nz-layout>
@@ -28,7 +27,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
             </ul>
           </li>
           <li nz-menu-item>
-            <span nz-icon nzType="file"></span>
+            <nz-icon nzType="file" />
             <span>File</span>
           </li>
         </ul>

@@ -10,8 +10,7 @@ import { booleanAttribute, Directive, forwardRef, Input } from '@angular/core';
   selector: 'nz-tree-node-toggle[nzTreeNodeNoopToggle], [nzTreeNodeNoopToggle]',
   host: {
     class: 'ant-tree-switcher ant-tree-switcher-noop'
-  },
-  standalone: true
+  }
 })
 export class NzTreeNodeNoopToggleDirective {}
 
@@ -22,8 +21,7 @@ export class NzTreeNodeNoopToggleDirective {}
     class: 'ant-tree-switcher',
     '[class.ant-tree-switcher_open]': 'isExpanded',
     '[class.ant-tree-switcher_close]': '!isExpanded'
-  },
-  standalone: true
+  }
 })
 export class NzTreeNodeToggleDirective<T> extends CdkTreeNodeToggle<T> {
   @Input({ alias: 'nzTreeNodeToggleRecursive', transform: booleanAttribute }) override recursive = false;
@@ -34,19 +32,17 @@ export class NzTreeNodeToggleDirective<T> extends CdkTreeNodeToggle<T> {
 }
 
 @Directive({
-  selector: '[nz-icon][nzTreeNodeToggleRotateIcon]',
+  selector: '[nzTreeNodeToggleRotateIcon]',
   host: {
     class: 'ant-tree-switcher-icon'
-  },
-  standalone: true
+  }
 })
 export class NzTreeNodeToggleRotateIconDirective {}
 
 @Directive({
-  selector: '[nz-icon][nzTreeNodeToggleActiveIcon]',
+  selector: '[nzTreeNodeToggleActiveIcon]',
   host: {
     class: 'ant-tree-switcher-loading-icon'
-  },
-  standalone: true
+  }
 })
 export class NzTreeNodeToggleActiveIconDirective {}

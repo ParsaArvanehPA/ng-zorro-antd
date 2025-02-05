@@ -70,7 +70,7 @@ import { NzTimelineMode, NzTimelinePosition } from './typings';
             <ng-container *nzStringTemplateOutlet="nzPendingDot">
               {{ nzPendingDot }}
               @if (!nzPendingDot) {
-                <span nz-icon nzType="loading"></span>
+                <nz-icon nzType="loading" />
               }
             </ng-container>
           </div>
@@ -85,8 +85,7 @@ import { NzTimelineMode, NzTimelinePosition } from './typings';
     <!-- Grasp items -->
     <ng-content></ng-content>
   `,
-  imports: [NgTemplateOutlet, NzOutletModule, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzOutletModule, NzIconModule]
 })
 export class NzTimelineComponent implements AfterContentInit, OnChanges, OnDestroy, OnInit {
   @ContentChildren(NzTimelineItemComponent) listOfItems!: QueryList<NzTimelineItemComponent>;

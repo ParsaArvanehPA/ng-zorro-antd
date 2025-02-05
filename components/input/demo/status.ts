@@ -7,7 +7,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @Component({
   selector: 'nz-demo-input-status',
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzInputModule, NzSpaceModule],
   template: `
     <nz-space nzDirection="vertical" style="width: 100%">
@@ -20,7 +19,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
         <input type="text" nz-input placeholder="Warning with prefix" />
       </nz-input-group>
       <ng-template #prefixTemplateClock>
-        <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+        <nz-icon nzType="clock-circle" nzTheme="outline" />
       </ng-template>
     </nz-space>
   `

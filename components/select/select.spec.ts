@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BACKSPACE, DOWN_ARROW, ENTER, ESCAPE, SPACE, TAB, UP_ARROW } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ApplicationRef, Component, TemplateRef, ViewChild } from '@angular/core';
@@ -1686,7 +1691,6 @@ describe('select', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -1787,7 +1791,6 @@ export class TestSelectTemplateDefaultComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -1831,7 +1834,6 @@ export class TestSelectTemplateMultipleComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -1867,7 +1869,6 @@ export class TestSelectTemplateTagsComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -1937,7 +1938,6 @@ export class TestSelectReactiveDefaultComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -1973,7 +1973,6 @@ export class TestSelectReactiveMultipleComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzSelectModule],
   template: `
     <nz-select
@@ -2001,7 +2000,6 @@ export class TestSelectReactiveTagsComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzSelectModule],
   template: `<nz-select [nzStatus]="status"></nz-select>`
 })
@@ -2010,7 +2008,6 @@ export class TestSelectStatusComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzSelectModule],
   template: `
     <form nz-form [formGroup]="selectForm">

@@ -6,7 +6,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
-  standalone: true,
   selector: 'nz-demo-badge-no-wrapper',
   imports: [FormsModule, NzBadgeModule, NzIconModule, NzSwitchModule],
   template: `
@@ -21,7 +20,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
       <a class="head-example"></a>
     </nz-badge>
     <ng-template #iconTemplate>
-      <span nz-icon nzType="clock-circle" class="ant-scroll-number-custom-component" style="color: #f5222d"></span>
+      <nz-icon nzType="clock-circle" class="ant-scroll-number-custom-component" style="color: #f5222d" />
     </ng-template>
     <nz-badge nzStandalone [nzCount]="show ? 109 : 0" [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
   `,

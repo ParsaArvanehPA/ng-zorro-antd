@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Location } from '@angular/common';
 import { Component, DebugElement, ViewChild } from '@angular/core';
@@ -20,7 +25,7 @@ describe('NzPageHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       providers: [provideNzIconsTesting()]
-    }).compileComponents();
+    });
     location = TestBed.inject(Location);
   }));
 
@@ -98,7 +103,7 @@ describe('NzPageHeaderComponent', () => {
     const fixture = TestBed.createComponent(NzDemoPageHeaderBasicComponent);
     const pageHeader = fixture.debugElement.query(By.directive(NzPageHeaderComponent));
     fixture.detectChanges();
-    expect(pageHeader.nativeElement.querySelector('.ant-page-header-back span.anticon-arrow-left')).toBeTruthy();
+    expect(pageHeader.nativeElement.querySelector('.ant-page-header-back .anticon-arrow-left')).toBeTruthy();
   });
 
   it('should does not have an default back icon', () => {
@@ -147,13 +152,12 @@ describe('NzPageHeaderComponent', () => {
 
     it('should have an default back icon', () => {
       fixture.detectChanges();
-      expect(pageHeader.nativeElement.querySelector('.ant-page-header-back span.anticon-arrow-right')).toBeTruthy();
+      expect(pageHeader.nativeElement.querySelector('.ant-page-header-back .anticon-arrow-right')).toBeTruthy();
     });
   });
 });
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzDemoPageHeaderBasicComponent],
   template: `
     <div [dir]="direction">

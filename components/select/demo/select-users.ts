@@ -15,7 +15,6 @@ interface MockUser {
 
 @Component({
   selector: 'nz-demo-select-select-users',
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzSelectModule],
   template: `
     <nz-select
@@ -33,7 +32,7 @@ interface MockUser {
         }
       } @else {
         <nz-option nzDisabled nzCustomContent>
-          <span nz-icon nzType="loading" class="loading-icon"></span>
+          <nz-icon nzType="loading" class="loading-icon" />
           Loading Data...
         </nz-option>
       }

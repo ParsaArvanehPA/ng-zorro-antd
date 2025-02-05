@@ -5,7 +5,7 @@
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,7 +18,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChange,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
   booleanAttribute,
@@ -62,9 +62,9 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'tree';
   animations: [treeCollapseMotion],
   template: `
     <div>
-      <input [ngStyle]="HIDDEN_STYLE" />
+      <input [style]="HIDDEN_STYLE" />
     </div>
-    <div class="ant-tree-treenode" [ngStyle]="HIDDEN_NODE_STYLE">
+    <div class="ant-tree-treenode" [style]="HIDDEN_NODE_STYLE">
       <div class="ant-tree-indent">
         <div class="ant-tree-indent-unit"></div>
       </div>
@@ -138,7 +138,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'tree';
         (nzClick)="eventTriggerChanged($event)"
         (nzDblClick)="eventTriggerChanged($event)"
         (nzContextMenu)="eventTriggerChanged($event)"
-        (nzCheckBoxChange)="eventTriggerChanged($event)"
+        (nzCheckboxChange)="eventTriggerChanged($event)"
         (nzOnDragStart)="eventTriggerChanged($event)"
         (nzOnDragEnter)="eventTriggerChanged($event)"
         (nzOnDragOver)="eventTriggerChanged($event)"
@@ -174,15 +174,13 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'tree';
     '[class.draggable-tree]': `nzDraggable`
   },
   imports: [
-    NgStyle,
     CdkVirtualScrollViewport,
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     NgTemplateOutlet,
     NzNoAnimationDirective,
     NzTreeNodeBuiltinComponent
-  ],
-  standalone: true
+  ]
 })
 export class NzTreeComponent
   extends NzTreeBase
@@ -232,7 +230,7 @@ export class NzTreeComponent
   @Output() readonly nzClick = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzDblClick = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzContextMenu = new EventEmitter<NzFormatEmitEvent>();
-  @Output() readonly nzCheckBoxChange = new EventEmitter<NzFormatEmitEvent>();
+  @Output() readonly nzCheckboxChange = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzExpandChange = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzOnDragStart = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzOnDragEnter = new EventEmitter<NzFormatEmitEvent>();
@@ -280,9 +278,9 @@ export class NzTreeComponent
   /**
    * Render all properties of nzTree
    *
-   * @param changes: all changes from @Input
+   * @param changes all changes from @Input
    */
-  renderTreeProperties(changes: { [propertyName: string]: SimpleChange }): void {
+  renderTreeProperties(changes: SimpleChanges): void {
     let useDefaultExpandedKeys = false;
     let expandAll = false;
     const {
@@ -382,7 +380,7 @@ export class NzTreeComponent
       if (searchFunc) {
         return searchFunc(node.origin);
       }
-      return !value || !node.title.toLowerCase().includes(value.toLowerCase()) ? false : true;
+      return !!value && node.title.toLowerCase().includes(value.toLowerCase());
     };
     dataList.forEach(v => {
       v.isMatched = checkIfMatched(v);
@@ -420,7 +418,7 @@ export class NzTreeComponent
       case 'contextmenu':
         this.nzContextMenu.emit(event);
         break;
-      case 'check':
+      case 'check': {
         // Render checked state with nodes' property `isChecked`
         this.nzTreeService.setCheckedNodeList(node);
         if (!this.nzCheckStrictly) {
@@ -428,10 +426,11 @@ export class NzTreeComponent
         }
         // Cause check method will rerender list, so we need recover it and next the new event to user
         const eventNext = this.nzTreeService.formatEvent('check', node, event.event!);
-        this.nzCheckBoxChange.emit(eventNext);
+        this.nzCheckboxChange.emit(eventNext);
         const checkedKeys = this.nzTreeService.getCheckedNodeKeys();
         this.nzCheckedKeysChange.emit(checkedKeys);
         break;
+      }
       case 'dragstart':
         // if node is expanded
         if (node.isExpanded) {
@@ -440,7 +439,7 @@ export class NzTreeComponent
         }
         this.nzOnDragStart.emit(event);
         break;
-      case 'dragenter':
+      case 'dragenter': {
         const selectedNode = this.nzTreeService.getSelectedNode();
         if (selectedNode && selectedNode.key !== node.key && !node.isExpanded && !node.isLeaf) {
           node.setExpanded(true);
@@ -448,6 +447,7 @@ export class NzTreeComponent
         }
         this.nzOnDragEnter.emit(event);
         break;
+      }
       case 'dragover':
         this.nzOnDragOver.emit(event);
         break;
@@ -503,7 +503,7 @@ export class NzTreeComponent
     });
   }
 
-  ngOnChanges(changes: { [propertyName: string]: SimpleChange }): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.renderTreeProperties(changes);
   }
 

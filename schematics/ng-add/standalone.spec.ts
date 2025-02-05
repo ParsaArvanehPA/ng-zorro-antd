@@ -14,10 +14,10 @@ import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { join } from 'path';
 
+import { Schema as NzOptions } from './schema';
 import { createTestApp } from '../testing/test-app';
 import { createCustomTheme } from '../utils/create-custom-theme';
 import { getFileContent } from '../utils/get-file-content';
-import { Schema as NzOptions } from './schema';
 
 describe('[standalone] ng-add schematic', () => {
   const defaultOptions: NzOptions = {
@@ -94,7 +94,7 @@ describe('[standalone] ng-add schematic', () => {
   it('should add custom theme', async () => {
     const options = { ...defaultOptions, theme: true };
 
-    appTree = await createTestApp(runner, { style: 'less', standalone: true });
+    appTree = await createTestApp(runner, { style: 'less' });
     const tree = await runner.runSchematic('ng-add-setup-project', options, appTree);
     const workspace = await getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace as unknown as WorkspaceDefinition, defaultOptions.project);

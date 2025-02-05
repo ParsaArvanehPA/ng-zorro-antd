@@ -5,7 +5,7 @@
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { Platform } from '@angular/cdk/platform';
-import { DOCUMENT, NgClass, NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,7 +13,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -25,11 +24,11 @@ import {
   inject,
   numberAttribute
 } from '@angular/core';
-import { Observable, Subject, Subscription, fromEvent, of } from 'rxjs';
+import { Observable, Subject, Subscription, of } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { BooleanInput, NzSafeAny } from 'ng-zorro-antd/core/types';
-import { toBoolean } from 'ng-zorro-antd/core/util';
+import { fromEventOutsideAngular, toBoolean } from 'ng-zorro-antd/core/util';
 import { NzI18nService, NzUploadI18nInterface } from 'ng-zorro-antd/i18n';
 
 import {
@@ -57,8 +56,7 @@ import { NzUploadListComponent } from './upload-list.component';
   host: {
     '[class.ant-upload-picture-card-wrapper]': 'nzListType === "picture-card"'
   },
-  imports: [NzUploadListComponent, NgTemplateOutlet, NgClass, NzUploadBtnComponent],
-  standalone: true
+  imports: [NzUploadListComponent, NgTemplateOutlet, NzUploadBtnComponent]
 })
 export class NzUploadComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   static ngAcceptInputType_nzShowUploadList: BooleanInput | NzShowUploadList;
@@ -178,7 +176,6 @@ export class NzUploadComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   // #endregion
 
   constructor(
-    private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private i18n: NzI18nService,
     private directionality: Directionality
@@ -351,14 +348,12 @@ export class NzUploadComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   ngAfterViewInit(): void {
     if (this.platform.FIREFOX) {
       // fix firefox drop open new tab
-      this.ngZone.runOutsideAngular(() =>
-        fromEvent<MouseEvent>(this.document.body, 'drop')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(event => {
-            event.preventDefault();
-            event.stopPropagation();
-          })
-      );
+      fromEventOutsideAngular<MouseEvent>(this.document.body, 'drop')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(event => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
     }
   }
 

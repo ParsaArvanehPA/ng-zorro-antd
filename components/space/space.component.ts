@@ -28,9 +28,7 @@ import { NzSpaceItemDirective } from './space-item.directive';
 import { NzSpaceAlign, NzSpaceDirection, NzSpaceSize, NzSpaceType } from './types';
 
 const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'space';
-const SPACE_SIZE: {
-  [sizeKey in NzSpaceType]: number;
-} = {
+const SPACE_SIZE: Record<NzSpaceType, number> = {
   small: 8,
   middle: 16,
   large: 24
@@ -73,8 +71,7 @@ const SPACE_SIZE: {
     '[class.ant-space-align-baseline]': 'mergedAlign === "baseline"',
     '[style.flex-wrap]': 'nzWrap ? "wrap" : null'
   },
-  imports: [NgTemplateOutlet, NzStringTemplateOutletDirective],
-  standalone: true
+  imports: [NgTemplateOutlet, NzStringTemplateOutletDirective]
 })
 export class NzSpaceComponent implements OnChanges, OnDestroy, AfterContentInit {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;

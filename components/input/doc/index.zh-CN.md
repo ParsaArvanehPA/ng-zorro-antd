@@ -19,7 +19,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 ## API
 
-### [nz-input]:standalone
+### [nz-input]
 
 nz-input 可以使用所有的 W3C 标准下的所有 [使用方式](https://www.w3schools.com/tags/tag_input.asp) 和 Angular 对 input 的全部额外功能支持。
 
@@ -30,7 +30,7 @@ nz-input 可以使用所有的 W3C 标准下的所有 [使用方式](https://www
 | `[nzBorderless]` | 是否隐藏边框                                                                                   | `boolean`                                         | `false`     |
 | `[nzStatus]`     | 设置校验状态                                                                                   | `'error' \| 'warning'`                            | -           |
 
-### nz-input-group:standalone
+### nz-input-group
 
 | 参数              | 说明                                                          | 类型                              | 默认值      |
 | ----------------- | ------------------------------------------------------------- | --------------------------------- | ----------- |
@@ -43,9 +43,20 @@ nz-input 可以使用所有的 W3C 标准下的所有 [使用方式](https://www
 | `[nzSize]`        | `nz-input-group` 中所有的 `nz-input` 的大小                   | `'large' \| 'small' \| 'default'` | `'default'` |
 | `[nzStatus]`      | 设置校验状态                                                  | `'error' \| 'warning'`            | -           |
 
-### nz-textarea-count:standalone
+### nz-textarea-count
 
 | 参数                        | 说明                               | 类型                    | 默认值          |
 | --------------------------- | ---------------------------------- | ----------------------- | --------------- |
 | `[nzMaxCharacterCount]`     | `textarea` 数字提示显示的最大值    | `number`                | -               |
 | `[nzComputeCharacterCount]` | 自定义计算 `characterCount` 的函数 | `(v: string) => number` | `v => v.length` |
+
+### nz-input-otp
+
+| Property        | Description                                       | Type                              | Default   |
+| --------------- | ------------------------------------------------- | --------------------------------- | --------- |
+| `[disabled]`    | 是否禁用                                          | boolean                           | `false`   |
+| `[nzFormatter]` | 格式化展示，留空字段会被 ` ` 填充                 | `(value: string) => string`       | -         |
+| `[nzMask]`      | 自定义展示，和 `formatter` 的区别是不会修改原始值 | `boolean  \| null`                | `null`    |
+| `[nzLength]`    | 输入元素数量                                      | `number`                          | 6         |
+| `[nzStatus]`    | 设置校验状态                                      | `'error' \| 'warning'`            | -         |
+| `[nzSize]`      | 输入框大小                                        | `'large' \| 'small' \| 'default'` | `default` |

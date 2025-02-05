@@ -5,23 +5,22 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'nz-demo-tag-icon',
-  standalone: true,
   imports: [NzIconModule, NzTagModule],
   template: `
     <nz-tag nzColor="#55acee">
-      <span nz-icon nzType="twitter"></span>
+      <nz-icon nzType="twitter" />
       <span>Twitter</span>
     </nz-tag>
     <nz-tag nzColor="#cd201f">
-      <span nz-icon nzType="youtube"></span>
+      <nz-icon nzType="youtube" />
       <span>Youtube</span>
     </nz-tag>
     <nz-tag nzColor="#3b5999">
-      <span nz-icon nzType="facebook"></span>
+      <nz-icon nzType="facebook" />
       <span>Facebook</span>
     </nz-tag>
     <nz-tag nzColor="#55acee">
-      <span nz-icon nzType="linkedin"></span>
+      <nz-icon nzType="linkedin" />
       <span>LinkedIn</span>
     </nz-tag>
   `

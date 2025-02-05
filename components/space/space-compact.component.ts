@@ -3,7 +3,7 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, ElementRef, inject, input, signal } from '@angular/core';
 
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
 
@@ -12,7 +12,6 @@ import { NZ_SPACE_COMPACT_ITEMS, NZ_SPACE_COMPACT_SIZE } from './space-compact.t
 @Component({
   selector: 'nz-space-compact',
   exportAs: 'nzSpaceCompact',
-  standalone: true,
   template: `<ng-content></ng-content>`,
   host: {
     class: 'ant-space-compact',
@@ -21,12 +20,13 @@ import { NZ_SPACE_COMPACT_ITEMS, NZ_SPACE_COMPACT_SIZE } from './space-compact.t
   },
   providers: [
     { provide: NZ_SPACE_COMPACT_SIZE, useFactory: () => inject(NzSpaceCompactComponent).nzSize },
-    { provide: NZ_SPACE_COMPACT_ITEMS, useValue: signal([]) }
+    { provide: NZ_SPACE_COMPACT_ITEMS, useFactory: () => signal([]) }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NzSpaceCompactComponent {
-  nzBlock = input(false, { transform: booleanAttribute });
-  nzDirection = input<'vertical' | 'horizontal'>('horizontal');
-  nzSize = input<NzSizeLDSType>('default');
+  readonly nzBlock = input(false, { transform: booleanAttribute });
+  readonly nzDirection = input<'vertical' | 'horizontal'>('horizontal');
+  readonly nzSize = input<NzSizeLDSType>('default');
+  readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
 }

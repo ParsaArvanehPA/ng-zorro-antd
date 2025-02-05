@@ -25,21 +25,18 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     @if (clearIcon) {
       <ng-template [ngTemplateOutlet]="clearIcon"></ng-template>
     } @else {
-      <span nz-icon nzType="close-circle" nzTheme="fill" class="ant-select-close-icon"></span>
+      <nz-icon nzType="close-circle" nzTheme="fill" class="ant-select-close-icon" />
     }
   `,
   host: {
     class: 'ant-select-clear',
     '(click)': 'onClick($event)'
   },
-  imports: [NgTemplateOutlet, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzIconModule]
 })
 export class NzSelectClearComponent {
   @Input() clearIcon: TemplateRef<NzSafeAny> | null = null;
   @Output() readonly clear = new EventEmitter<MouseEvent>();
-
-  constructor() {}
 
   onClick(e: MouseEvent): void {
     e.preventDefault();

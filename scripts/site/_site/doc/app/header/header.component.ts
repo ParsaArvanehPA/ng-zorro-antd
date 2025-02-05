@@ -30,8 +30,7 @@ const RESPONSIVE_XS = 1120;
 const RESPONSIVE_SM = 1200;
 
 @Component({
-  standalone: true,
-  selector: 'app-header',
+    selector: 'app-header',
   templateUrl: './header.component.html',
   imports: [
     CommonModule,
@@ -63,6 +62,7 @@ export class HeaderComponent implements OnChanges {
   mode = 'horizontal';
   responsive: null | 'narrow' | 'crowded' = null;
   oldVersionList = [
+    '18.2.x',
     '17.4.x',
     '16.2.x',
     '15.1.x',

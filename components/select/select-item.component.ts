@@ -23,7 +23,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *nzStringTemplateOutlet="contentTemplateOutlet; context: { $implicit: contentTemplateOutletContext }">
+    <ng-container *nzStringTemplateOutlet="contentTemplateOutlet; context: templateOutletContext">
       @if (deletable) {
         <div class="ant-select-selection-item-content">{{ label }}</div>
       } @else {
@@ -33,7 +33,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     @if (deletable && !disabled) {
       <span class="ant-select-selection-item-remove" (click)="onDelete($event)">
         @if (!removeIcon) {
-          <span nz-icon nzType="close"></span>
+          <nz-icon nzType="close" />
         } @else {
           <ng-template [ngTemplateOutlet]="removeIcon"></ng-template>
         }
@@ -45,8 +45,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     '[attr.title]': 'label',
     '[class.ant-select-selection-item-disabled]': 'disabled'
   },
-  imports: [NgTemplateOutlet, NzOutletModule, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzOutletModule, NzIconModule]
 })
 export class NzSelectItemComponent {
   @Input() disabled = false;
@@ -57,7 +56,12 @@ export class NzSelectItemComponent {
   @Input() contentTemplateOutlet: string | TemplateRef<NzSafeAny> | null = null;
   @Output() readonly delete = new EventEmitter<MouseEvent>();
 
-  constructor() {}
+  protected get templateOutletContext(): NzSafeAny {
+    return {
+      $implicit: this.contentTemplateOutletContext,
+      ...this.contentTemplateOutletContext
+    };
+  }
 
   onDelete(e: MouseEvent): void {
     e.preventDefault();

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -228,7 +233,6 @@ describe('grid', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzGridModule],
   template: `
     <div nz-row [nzGutter]="gutter" [nzJustify]="justify" [nzAlign]="align">
@@ -242,15 +246,14 @@ export class TestGridComponent {
     | number
     | null
     | [number, number]
-    | { [key: string]: number }
-    | [{ [key: string]: number }, { [key: string]: number }] = null;
+    | Record<string, number>
+    | [Record<string, number>, Record<string, number>] = null;
   flex: string | null = null;
   justify: NzJustify | null = null;
   align: NzAlign | null = null;
 }
 
 @Component({
-  standalone: true,
   imports: [NzGridModule],
   template: `
     <div nz-row>
@@ -288,7 +291,6 @@ export class TestColComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzGridModule],
   template: `
     <div [dir]="direction">

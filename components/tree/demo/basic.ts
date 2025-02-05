@@ -4,7 +4,6 @@ import { NzFormatEmitEvent, NzTreeComponent, NzTreeModule, NzTreeNodeOptions } f
 
 @Component({
   selector: 'nz-demo-tree-basic',
-  standalone: true,
   imports: [NzTreeModule],
   template: `
     <nz-tree
@@ -16,7 +15,7 @@ import { NzFormatEmitEvent, NzTreeComponent, NzTreeModule, NzTreeNodeOptions } f
       [nzSelectedKeys]="defaultSelectedKeys"
       (nzClick)="nzClick($event)"
       (nzContextMenu)="nzClick($event)"
-      (nzCheckBoxChange)="nzCheck($event)"
+      (nzCheckboxChange)="nzCheck($event)"
       (nzExpandChange)="nzCheck($event)"
     ></nz-tree>
   `

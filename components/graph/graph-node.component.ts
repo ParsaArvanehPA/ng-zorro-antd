@@ -17,8 +17,10 @@ import {
   Renderer2,
   TemplateRef
 } from '@angular/core';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 
 import { NzGraph } from './graph';
 import { NzGraphGroupNode, NzGraphNode } from './interface';
@@ -48,8 +50,7 @@ interface Info {
     '[class.nz-graph-group-node]': 'node.type===0',
     '[class.nz-graph-base-node]': 'node.type===1'
   },
-  imports: [NgTemplateOutlet],
-  standalone: true
+  imports: [NgTemplateOutlet]
 })
 export class NzGraphNodeComponent implements OnInit, OnDestroy {
   @Input() node!: NzGraphNode | NzGraphGroupNode;
@@ -73,21 +74,19 @@ export class NzGraphNodeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent<MouseEvent>(this.el.nativeElement, 'click')
-        .pipe(
-          filter(event => {
-            event.preventDefault();
-            return this.graphComponent.nzNodeClick.observers.length > 0;
-          }),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => {
-          // Re-enter the Angular zone and run the change detection only if there're any `nzNodeClick` listeners,
-          // e.g.: `<nz-graph (nzNodeClick)="..."></nz-graph>`.
-          this.ngZone.run(() => this.graphComponent.nzNodeClick.emit(this.node));
-        });
-    });
+    fromEventOutsideAngular<MouseEvent>(this.el.nativeElement, 'click')
+      .pipe(
+        filter(event => {
+          event.preventDefault();
+          return this.graphComponent.nzNodeClick.observers.length > 0;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        // Re-enter the Angular zone and run the change detection only if there're any `nzNodeClick` listeners,
+        // e.g.: `<nz-graph (nzNodeClick)="..."></nz-graph>`.
+        this.ngZone.run(() => this.graphComponent.nzNodeClick.emit(this.node));
+      });
   }
 
   ngOnDestroy(): void {

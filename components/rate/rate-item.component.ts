@@ -41,11 +41,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     </div>
 
     <ng-template #defaultCharacter>
-      <span nz-icon nzType="star" nzTheme="fill"></span>
+      <nz-icon nzType="star" nzTheme="fill" />
     </ng-template>
   `,
-  imports: [NgTemplateOutlet, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzIconModule]
 })
 export class NzRateItemComponent {
   @Input() character!: TemplateRef<{ $implicit: number }>;

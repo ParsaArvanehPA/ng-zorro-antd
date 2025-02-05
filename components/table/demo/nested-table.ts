@@ -26,7 +26,6 @@ interface ChildrenItemData {
 
 @Component({
   selector: 'nz-demo-table-nested-table',
-  standalone: true,
   imports: [NzBadgeModule, NzDividerModule, NzDropDownModule, NzIconModule, NzTableModule],
   template: `
     <nz-table #nestedTable [nzData]="listOfParentData" [nzPageSize]="10">
@@ -80,7 +79,7 @@ interface ChildrenItemData {
                       <span class="table-operation">
                         <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
                           Pause
-                          <span nz-icon nzType="down"></span>
+                          <nz-icon nzType="down" />
                         </a>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                           <ul nz-menu>

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,11 +16,10 @@ import { NzResultModule } from './result.module';
 
 @Component({
   selector: 'nz-test-basic-result',
-  standalone: true,
   imports: [NzIconModule, NzResultModule],
   template: `
     <nz-result [nzIcon]="icon" [nzStatus]="status" [nzTitle]="title" [nzSubTitle]="subtitle" [nzExtra]="extra">
-      <span nz-icon nz-result-icon nzType="up" nzTheme="outline"></span>
+      <nz-icon nz-result-icon nzType="up" nzTheme="outline" />
       <div nz-result-title>Content Title</div>
       <div nz-result-subtitle>Content SubTitle</div>
       <div nz-result-content>Content</div>
@@ -32,7 +36,6 @@ export class NzTestResultBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestResultBasicComponent],
   template: `
     <div [dir]="direction">

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { ENTER, LEFT_ARROW, RIGHT_ARROW, SPACE } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AsyncPipe } from '@angular/common';
@@ -877,7 +882,6 @@ describe('NzTabSet', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset
@@ -913,21 +917,14 @@ class SimpleTabsTestComponent {
   centered = false;
   canDeactivate = null;
 
-  handleSelection(_event: number): void {
-    // noop
-  }
+  handleSelection(_event: number): void {}
 
-  handleClose(_event: { index: number }): void {
-    // noop
-  }
+  handleClose(_event: { index: number }): void {}
 
-  handleAdd(): void {
-    // noop
-  }
+  handleAdd(): void {}
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset [(nzSelectedIndex)]="selectedIndex" [nzDestroyInactiveTabPane]="destroyInactiveTabPane">
@@ -944,7 +941,6 @@ class SimpleTabsRenderingComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset nzType="editable-card" [(nzSelectedIndex)]="selectedIndex" [nzAddIcon]="addTemplate">
@@ -972,7 +968,6 @@ class TemplateTabsTestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset
@@ -991,13 +986,10 @@ class DisableTabsTestComponent {
   disabled = false;
   @ViewChildren(NzTabComponent) tabs!: QueryList<NzTabComponent>;
 
-  handleSelection(_event: number): void {
-    // noop
-  }
+  handleSelection(_event: number): void {}
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset
@@ -1021,13 +1013,10 @@ class DynamicTabsTestComponent {
     { title: 'Tab 2', content: 'Content of Tab Pane 2' }
   ];
 
-  handleSelection(_event: number): void {
-    // noop
-  }
+  handleSelection(_event: number): void {}
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <div style="width: 200px; height: 200px">
@@ -1059,13 +1048,10 @@ class ScrollableTabsTestComponent {
   tabs: NzSafeAny[] = Array(30).fill(null);
   @ViewChild(NzTabSetComponent, { static: true }) tabSet!: NzTabSetComponent;
 
-  handleSelection(_event: number): void {
-    // noop
-  }
+  handleSelection(_event: number): void {}
 }
 
 @Component({
-  standalone: true,
   imports: [AsyncPipe, NzTabsModule],
   template: `
     <nz-tabset>
@@ -1094,7 +1080,6 @@ class AsyncTabsTestComponent implements OnInit {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset>
@@ -1114,7 +1099,6 @@ class NestedTabsTestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTabsModule],
   template: `
     <nz-tabset>
@@ -1136,7 +1120,6 @@ class TabSetWithIndirectDescendantTabsTestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [RouterLink, RouterOutlet, NzTabsModule],
   template: `
     <nz-tabset nzLinkRouter (nzSelectedIndexChange)="handleSelection($event)">
@@ -1153,9 +1136,7 @@ class TabSetWithIndirectDescendantTabsTestComponent {
   `
 })
 export class RouterTabsTestComponent {
-  handleSelection(_event: number): void {
-    // noop
-  }
+  handleSelection(_event: number): void {}
 }
 
 const routes: Routes = [

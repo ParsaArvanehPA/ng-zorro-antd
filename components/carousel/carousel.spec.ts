@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Directionality } from '@angular/cdk/bidi';
 import { ENTER, LEFT_ARROW, RIGHT_ARROW } from '@angular/cdk/keycodes';
 import { Component, DebugElement, ViewChild } from '@angular/core';
@@ -444,7 +449,6 @@ function swipe(carousel: NzCarouselComponent, distance: number): void {
 
 @Component({
   selector: 'nz-test-carousel',
-  standalone: true,
   imports: [NzCarouselModule],
   template: `
     <nz-carousel
@@ -483,7 +487,6 @@ export class NzTestCarouselBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzCarouselModule],
   template: `
     <nz-carousel (nzAfterChange)="afterChange($event)">

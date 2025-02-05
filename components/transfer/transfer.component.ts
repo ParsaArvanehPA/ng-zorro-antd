@@ -4,7 +4,6 @@
  */
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -52,7 +51,7 @@ import { NzTransferListComponent } from './transfer-list.component';
   template: `
     <nz-transfer-list
       class="ant-transfer-list"
-      [ngStyle]="nzListStyle"
+      [style]="nzListStyle"
       data-direction="left"
       direction="left"
       [titleText]="nzTitles[0]"
@@ -84,7 +83,7 @@ import { NzTransferListComponent } from './transfer-list.component';
             [nzType]="'primary'"
             [nzSize]="'small'"
           >
-            <span nz-icon nzType="left"></span>
+            <nz-icon nzType="left" />
             @if (nzOperations[1]) {
               <span>{{ nzOperations[1] }}</span>
             }
@@ -98,7 +97,7 @@ import { NzTransferListComponent } from './transfer-list.component';
           [nzType]="'primary'"
           [nzSize]="'small'"
         >
-          <span nz-icon nzType="right"></span>
+          <nz-icon nzType="right" />
           @if (nzOperations[0]) {
             <span>{{ nzOperations[0] }}</span>
           }
@@ -114,7 +113,7 @@ import { NzTransferListComponent } from './transfer-list.component';
           [nzType]="'primary'"
           [nzSize]="'small'"
         >
-          <span nz-icon nzType="left"></span>
+          <nz-icon nzType="left" />
           @if (nzOperations[0]) {
             <span>{{ nzOperations[0] }}</span>
           }
@@ -128,7 +127,7 @@ import { NzTransferListComponent } from './transfer-list.component';
             [nzType]="'primary'"
             [nzSize]="'small'"
           >
-            <span nz-icon nzType="right"></span>
+            <nz-icon nzType="right" />
             @if (nzOperations[1]) {
               <span>{{ nzOperations[1] }}</span>
             }
@@ -138,7 +137,7 @@ import { NzTransferListComponent } from './transfer-list.component';
     }
     <nz-transfer-list
       class="ant-transfer-list"
-      [ngStyle]="nzListStyle"
+      [style]="nzListStyle"
       data-direction="right"
       direction="right"
       [titleText]="nzTitles[1]"
@@ -170,8 +169,7 @@ import { NzTransferListComponent } from './transfer-list.component';
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NzTransferListComponent, NgStyle, NzIconModule, NzButtonModule],
-  standalone: true
+  imports: [NzTransferListComponent, NzIconModule, NzButtonModule]
 })
 export class NzTransferComponent implements OnInit, OnChanges, OnDestroy {
   private unsubscribe$ = new Subject<void>();

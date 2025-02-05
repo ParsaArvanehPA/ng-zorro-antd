@@ -7,7 +7,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @Component({
   selector: 'nz-demo-button-size',
-  standalone: true,
   imports: [FormsModule, NzButtonModule, NzIconModule, NzRadioModule],
   template: `
     <nz-radio-group [(ngModel)]="size">
@@ -23,31 +22,31 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     <a nz-button [nzSize]="size" nzType="link">Link</a>
     <br />
     <button nz-button nzType="primary" [nzSize]="size">
-      <span nz-icon nzType="download"></span>
+      <nz-icon nzType="download" />
     </button>
     <button nz-button nzType="primary" [nzSize]="size" nzShape="circle">
-      <span nz-icon nzType="download"></span>
+      <nz-icon nzType="download" />
     </button>
     <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
-      <span nz-icon nzType="download"></span>
+      <nz-icon nzType="download" />
     </button>
     <button nz-button nzType="primary" [nzSize]="size" nzShape="round">
-      <span nz-icon nzType="download"></span>
+      <nz-icon nzType="download" />
       Download
     </button>
     <button nz-button nzType="primary" [nzSize]="size">
-      <span nz-icon nzType="download"></span>
+      <nz-icon nzType="download" />
       Download
     </button>
     <br />
     <nz-button-group [nzSize]="size">
       <button nz-button nzType="primary">
-        <span nz-icon nzType="left"></span>
+        <nz-icon nzType="left" />
         Backward
       </button>
       <button nz-button nzType="primary">
         Forward
-        <span nz-icon nzType="right"></span>
+        <nz-icon nzType="right" />
       </button>
     </nz-button-group>
   `,

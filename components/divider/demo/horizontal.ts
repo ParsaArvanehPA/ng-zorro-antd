@@ -5,7 +5,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'nz-demo-divider-horizontal',
-  standalone: true,
   imports: [NzDividerModule, NzIconModule],
   template: `
     <div>
@@ -25,7 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
       </p>
       <nz-divider nzDashed [nzText]="text">
         <ng-template #text>
-          <span nz-icon nzType="plus"></span>
+          <nz-icon nzType="plus" />
           Add
         </ng-template>
       </nz-divider>

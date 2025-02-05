@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, inject, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -216,7 +221,6 @@ describe('nz-icon injection', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzIconModule],
   template: `
     <nz-icon [nzType]="type" [nzTheme]="theme" [nzSpin]="spin" [nzRotate]="rotate"></nz-icon>
@@ -233,7 +237,6 @@ export class NzTestIconExtensionsComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule],
   template: `
     <nz-icon style="color: hotpink;">
@@ -248,7 +251,6 @@ export class NzTestIconExtensionsComponent {
 export class NzTestIconCustomComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule],
   template: `
     <nz-icon nzIconfont="icon-tuichu"></nz-icon>
@@ -270,7 +272,6 @@ export class NzTestIconIconfontComponent {
 class ChildModule {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, ChildModule],
   template: `
     <nz-icon nzType="home"></nz-icon>
@@ -280,7 +281,6 @@ class ChildModule {}
 class NzTestIconMultiInjectionComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule],
   providers: [provideNzIconsPatch([QuestionOutline])],
   template: `

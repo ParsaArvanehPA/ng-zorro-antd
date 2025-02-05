@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { getProjectFromWorkspace, getProjectTargetOptions } from '@angular/cdk/schematics';
 
 import { normalize } from '@angular-devkit/core';
@@ -9,10 +14,10 @@ import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { join } from 'path';
 
+import { Schema as NzOptions } from './schema';
 import { createTestApp } from '../testing/test-app';
 import { createCustomTheme } from '../utils/create-custom-theme';
 import { getFileContent } from '../utils/get-file-content';
-import { Schema as NzOptions } from './schema';
 
 describe('ng-add schematic', () => {
   const defaultOptions: NzOptions = {
@@ -153,7 +158,8 @@ describe('ng-add schematic', () => {
     const tree = await runner.runSchematic('ng-add-setup-project', options, appTree);
     const fileContent = getFileContent(tree, '/projects/ng-zorro/src/app/app.module.ts');
 
-    expect(fileContent).toContain('{ provide: NZ_I18N, useValue: en_US }');
+    expect(fileContent).not.toContain('NZ_I18N');
+    expect(fileContent).toContain('provideNzI18n(en_US)');
     expect(fileContent).toContain('registerLocaleData(en)');
   });
 
@@ -162,7 +168,8 @@ describe('ng-add schematic', () => {
     const tree = await runner.runSchematic('ng-add-setup-project', options, appTree);
     const fileContent = getFileContent(tree, '/projects/ng-zorro/src/app/app.module.ts');
 
-    expect(fileContent).toContain('{ provide: NZ_I18N, useValue: zh_CN }');
+    expect(fileContent).not.toContain('NZ_I18N');
+    expect(fileContent).toContain('provideNzI18n(zh_CN)');
     expect(fileContent).toContain('registerLocaleData(zh)');
   });
 
@@ -179,9 +186,10 @@ describe('ng-add schematic', () => {
     const tree = await runner.runSchematic('ng-add-setup-project', options, appTree);
     const fileContent = getFileContent(tree, '/projects/ng-zorro/src/app/app.module.ts');
 
-    expect(fileContent).toContain('{ provide: NZ_I18N, useValue: en_US }');
+    expect(fileContent).toContain('provideNzI18n(en_US)');
     expect(fileContent).toContain('registerLocaleData(en)');
-    expect(fileContent).not.toContain('{ provide: NZ_I18N, useValue: zh_CN }');
+    expect(fileContent).not.toContain('NZ_I18N');
+    expect(fileContent).not.toContain('provideNzI18n(zh_CN)');
     expect(fileContent).not.toContain('registerLocaleData(zh)');
 
     expect(console.log).toHaveBeenCalledWith(jasmine.stringMatching(/Could not add the registerLocaleData to file/));

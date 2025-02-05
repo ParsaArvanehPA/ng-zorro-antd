@@ -1,33 +1,30 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { CandyDate } from 'ng-zorro-antd/core/time';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { NzI18nModule } from 'ng-zorro-antd/i18n';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 
-import { NzRadioGroupComponent as RadioGroup, NzRadioModule } from '../radio/index';
-import { NzSelectComponent as Select } from '../select/select.component';
 import { NzCalendarHeaderComponent, NzCalendarHeaderComponent as CalendarHeader } from './calendar-header.component';
+import { NzRadioGroupComponent as RadioGroup } from '../radio/index';
+import { NzSelectComponent as Select } from '../select/select.component';
 
 registerLocaleData(zh);
 
 describe('Calendar Header', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, NzI18nModule, NzRadioModule, NzSelectModule, NoopAnimationsModule, CalendarHeader],
-      declarations: [
-        NzTestCalendarHeaderModeComponent,
-        NzTestCalendarHeaderFullscreenComponent,
-        NzTestCalendarHeaderActiveDateComponent,
-        NzTestCalendarHeaderChangesComponent
-      ]
-    }).compileComponents();
+      providers: [provideNoopAnimations()]
+    });
   }));
 
   describe('mode', () => {
@@ -213,6 +210,7 @@ describe('Calendar Header', () => {
 });
 
 @Component({
+  imports: [FormsModule, NzCalendarHeaderComponent],
   template: `
     <nz-calendar-header></nz-calendar-header>
     <nz-calendar-header [(mode)]="mode"></nz-calendar-header>
@@ -223,6 +221,7 @@ class NzTestCalendarHeaderModeComponent {
 }
 
 @Component({
+  imports: [NzCalendarHeaderComponent],
   template: `
     <nz-calendar-header></nz-calendar-header>
     <nz-calendar-header [fullscreen]="fullscreen"></nz-calendar-header>
@@ -233,6 +232,7 @@ class NzTestCalendarHeaderFullscreenComponent {
 }
 
 @Component({
+  imports: [NzCalendarHeaderComponent],
   template: `
     <nz-calendar-header></nz-calendar-header>
     <nz-calendar-header [activeDate]="activeDate"></nz-calendar-header>
@@ -243,6 +243,7 @@ class NzTestCalendarHeaderActiveDateComponent {
 }
 
 @Component({
+  imports: [NzCalendarHeaderComponent],
   template: `
     <nz-calendar-header
       [nzCustomHeader]="customHeader"

@@ -3,7 +3,6 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -77,8 +76,7 @@ import { NzSelectModule, NzSelectSizeType } from 'ng-zorro-antd/select';
     class: 'ant-fullcalendar-header',
     '[style.display]': `'block'`
   },
-  imports: [NzSelectModule, FormsModule, NzRadioModule, NgTemplateOutlet, NzStringTemplateOutletDirective],
-  standalone: true
+  imports: [NzSelectModule, FormsModule, NzRadioModule, NzStringTemplateOutletDirective]
 })
 export class NzCalendarHeaderComponent implements OnInit, OnChanges {
   @Input() mode: 'month' | 'year' = 'month';
@@ -86,9 +84,9 @@ export class NzCalendarHeaderComponent implements OnInit, OnChanges {
   @Input() activeDate: CandyDate = new CandyDate();
   @Input() nzCustomHeader?: string | TemplateRef<void>;
 
-  @Output() readonly modeChange: EventEmitter<'month' | 'year'> = new EventEmitter();
-  @Output() readonly yearChange: EventEmitter<number> = new EventEmitter();
-  @Output() readonly monthChange: EventEmitter<number> = new EventEmitter();
+  @Output() readonly modeChange = new EventEmitter<'month' | 'year'>();
+  @Output() readonly yearChange = new EventEmitter<number>();
+  @Output() readonly monthChange = new EventEmitter<number>();
   // @Output() readonly valueChange: EventEmitter<CandyDate> = new EventEmitter();
 
   yearOffset: number = 10;

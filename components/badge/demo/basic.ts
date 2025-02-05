@@ -4,7 +4,6 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
-  standalone: true,
   selector: 'nz-demo-badge-basic',
   imports: [NzBadgeModule, NzIconModule],
   template: `
@@ -18,7 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
       <a class="head-example"></a>
     </nz-badge>
     <ng-template #iconTemplate>
-      <span nz-icon nzType="clock-circle" class="ant-scroll-number-custom-component" style="color: #f5222d"></span>
+      <nz-icon nzType="clock-circle" class="ant-scroll-number-custom-component" style="color: #f5222d" />
     </ng-template>
   `,
   styles: [

@@ -25,12 +25,13 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { fromEvent, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { fadeMotion } from 'ng-zorro-antd/core/animation';
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
 import { NzDestroyService, NzScrollService } from 'ng-zorro-antd/core/services';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { NzFloatButtonComponent } from './float-button.component';
@@ -40,7 +41,6 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'backTop';
 const passiveEventListenerOptions = normalizePassiveListenerOptions({ passive: true });
 
 @Component({
-  standalone: true,
   selector: 'nz-float-button-top',
   exportAs: 'nzFloatButtonTop',
   imports: [NzFloatButtonComponent, NzIconModule],
@@ -55,7 +55,7 @@ const passiveEventListenerOptions = normalizePassiveListenerOptions({ passive: t
         [nzShape]="nzShape"
       ></nz-float-button>
       <ng-template #top>
-        <span nz-icon nzType="vertical-align-top" nzTheme="outline"></span>
+        <nz-icon nzType="vertical-align-top" nzTheme="outline" />
       </ng-template>
     </div>
   `,
@@ -90,23 +90,21 @@ export class NzFloatButtonTopComponent implements OnInit, OnDestroy, OnChanges {
   @Input({ transform: numberAttribute }) @WithConfig() nzVisibilityHeight: number = 400;
   @Input() nzTarget?: string | HTMLElement;
   @Input({ transform: numberAttribute }) nzDuration: number = 450;
-  @Output() readonly nzOnClick: EventEmitter<boolean> = new EventEmitter();
+  @Output() readonly nzOnClick = new EventEmitter<boolean>();
 
   @ViewChild('backTop', { static: false })
   set backTop(backTop: ElementRef<HTMLElement> | undefined) {
     if (backTop) {
       this.backTopClickSubscription.unsubscribe();
 
-      this.backTopClickSubscription = this.zone.runOutsideAngular(() =>
-        fromEvent(backTop.nativeElement, 'click')
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(() => {
-            this.scrollSrv.scrollTo(this.getTarget(), 0, { duration: this.nzDuration });
-            if (this.nzOnClick.observers.length) {
-              this.zone.run(() => this.nzOnClick.emit(true));
-            }
-          })
-      );
+      this.backTopClickSubscription = fromEventOutsideAngular(backTop.nativeElement, 'click')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.scrollSrv.scrollTo(this.getTarget(), 0, { duration: this.nzDuration });
+          if (this.nzOnClick.observers.length) {
+            this.ngZone.run(() => this.nzOnClick.emit(true));
+          }
+        });
     }
   }
 
@@ -117,8 +115,7 @@ export class NzFloatButtonTopComponent implements OnInit, OnDestroy, OnChanges {
     public nzConfigService: NzConfigService,
     private scrollSrv: NzScrollService,
     private platform: Platform,
-    private cd: ChangeDetectorRef,
-    private zone: NgZone,
+    private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private destroy$: NzDestroyService,
     private directionality: Directionality
@@ -146,7 +143,7 @@ export class NzFloatButtonTopComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
     this.visible = !this.visible;
-    this.cd.detectChanges();
+    this.cdr.detectChanges();
   }
 
   private registerScrollEvent(): void {
@@ -155,11 +152,9 @@ export class NzFloatButtonTopComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.scrollListenerDestroy$.next();
     this.handleScroll();
-    this.zone.runOutsideAngular(() => {
-      fromEvent(this.getTarget(), 'scroll', <AddEventListenerOptions>passiveEventListenerOptions)
-        .pipe(debounceTime(50), takeUntil(this.scrollListenerDestroy$))
-        .subscribe(() => this.handleScroll());
-    });
+    fromEventOutsideAngular(this.getTarget(), 'scroll', passiveEventListenerOptions as AddEventListenerOptions)
+      .pipe(debounceTime(50), takeUntil(this.scrollListenerDestroy$))
+      .subscribe(() => this.handleScroll());
   }
 
   ngOnDestroy(): void {

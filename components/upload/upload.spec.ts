@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { ENTER, TAB } from '@angular/cdk/keycodes';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -1241,7 +1246,6 @@ describe('upload', () => {
           imports: [NzUploadBtnComponent],
           providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
         });
-        (injector as TestBed).compileComponents();
         fixture = TestBed.createComponent(NzUploadBtnComponent);
         comp = fixture.debugElement.componentInstance;
         comp.options = {
@@ -1339,7 +1343,6 @@ describe('upload', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule, NzIconModule, NzUploadModule],
   template: `
     @if (show) {
@@ -1375,7 +1378,7 @@ describe('upload', () => {
         (nzChange)="nzChange($event)"
       >
         <button nz-button>
-          <span nz-icon nzType="upload"></span>
+          <nz-icon nzType="upload" />
           <span>Click to Upload</span>
         </button>
       </nz-upload>
@@ -1445,7 +1448,6 @@ class TestUploadComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzUploadListComponent],
   template: `
     <nz-upload-list
@@ -1502,7 +1504,6 @@ class TestUploadListComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzUploadBtnComponent],
   template: `<div nz-upload-btn #btn [options]="options" class="test">UPLOAD</div>`
 })

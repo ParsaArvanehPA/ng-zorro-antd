@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
@@ -298,12 +303,9 @@ interface BasicTestDataItem {
   expand?: boolean;
 }
 
-interface NzPageSizeChangeFn {
-  (pageSize: number): void;
-}
+type NzPageSizeChangeFn = (pageSize: number) => void;
 
 @Component({
-  standalone: true,
   imports: [NzTableModule],
   template: `
     <nz-table
@@ -398,7 +400,6 @@ interface ScrollTestDataItem {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTableModule],
   template: `
     <div style="display: block;" [style.width.px]="width">
@@ -464,7 +465,6 @@ export class NzTestTableScrollComponent implements OnInit {
 
 /** https://github.com/NG-ZORRO/ng-zorro-antd/issues/3004 **/
 @Component({
-  standalone: true,
   imports: [NzTableModule],
   template: `
     <nz-table
@@ -517,7 +517,6 @@ interface RtlTestDataItem {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTableModule],
   template: `
     <div [dir]="direction">

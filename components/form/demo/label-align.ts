@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -6,7 +6,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-label-align',
-  standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule],
   template: `
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -26,6 +25,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   `
 })
 export class NzDemoFormLabelAlignComponent {
+  private fb = inject(NonNullableFormBuilder);
   validateForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
@@ -35,6 +35,4 @@ export class NzDemoFormLabelAlignComponent {
   submitForm(): void {
     console.log('submit', this.validateForm.value);
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 }

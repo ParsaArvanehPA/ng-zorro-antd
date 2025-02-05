@@ -23,7 +23,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
           ></span>
         </ng-container>
       } @else {
-        <span nz-icon nzType="loading" [nzSpin]="true" class="ant-tree-switcher-loading-icon"></span>
+        <nz-icon nzType="loading" [nzSpin]="true" class="ant-tree-switcher-loading-icon" />
       }
     }
     @if (nzShowLine) {
@@ -36,11 +36,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
               class="ant-tree-switcher-line-icon"
             ></span>
           } @else {
-            <span nz-icon nzType="file" class="ant-tree-switcher-line-icon"></span>
+            <nz-icon nzType="file" class="ant-tree-switcher-line-icon" />
           }
         </ng-container>
       } @else {
-        <span nz-icon nzType="loading" [nzSpin]="true" class="ant-tree-switcher-loading-icon"></span>
+        <nz-icon nzType="loading" [nzSpin]="true" class="ant-tree-switcher-loading-icon" />
       }
     }
   `,
@@ -56,8 +56,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     '[class.ant-tree-switcher_open]': '!nzSelectMode && isSwitcherOpen',
     '[class.ant-tree-switcher_close]': '!nzSelectMode && isSwitcherClose'
   },
-  imports: [NzIconModule, NzOutletModule],
-  standalone: true
+  imports: [NzIconModule, NzOutletModule]
 })
 export class NzTreeNodeSwitcherComponent {
   @Input({ transform: booleanAttribute }) nzShowExpand?: boolean;

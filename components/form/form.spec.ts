@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -116,7 +121,6 @@ describe('nz-form', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzFormModule],
   template: `<form nz-form [nzLayout]="layout"></form>`
 })
@@ -125,7 +129,6 @@ export class NzTestFormDirectiveComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzFormModule],
   template: `
     <form nz-form [nzNoColon]="defaultNoColon">

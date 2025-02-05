@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { CAPS_LOCK, ENTER, ESCAPE, TAB } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ApplicationRef, Component, NgZone, ViewChild } from '@angular/core';
@@ -538,7 +543,6 @@ describe('change detection behavior', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzTypographyModule],
   template: `
     <h1 nz-typography>h1. Ant Design</h1>
@@ -563,7 +567,6 @@ describe('change detection behavior', () => {
 export class NzTestTypographyComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzTypographyModule],
   template: `
     <h4 nz-title nzCopyable class="test-copy-h4" nzContent="Ant Design-0" (nzCopy)="onCopy($event)"></h4>
@@ -584,13 +587,10 @@ export class NzTestTypographyComponent {}
 export class NzTestTypographyCopyComponent {
   tooltips: [string, string] | null = ['click here', 'coped'];
   icons: [string, string] = ['meh', 'smile'];
-  onCopy(_text: string): void {
-    // noop
-  }
+  onCopy(_text: string): void {}
 }
 
 @Component({
-  standalone: true,
   imports: [NzTypographyModule],
   template: `
     <p
@@ -615,7 +615,6 @@ export class NzTestTypographyEditComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTypographyModule],
   template: `
     <p nz-paragraph nzEllipsis [nzExpandable]="expandable" (nzExpandChange)="onExpand()" class="single">

@@ -4,7 +4,7 @@
  */
 
 import { Direction } from '@angular/cdk/bidi';
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -13,7 +13,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -22,7 +21,7 @@ import {
   TemplateRef,
   ViewEncapsulation
 } from '@angular/core';
-import { fromEvent, merge, Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import {
@@ -34,6 +33,7 @@ import {
   wrongSortOrder
 } from 'ng-zorro-antd/core/time';
 import { FunctionProp } from 'ng-zorro-antd/core/types';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 import { NzCalendarI18nInterface } from 'ng-zorro-antd/i18n';
 
 import { CalendarFooterComponent } from './calendar-footer.component';
@@ -61,7 +61,7 @@ import { getTimeConfig, isAllowedDate, PREFIX_CLASS } from './util';
   template: `
     @if (isRange) {
       <div class="{{ prefixCls }}-range-wrapper {{ prefixCls }}-date-range-wrapper">
-        <div class="{{ prefixCls }}-range-arrow" [ngStyle]="arrowPosition"></div>
+        <div class="{{ prefixCls }}-range-arrow" [style]="arrowPosition"></div>
         <div class="{{ prefixCls }}-panel-container {{ showWeek ? prefixCls + '-week-number' : '' }}">
           <div class="{{ prefixCls }}-panels">
             @if (hasTimePicker) {
@@ -106,6 +106,7 @@ import { getTimeConfig, isAllowedDate, PREFIX_CLASS } from './util';
           [dateRender]="dateRender"
           [selectedValue]="$any(datePickerService?.value)"
           [hoverValue]="$any(hoverValue)"
+          [format]="format"
           (cellHover)="onCellHover($event)"
           (selectDate)="changeValueFromSelect($event, !showTime)"
           (selectTime)="onSelectTime($event, partType)"
@@ -145,8 +146,7 @@ import { getTimeConfig, isAllowedDate, PREFIX_CLASS } from './util';
       }
     </ng-template>
   `,
-  imports: [InnerPopupComponent, NgTemplateOutlet, CalendarFooterComponent, NgStyle],
-  standalone: true
+  imports: [InnerPopupComponent, NgTemplateOutlet, CalendarFooterComponent]
 })
 export class DateRangePopupComponent implements OnInit, OnChanges, OnDestroy {
   @Input({ transform: booleanAttribute }) isRange!: boolean;
@@ -164,6 +164,7 @@ export class DateRangePopupComponent implements OnInit, OnChanges, OnDestroy {
   @Input() panelMode!: NzDateMode | NzDateMode[];
   @Input() defaultPickerValue!: CompatibleDate | undefined | null;
   @Input() dir: Direction = 'ltr';
+  @Input() format?: string;
 
   @Output() readonly panelModeChange = new EventEmitter<NzPanelChangeType>();
   @Output() readonly calendarChange = new EventEmitter<CompatibleValue>();
@@ -193,7 +194,6 @@ export class DateRangePopupComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     public datePickerService: DatePickerService,
     public cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
     private host: ElementRef<HTMLElement>
   ) {}
 
@@ -205,11 +205,9 @@ export class DateRangePopupComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.markForCheck();
       });
 
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent(this.host.nativeElement, 'mousedown')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(event => event.preventDefault());
-    });
+    fromEventOutsideAngular(this.host.nativeElement, 'mousedown')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(event => event.preventDefault());
   }
 
   ngOnChanges(changes: SimpleChanges): void {

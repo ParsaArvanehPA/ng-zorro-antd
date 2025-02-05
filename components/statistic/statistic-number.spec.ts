@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { DecimalPipe } from '@angular/common';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -45,7 +50,6 @@ describe('nz-number', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [DecimalPipe, NzStatisticModule],
   template: `
     <nz-statistic-number [nzValue]="(value | number)!" [nzValueTemplate]="template"></nz-statistic-number>

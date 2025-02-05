@@ -7,12 +7,11 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'nz-demo-menu-inline-collapsed',
-  standalone: true,
   imports: [NzButtonModule, NzIconModule, NzMenuModule, NzToolTipModule],
   template: `
     <div class="wrapper">
       <button nz-button nzType="primary" (click)="toggleCollapsed()">
-        <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+        <nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
       </button>
       <ul nz-menu nzMode="inline" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
         <li
@@ -22,7 +21,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
           [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''"
           nzSelected
         >
-          <span nz-icon nzType="mail"></span>
+          <nz-icon nzType="mail" />
           <span>Navigation One</span>
         </li>
         <li nz-submenu nzTitle="Navigation Two" nzIcon="appstore">

@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -42,21 +43,20 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
       (click)="onClick()"
     >
       <ng-container *nzStringTemplateOutlet="copied ? copedIcon : copyIcon; let icon">
-        <span nz-icon [nzType]="icon"></span>
+        <nz-icon [nzType]="icon" />
       </ng-container>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   preserveWhitespaces: false,
-  imports: [NzToolTipModule, NzTransButtonModule, NzIconModule, NzOutletModule],
-  standalone: true
+  imports: [NzToolTipModule, NzTransButtonModule, NzIconModule, NzOutletModule]
 })
 export class NzTextCopyComponent implements OnInit, OnDestroy, OnChanges {
   copied = false;
   copyId?: ReturnType<typeof setTimeout>;
   locale!: NzTextI18nInterface;
-  nativeElement = this.host.nativeElement;
+  nativeElement = inject(ElementRef).nativeElement;
   copyTooltip: NzTSType | null = null;
   copedTooltip: NzTSType | null = null;
   copyIcon: NzTSType = 'copy';
@@ -70,7 +70,6 @@ export class NzTextCopyComponent implements OnInit, OnDestroy, OnChanges {
   @Output() readonly textCopy = new EventEmitter<string>();
 
   constructor(
-    private host: ElementRef,
     private cdr: ChangeDetectorRef,
     private clipboard: Clipboard,
     private i18n: NzI18nService

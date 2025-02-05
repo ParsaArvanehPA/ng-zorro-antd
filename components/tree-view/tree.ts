@@ -25,15 +25,15 @@ import { NzNoAnimationDirective } from 'ng-zorro-antd/core/no-animation';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 @Component({
-  template: '',
-  standalone: true
+  template: ''
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class NzTreeView<T> extends CdkTree<T> implements OnInit, OnDestroy {
   private destroy$ = new Subject<boolean>();
   dir: Direction = 'ltr';
   _dataSourceChanged = new Subject<void>();
-  @Input('nzTreeControl') override treeControl!: TreeControl<T, NzSafeAny>;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('nzTreeControl') override treeControl?: TreeControl<T, NzSafeAny> = undefined;
   @Input('nzDataSource')
   override get dataSource(): DataSource<T> | Observable<T[]> | T[] {
     return super.dataSource;

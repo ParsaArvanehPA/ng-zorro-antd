@@ -5,7 +5,6 @@
 
 import { AnimationEvent } from '@angular/animations';
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgClass, NgStyle } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -49,8 +48,8 @@ export type NzPlacementType = 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 't
       <div
         class="ant-dropdown"
         [class.ant-dropdown-rtl]="dir === 'rtl'"
-        [ngClass]="nzOverlayClassName"
-        [ngStyle]="nzOverlayStyle"
+        [class]="nzOverlayClassName"
+        [style]="nzOverlayStyle"
         @slideMotion
         (@slideMotion.done)="onAnimationEvent($event)"
         [@.disabled]="!!noAnimation?.nzNoAnimation"
@@ -65,11 +64,11 @@ export type NzPlacementType = 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 't
   preserveWhitespaces: false,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, NgStyle, NzNoAnimationDirective],
-  standalone: true
+  imports: [NzNoAnimationDirective]
 })
 export class NzDropdownMenuComponent implements AfterContentInit, OnDestroy, OnInit {
   mouseState$ = new BehaviorSubject<boolean>(false);
+  public nzMenuService = inject(MenuService);
   isChildSubMenuOpen$ = this.nzMenuService.isChildSubMenuOpen$;
   descendantMenuItemClick$ = this.nzMenuService.descendantMenuItemClick$;
   animationStateChange$ = new EventEmitter<AnimationEvent>();
@@ -100,7 +99,6 @@ export class NzDropdownMenuComponent implements AfterContentInit, OnDestroy, OnI
     private elementRef: ElementRef,
     private renderer: Renderer2,
     public viewContainerRef: ViewContainerRef,
-    public nzMenuService: MenuService,
     private directionality: Directionality
   ) {}
   ngOnInit(): void {

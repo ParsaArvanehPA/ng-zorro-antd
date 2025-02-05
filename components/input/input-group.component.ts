@@ -5,7 +5,7 @@
 
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -29,7 +29,7 @@ import {
 import { Subject, merge } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import { NzFormNoStatusService, NzFormPatchModule, NzFormStatusService } from 'ng-zorro-antd/core/form';
+import { NzFormItemFeedbackIconComponent, NzFormNoStatusService, NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { NgClassInterface, NzSizeLDSType, NzStatus, NzValidateStatus } from 'ng-zorro-antd/core/types';
 import { getStatusClassNames } from 'ng-zorro-antd/core/util';
 import { NZ_SPACE_COMPACT_ITEM_TYPE, NzSpaceCompactItemDirective } from 'ng-zorro-antd/space';
@@ -38,8 +38,7 @@ import { NzInputGroupSlotComponent } from './input-group-slot.component';
 import { NzInputDirective } from './input.directive';
 
 @Directive({
-  selector: `nz-input-group[nzSuffix], nz-input-group[nzPrefix]`,
-  standalone: true
+  selector: `nz-input-group[nzSuffix], nz-input-group[nzPrefix]`
 })
 export class NzInputGroupWhitSuffixOrPrefixDirective {
   constructor(public elementRef: ElementRef) {}
@@ -48,8 +47,7 @@ export class NzInputGroupWhitSuffixOrPrefixDirective {
 @Component({
   selector: 'nz-input-group',
   exportAs: 'nzInputGroup',
-  standalone: true,
-  imports: [NzInputGroupSlotComponent, NgClass, NgTemplateOutlet, NzFormPatchModule],
+  imports: [NzInputGroupSlotComponent, NgTemplateOutlet, NzFormItemFeedbackIconComponent],
   encapsulation: ViewEncapsulation.None,
   providers: [NzFormNoStatusService, { provide: NZ_SPACE_COMPACT_ITEM_TYPE, useValue: 'input' }],
   template: `
@@ -66,7 +64,7 @@ export class NzInputGroupWhitSuffixOrPrefixDirective {
             [class.ant-input-affix-wrapper-sm]="isSmall"
             [class.ant-input-affix-wrapper-lg]="isLarge"
             [class.ant-input-affix-wrapper-focused]="focused"
-            [ngClass]="affixInGroupStatusCls"
+            [class]="affixInGroupStatusCls"
           >
             <ng-template [ngTemplateOutlet]="affixTemplate"></ng-template>
           </span>

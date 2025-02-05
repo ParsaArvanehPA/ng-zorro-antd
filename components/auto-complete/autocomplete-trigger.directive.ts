@@ -54,14 +54,14 @@ export function getNzAutocompleteMissingPanelError(): Error {
   selector: `input[nzAutocomplete], textarea[nzAutocomplete]`,
   exportAs: 'nzAutocompleteTrigger',
   providers: [NZ_AUTOCOMPLETE_VALUE_ACCESSOR],
-  standalone: true,
   host: {
     autocomplete: 'off',
     'aria-autocomplete': 'list',
     '(focusin)': 'handleFocus()',
     '(blur)': 'handleBlur()',
     '(input)': 'handleInput($event)',
-    '(keydown)': 'handleKeydown($event)'
+    '(keydown)': 'handleKeydown($event)',
+    '(click)': 'handleClick($event)'
   }
 })
 export class NzAutocompleteTriggerDirective implements AfterViewInit, ControlValueAccessor, OnDestroy {
@@ -214,6 +214,12 @@ export class NzAutocompleteTriggerDirective implements AfterViewInit, ControlVal
 
   handleFocus(): void {
     if (this.canOpen()) {
+      this.openPanel();
+    }
+  }
+
+  handleClick(): void {
+    if (this.canOpen() && !this.panelOpen) {
       this.openPanel();
     }
   }

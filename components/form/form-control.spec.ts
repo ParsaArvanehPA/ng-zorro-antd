@@ -1,10 +1,14 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormControlName,
   FormGroup,
   ReactiveFormsModule,
   ValidatorFn,
@@ -368,7 +372,6 @@ describe('nz-form-control', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzFormModule],
   template: `
     <nz-form-item>
@@ -382,7 +385,6 @@ export class NzTestStaticFormControlComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzFormModule],
   template: `
     <form [formGroup]="formGroup">
@@ -403,21 +405,25 @@ export class NzTestStaticFormControlComponent {
   `
 })
 export class NzTestReactiveFormControlComponent {
-  formGroup = this.formBuilder.group({
-    input: ['', [Validators.required]],
-    input2: ['', [Validators.required]],
-    input3: ['', [Validators.required]]
-  });
-  validateStatus: string | FormControlName | FormControl<string | null>;
+  formGroup: FormGroup<{
+    input: FormControl<string | null>;
+    input2: FormControl<string | null>;
+    input3: FormControl<string | null>;
+  }>;
+  validateStatus: FormControl<string | null>;
 
   constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      input: this.formBuilder.control('', [Validators.required]),
+      input2: this.formBuilder.control('', [Validators.required]),
+      input3: this.formBuilder.control('', [Validators.required])
+    });
     this.validateStatus = this.formGroup.controls.input2;
   }
 }
 
 /** https://github.com/NG-ZORRO/ng-zorro-antd/issues/1170 **/
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzFormModule],
   template: `
     <form [formGroup]="formGroup">
@@ -430,17 +436,17 @@ export class NzTestReactiveFormControlComponent {
   `
 })
 export class NzTestReactiveFormControlInitStatusComponent {
-  formGroup = this.formBuilder.group({
-    input: ['', [Validators.required]]
-  });
+  formGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      input: ['', [Validators.required]]
+    });
     this.formGroup.controls.input.markAsDirty();
   }
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule],
   template: `
     <form [formGroup]="formGroup" nz-form [nzAutoTips]="formAutoTips" [nzDisableAutoTips]="formDisableAutoTips">

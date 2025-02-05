@@ -152,8 +152,7 @@ const listOfHorizontalPositions = [
     NzNoAnimationDirective,
     NzSubmenuNoneInlineChildComponent,
     OverlayModule
-  ],
-  standalone: true
+  ]
 })
 export class NzSubMenuComponent implements OnInit, OnDestroy, AfterContentInit, OnChanges {
   @Input() nzMenuClassName: string = '';
@@ -164,7 +163,7 @@ export class NzSubMenuComponent implements OnInit, OnDestroy, AfterContentInit, 
   @Input({ transform: booleanAttribute }) nzOpen = false;
   @Input({ transform: booleanAttribute }) nzDisabled = false;
   @Input() nzPlacement: POSITION_TYPE_HORIZONTAL = 'bottomLeft';
-  @Output() readonly nzOpenChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() readonly nzOpenChange = new EventEmitter<boolean>();
   @ViewChild(CdkOverlayOrigin, { static: true, read: ElementRef }) cdkOverlayOrigin: ElementRef | null = null;
   // fix errors about circular dependency
   // Can't construct a query for the property ... since the query selector wasn't defined"
@@ -172,6 +171,8 @@ export class NzSubMenuComponent implements OnInit, OnDestroy, AfterContentInit, 
   listOfNzSubMenuComponent: QueryList<NzSubMenuComponent> | null = null;
   @ContentChildren(NzMenuItemComponent, { descendants: true })
   listOfNzMenuItemDirective: QueryList<NzMenuItemComponent> | null = null;
+
+  public nzSubmenuService = inject(NzSubmenuService);
   private level = this.nzSubmenuService.level;
   private destroy$ = new Subject<void>();
   position = 'right';
@@ -227,7 +228,6 @@ export class NzSubMenuComponent implements OnInit, OnDestroy, AfterContentInit, 
   constructor(
     public nzMenuService: MenuService,
     private cdr: ChangeDetectorRef,
-    public nzSubmenuService: NzSubmenuService,
     private platform: Platform
   ) {}
 

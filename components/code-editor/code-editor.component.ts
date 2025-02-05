@@ -4,7 +4,7 @@
  */
 
 import { Platform } from '@angular/cdk/platform';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   booleanAttribute,
@@ -21,14 +21,14 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, combineLatest, fromEvent, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 
 import type { editor, IDisposable } from 'monaco-editor';
 
 import { warn } from 'ng-zorro-antd/core/logger';
 import { NzSafeAny, OnChangeType, OnTouchedType } from 'ng-zorro-antd/core/types';
-import { inNextTick } from 'ng-zorro-antd/core/util';
+import { fromEventOutsideAngular, inNextTick } from 'ng-zorro-antd/core/util';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 
 import { NzCodeEditorService } from './code-editor.service';
@@ -65,8 +65,7 @@ declare const monaco: NzSafeAny;
       multi: true
     }
   ],
-  imports: [NgIf, NzSpinComponent, NgTemplateOutlet],
-  standalone: true
+  imports: [NzSpinComponent, NgTemplateOutlet]
 })
 export class NzCodeEditorComponent implements OnDestroy, AfterViewInit {
   @Input() nzEditorMode: NzEditorMode = 'normal';
@@ -204,28 +203,26 @@ export class NzCodeEditorComponent implements OnDestroy, AfterViewInit {
   }
 
   private registerResizeChange(): void {
-    this.ngZone.runOutsideAngular(() => {
-      fromEvent(window, 'resize')
-        .pipe(debounceTime(300), takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.layout();
-        });
+    fromEventOutsideAngular(window, 'resize')
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.layout();
+      });
 
-      this.resize$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter(() => !!this.editorInstance),
-          map(() => ({
-            width: this.el.clientWidth,
-            height: this.el.clientHeight
-          })),
-          distinctUntilChanged((a, b) => a.width === b.width && a.height === b.height),
-          debounceTime(50)
-        )
-        .subscribe(() => {
-          this.editorInstance!.layout();
-        });
-    });
+    this.resize$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(() => !!this.editorInstance),
+        map(() => ({
+          width: this.el.clientWidth,
+          height: this.el.clientHeight
+        })),
+        distinctUntilChanged((a, b) => a.width === b.width && a.height === b.height),
+        debounceTime(50)
+      )
+      .subscribe(() => {
+        this.editorInstance!.layout();
+      });
   }
 
   private setValue(): void {

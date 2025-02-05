@@ -41,7 +41,6 @@ interface ExampleFlatNode {
 
 @Component({
   selector: 'nz-demo-tree-view-directory',
-  standalone: true,
   imports: [NzIconModule, NzTreeViewModule],
   template: `
     <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource" [nzDirectoryTree]="true">
@@ -52,21 +51,21 @@ interface ExampleFlatNode {
           [nzSelected]="selectListSelection.isSelected(node)"
           (nzClick)="selectListSelection.toggle(node)"
         >
-          <span nz-icon nzType="file" nzTheme="outline"></span>
+          <nz-icon nzType="file" nzTheme="outline" />
           {{ node.name }}
         </nz-tree-node-option>
       </nz-tree-node>
 
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
         <nz-tree-node-toggle>
-          <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+          <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
         </nz-tree-node-toggle>
         <nz-tree-node-option
           [nzDisabled]="node.disabled"
           [nzSelected]="selectListSelection.isSelected(node)"
           (nzClick)="selectListSelection.toggle(node)"
         >
-          <span nz-icon [nzType]="treeControl.isExpanded(node) ? 'folder-open' : 'folder'" nzTheme="outline"></span>
+          <nz-icon [nzType]="treeControl.isExpanded(node) ? 'folder-open' : 'folder'" nzTheme="outline" />
           {{ node.name }}
         </nz-tree-node-option>
       </nz-tree-node>

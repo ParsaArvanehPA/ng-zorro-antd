@@ -41,7 +41,6 @@ export interface BreadcrumbOption {
   exportAs: 'nzBreadcrumb',
   preserveWhitespaces: false,
   providers: [{ provide: NzBreadcrumb, useExisting: forwardRef(() => NzBreadCrumbComponent) }],
-  standalone: true,
   imports: [NzBreadCrumbItemComponent],
   template: `
     <ng-content />
@@ -116,7 +115,7 @@ export class NzBreadCrumbComponent implements OnInit, OnDestroy, NzBreadcrumb {
           this.breadcrumbs = this.getBreadcrumbs(activatedRoute.root);
           this.cdr.markForCheck();
         });
-    } catch (e) {
+    } catch {
       throw new Error(`${PREFIX} You should import RouterModule if you want to use 'NzAutoGenerate'.`);
     }
   }

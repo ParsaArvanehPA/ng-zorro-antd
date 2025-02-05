@@ -18,14 +18,14 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 
 ## API
 
-### nz-rate:standalone
+### nz-rate
 
 | Property            | Description                             | type                          | Default                               | Global Config |
-|---------------------|-----------------------------------------|-------------------------------|---------------------------------------|---------------|
+| ------------------- | --------------------------------------- | ----------------------------- | ------------------------------------- | ------------- |
 | `[nzAllowClear]`    | whether to allow clear when click again | `boolean`                     | `true`                                | ✅             |
 | `[nzAllowHalf]`     | whether to allow semi selection         | `boolean`                     | `false`                               | ✅             |
 | `[nzAutoFocus]`     | get focus when component mounted        | `boolean`                     | `false`                               |
-| `[nzCharacter]`     | custom character of rate                | `TemplateRef<void>`           | `<span nz-icon nzType="star"></span>` |
+| `[nzCharacter]`     | custom character of rate                | `TemplateRef<void>`           | `<nz-icon nzType="star" />` |
 | `[nzCount]`         | star count                              | `number`                      | `5`                                   |
 | `[nzDisabled]`      | read only, unable to interact           | `boolean`                     | `false`                               |
 | `[nzTooltips]`      | Customize tooltip by each character     | `string[]`                    | `[]`                                  |
@@ -39,6 +39,6 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 #### Methods
 
 | Name    | Description  |
-|---------|--------------|
+| ------- | ------------ |
 | blur()  | remove focus |
 | focus() | get focus    |

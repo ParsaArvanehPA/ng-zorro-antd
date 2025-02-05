@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -16,7 +16,6 @@ import { NzMentionComponent, NzMentionModule } from 'ng-zorro-antd/mention';
 
 @Component({
   selector: 'nz-demo-mention-form',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzInputModule, NzMentionModule],
   template: `
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -67,6 +66,7 @@ export class NzDemoMentionFormComponent {
     return {};
   };
 
+  private fb = inject(FormBuilder);
   validateForm = this.fb.group({
     mention: ['@afc163 ', [Validators.required, this.mentionValidator]]
   });
@@ -74,8 +74,6 @@ export class NzDemoMentionFormComponent {
   get mention(): FormControl<string | null> {
     return this.validateForm.controls.mention;
   }
-
-  constructor(private fb: FormBuilder) {}
 
   submitForm(): void {
     this.mention.markAsDirty();

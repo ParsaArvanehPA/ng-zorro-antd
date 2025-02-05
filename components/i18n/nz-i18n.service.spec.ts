@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, inject, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed, inject as testingInject } from '@angular/core/testing';
 import { Subscription } from 'rxjs';
@@ -10,7 +15,6 @@ import en_US from './languages/en_US';
 import ka_GE from './languages/ka_GE';
 import zh_CN from './languages/zh_CN';
 import { NzI18nInterface } from './nz-i18n.interface';
-import { NzI18nModule } from './nz-i18n.module';
 import { NzI18nService } from './nz-i18n.service';
 
 describe('i18n service', () => {
@@ -21,10 +25,8 @@ describe('i18n service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NzI18nTestComponent],
-      imports: [NzI18nModule],
       providers: [provideNzI18n(DEFAULT_LAN)]
-    }).compileComponents();
+    });
   });
 
   describe('#setLocale', () => {

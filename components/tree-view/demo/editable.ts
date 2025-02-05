@@ -49,7 +49,6 @@ interface FlatNode {
 
 @Component({
   selector: 'nz-demo-tree-view-editable',
-  standalone: true,
   imports: [NzButtonModule, NzInputModule, NzIconModule, NzTreeViewModule],
   template: `
     <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource" [trackBy]="trackBy">
@@ -62,7 +61,7 @@ interface FlatNode {
           {{ node.name }}
         </nz-tree-node-option>
         <button nz-button nzType="text" nzSize="small" (click)="delete(node)">
-          <span nz-icon nzType="minus" nzTheme="outline"></span>
+          <nz-icon nzType="minus" nzTheme="outline" />
         </button>
       </nz-tree-node>
 
@@ -74,11 +73,11 @@ interface FlatNode {
 
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodeIndentLine>
         <nz-tree-node-toggle>
-          <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+          <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
         </nz-tree-node-toggle>
         {{ node.name }}
         <button nz-button nzType="text" nzSize="small" (click)="addNewNode(node)">
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          <nz-icon nzType="plus" nzTheme="outline" />
         </button>
       </nz-tree-node>
     </nz-tree-view>

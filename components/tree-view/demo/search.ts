@@ -74,14 +74,13 @@ function filterTreeData(data: TreeNode[], value: string): FilteredTreeResult {
 
 @Component({
   selector: 'nz-demo-tree-view-search',
-  standalone: true,
   imports: [FormsModule, NzInputModule, NzIconModule, NzTreeViewModule, NzNoAnimationDirective, NzHighlightPipe],
   template: `
     <nz-input-group [nzSuffix]="suffixIcon">
       <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" />
     </nz-input-group>
     <ng-template #suffixIcon>
-      <span nz-icon nzType="search"></span>
+      <nz-icon nzType="search" />
     </ng-template>
 
     <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource" nzNoAnimation>
@@ -92,7 +91,7 @@ function filterTreeData(data: TreeNode[], value: string): FilteredTreeResult {
 
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
         <nz-tree-node-toggle>
-          <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+          <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
         </nz-tree-node-toggle>
         <span [innerHTML]="node.name | nzHighlight: searchValue : 'i' : 'highlight'"></span>
       </nz-tree-node>

@@ -43,7 +43,6 @@ const defaultKeywords =
   'angular, ant design, ant, angular ant design, web, ui, components, ng, zorro, responsive, typescript, css, mobile web, open source, 组件库, 组件, UI 框架';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   imports: [
     CommonModule,
@@ -186,7 +185,7 @@ export class AppComponent implements OnInit {
     private meta: Meta,
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   setPage(url: string): void {
     const match = url.match(/\/(\w+)/);
@@ -238,7 +237,10 @@ export class AppComponent implements OnInit {
 
         this.appService.language$.next(this.language);
         this.nzI18nService.setLocale(this.language === 'en' ? en_US : zh_CN);
-        const currentDemoComponent = this.componentList.find(component => `/${component.path}` === this.router.url);
+        const currentDemoComponent = this.componentList.find(component =>
+          // url may contains hash
+          this.router.url.startsWith(`/${component.path}`)
+        );
 
         if (currentDemoComponent) {
           const path = currentDemoComponent.path.replace(/\/(en|zh)/, '');
@@ -346,7 +348,6 @@ export class AppComponent implements OnInit {
       name: 'keywords',
       content: keywords ? `${defaultKeywords}, ${keywords}` : defaultKeywords
     });
-
     this.meta.updateTag({
       name: 'description',
       content: descriptionContent
@@ -398,7 +399,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    this.nzConfigService.set('theme', { primaryColor: res.color.toHexString() })
+    this.nzConfigService.set('theme', { primaryColor: res.color.toHexString() });
   }
 
   // endregion

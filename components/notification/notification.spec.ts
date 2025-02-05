@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from '@angular/core/testing';
@@ -10,7 +15,6 @@ import { provideNzIconsTesting } from 'ng-zorro-antd/icon/testing';
 import { NzNotificationService } from './notification.service';
 
 @Component({
-  standalone: true,
   template: `<ng-template let-data="data">{{ 'test template content' }}{{ data }}</ng-template>`
 })
 export class NzTestNotificationComponent {
@@ -38,7 +42,7 @@ describe('NzNotification', () => {
         provideNoopAnimations(),
         NzNotificationService
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(NzTestNotificationComponent);
   }));

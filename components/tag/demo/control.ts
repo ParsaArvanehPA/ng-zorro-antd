@@ -8,7 +8,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'nz-demo-tag-control',
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzInputModule, NzTagModule, NzNoAnimationDirective],
   template: `
     @for (tag of tags; track tag) {
@@ -19,7 +18,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 
     @if (!inputVisible) {
       <nz-tag class="editable-tag" nzNoAnimation (click)="showInput()">
-        <span nz-icon nzType="plus"></span>
+        <nz-icon nzType="plus" />
         New Tag
       </nz-tag>
     } @else {

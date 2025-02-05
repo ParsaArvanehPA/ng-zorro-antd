@@ -3,26 +3,26 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
-  NgZone,
   OnInit,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
   booleanAttribute
 } from '@angular/core';
-import { Subject, fromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet';
 import { NzDestroyService } from 'ng-zorro-antd/core/services';
 import { NgClassType, NzSizeDSType } from 'ng-zorro-antd/core/types';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzProgressFormatter, NzProgressModule } from 'ng-zorro-antd/progress';
 
@@ -56,10 +56,10 @@ import { NzProgressFormatter, NzProgressModule } from 'ng-zorro-antd/progress';
             </div>
           }
           @if (nzStatus === 'finish' && !nzIcon) {
-            <span class="ant-steps-icon"><span nz-icon nzType="check"></span></span>
+            <span class="ant-steps-icon"><nz-icon nzType="check" /></span>
           }
           @if (nzStatus === 'error') {
-            <span class="ant-steps-icon"><span nz-icon nzType="close"></span></span>
+            <span class="ant-steps-icon"><nz-icon nzType="close" /></span>
           }
           @if ((nzStatus === 'process' || nzStatus === 'wait') && !nzIcon) {
             <span class="ant-steps-icon">
@@ -69,7 +69,7 @@ import { NzProgressFormatter, NzProgressModule } from 'ng-zorro-antd/progress';
           @if (nzIcon) {
             <span class="ant-steps-icon">
               <ng-container *nzStringTemplateOutlet="nzIcon; let icon">
-                <span nz-icon [nzType]="!oldAPIIcon && icon" [ngClass]="oldAPIIcon && icon"></span>
+                <nz-icon [nzType]="icon" />
               </ng-container>
             </span>
           }
@@ -117,8 +117,7 @@ import { NzProgressFormatter, NzProgressModule } from 'ng-zorro-antd/progress';
     '[class.ant-steps-next-error]': '(outStatus === "error") && (currentIndex === index + 1)'
   },
   providers: [NzDestroyService],
-  imports: [NzProgressModule, NzIconModule, NzOutletModule, NgClass, NgTemplateOutlet],
-  standalone: true
+  imports: [NzProgressModule, NzIconModule, NzOutletModule, NgTemplateOutlet]
 })
 export class NzStepComponent implements OnInit {
   @ViewChild('processDotTemplate', { static: false }) processDotTemplate?: TemplateRef<void>;
@@ -152,7 +151,6 @@ export class NzStepComponent implements OnInit {
   set nzIcon(value: NgClassType | TemplateRef<void> | undefined) {
     if (!(value instanceof TemplateRef)) {
       this.oldAPIIcon = typeof value === 'string' && value.indexOf('anticon') > -1;
-    } else {
     }
     this._icon = value;
   }
@@ -197,21 +195,18 @@ export class NzStepComponent implements OnInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
     private destroy$: NzDestroyService
   ) {}
 
   ngOnInit(): void {
-    this.ngZone.runOutsideAngular(() =>
-      fromEvent(this.itemContainer.nativeElement, 'click')
-        .pipe(
-          filter(() => this.clickable && this.currentIndex !== this.index && !this.nzDisabled),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => {
-          this.clickOutsideAngular$.next(this.index);
-        })
-    );
+    fromEventOutsideAngular(this.itemContainer.nativeElement, 'click')
+      .pipe(
+        filter(() => this.clickable && this.currentIndex !== this.index && !this.nzDisabled),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.clickOutsideAngular$.next(this.index);
+      });
   }
 
   enable(): void {

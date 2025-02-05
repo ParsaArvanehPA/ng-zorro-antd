@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormRecord, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -8,7 +8,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-dynamic-form-item',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzIconModule, NzInputModule],
   template: `
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -43,7 +42,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
       <nz-form-item>
         <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
           <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
-            <span nz-icon nzType="plus"></span>
+            <nz-icon nzType="plus" />
             Add field
           </button>
         </nz-form-control>
@@ -55,7 +54,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
       </nz-form-item>
     </form>
   `,
-
   styles: [
     `
       .dynamic-delete-button {
@@ -87,6 +85,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   ]
 })
 export class NzDemoFormDynamicFormItemComponent implements OnInit {
+  private fb = inject(NonNullableFormBuilder);
   validateForm: FormRecord<FormControl<string>> = this.fb.record({});
   listOfControl: Array<{ id: number; controlInstance: string }> = [];
 
@@ -129,8 +128,6 @@ export class NzDemoFormDynamicFormItemComponent implements OnInit {
       });
     }
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 
   ngOnInit(): void {
     this.addField();

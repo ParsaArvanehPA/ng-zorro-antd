@@ -11,6 +11,7 @@ import {
   Component,
   EventEmitter,
   forwardRef,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -23,8 +24,8 @@ import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/f
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { NzStringTemplateOutletDirective } from 'ng-zorro-antd/core/outlet';
 import { NzSafeAny, NzSizeLDSType } from 'ng-zorro-antd/core/types';
-import { isNonEmptyString, isTemplateRef } from 'ng-zorro-antd/core/util';
 import { NzPopoverDirective } from 'ng-zorro-antd/popover';
 
 import { NzColorBlockComponent } from './color-block.component';
@@ -37,13 +38,13 @@ import { NzColor, NzColorPickerFormatType, NzColorPickerTriggerType } from './ty
   selector: 'nz-color-picker',
   exportAs: 'NzColorPicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     NgAntdColorPickerModule,
     NzPopoverDirective,
     NzColorBlockComponent,
     NzColorFormatComponent,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    NzStringTemplateOutletDirective
   ],
   template: `
     <div
@@ -82,12 +83,7 @@ import { NzColor, NzColorPickerFormatType, NzColorPickerTriggerType } from './ty
       @if (nzTitle || nzAllowClear) {
         <div class="ant-color-picker-title">
           <div class="ant-color-picker-title-content">
-            @if (isNzTitleTemplateRef) {
-              <ng-container *ngTemplateOutlet="$any(nzTitle)" />
-            }
-            @if (isNzTitleNonEmptyString) {
-              <span [innerHTML]="nzTitle"></span>
-            }
+            <ng-template [nzStringTemplateOutlet]="nzTitle">{{ nzTitle }}</ng-template>
           </div>
           @if (nzAllowClear) {
             <div class="ant-color-picker-clear" (click)="clearColorHandle()"></div>
@@ -136,18 +132,14 @@ export class NzColorPickerComponent implements OnInit, OnChanges, ControlValueAc
   @Output() readonly nzOnClear = new EventEmitter<boolean>();
   @Output() readonly nzOnOpenChange = new EventEmitter<boolean>();
 
-  protected readonly isTemplateRef = isTemplateRef;
-  protected readonly isNonEmptyString = isNonEmptyString;
+  private formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
   private isNzDisableFirstChange: boolean = true;
   blockColor: string = '';
   clearColor: boolean = false;
   showText: string = defaultColor.toHexString();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   formControl = this.formBuilder.control('');
 
@@ -174,7 +166,7 @@ export class NzColorPickerComponent implements OnInit, OnChanges, ControlValueAc
   ngOnInit(): void {
     this.getBlockColor();
     this.formControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      if (!!value) {
+      if (value) {
         let color = value;
         if (this.nzFormat === 'hex') {
           color =
@@ -207,9 +199,9 @@ export class NzColorPickerComponent implements OnInit, OnChanges, ControlValueAc
   }
 
   getBlockColor(): void {
-    if (!!this.nzValue) {
+    if (this.nzValue) {
       this.blockColor = generateColor(this.nzValue).toRgbString();
-    } else if (!!this.nzDefaultValue) {
+    } else if (this.nzDefaultValue) {
       this.blockColor = generateColor(this.nzDefaultValue).toRgbString();
     } else {
       this.blockColor = defaultColor.toHexString();
@@ -234,13 +226,5 @@ export class NzColorPickerComponent implements OnInit, OnChanges, ControlValueAc
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  get isNzTitleNonEmptyString(): boolean {
-    return isNonEmptyString(this.nzTitle);
-  }
-
-  get isNzTitleTemplateRef(): boolean {
-    return isTemplateRef(this.nzTitle);
   }
 }

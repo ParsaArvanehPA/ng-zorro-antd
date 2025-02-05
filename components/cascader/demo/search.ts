@@ -85,7 +85,6 @@ const otherOptions = [
 
 @Component({
   selector: 'nz-demo-cascader-search',
-  standalone: true,
   imports: [FormsModule, NzCascaderModule],
   template: `
     <nz-cascader
@@ -101,7 +100,7 @@ const otherOptions = [
       .change-options {
         display: inline-block;
         font-size: 12px;
-        margin-top: 8px;
+        margin-left: 8px;
       }
     `
   ]

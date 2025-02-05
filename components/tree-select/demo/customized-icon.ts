@@ -6,7 +6,6 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
 @Component({
   selector: 'nz-demo-tree-select-customized-icon',
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzTreeSelectModule],
   template: `
     <nz-tree-select
@@ -26,7 +25,7 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
       <ng-template #nzTreeTemplate let-node>
         <span class="ant-tree-node-content-wrapper" [class.ant-tree-node-selected]="node.isSelected">
           <span>
-            <span nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></span>
+            <nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'" />
             {{ node.title }}
           </span>
         </span>

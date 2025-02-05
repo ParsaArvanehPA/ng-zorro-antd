@@ -3,7 +3,7 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,7 +12,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   Output,
   QueryList,
   TemplateRef,
@@ -21,11 +20,12 @@ import {
   ViewEncapsulation,
   booleanAttribute
 } from '@angular/core';
-import { Observable, fromEvent, merge } from 'rxjs';
+import { merge } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxComponent, NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
@@ -63,10 +63,7 @@ import { NzTransferSearchComponent } from './transfer-search.component';
         <span class="ant-transfer-list-header-title">{{ titleText }}</span>
       }
     </div>
-    <div
-      class="{{ showSearch ? 'ant-transfer-list-body ant-transfer-list-body-with-search' : 'ant-transfer-list-body' }}"
-      [ngClass]="{ 'ant-transfer__nodata': stat.shownCount === 0 }"
-    >
+    <div class="ant-transfer-list-body" [class.ant-transfer-list-body-with-search]="showSearch">
       @if (showSearch) {
         <div class="ant-transfer-list-body-search-wrapper">
           <span
@@ -103,7 +100,7 @@ import { NzTransferSearchComponent } from './transfer-search.component';
               <li
                 (click)="!oneWay ? onItemSelect(item) : null"
                 class="ant-transfer-list-content-item"
-                [ngClass]="{ 'ant-transfer-list-content-item-disabled': disabled || item.disabled }"
+                [class]="{ 'ant-transfer-list-content-item-disabled': disabled || item.disabled }"
               >
                 @if (!oneWay) {
                   <label
@@ -129,10 +126,10 @@ import { NzTransferSearchComponent } from './transfer-search.component';
                     </span>
                     <div
                       class="ant-transfer-list-content-item-remove"
-                      [ngClass]="{ 'ant-transfer-list-content-item-disabled': disabled || item.disabled }"
+                      [class]="{ 'ant-transfer-list-content-item-disabled': disabled || item.disabled }"
                       (click)="!(disabled || item.disabled) ? deleteItem(item) : null"
                     >
-                      <span nz-icon nzType="delete" nzTheme="outline"></span>
+                      <nz-icon nzType="delete" nzTheme="outline" />
                     </div>
                   } @else {
                     <ng-template
@@ -163,16 +160,7 @@ import { NzTransferSearchComponent } from './transfer-search.component';
     class: 'ant-transfer-list',
     '[class.ant-transfer-list-with-footer]': '!!footer'
   },
-  imports: [
-    NgClass,
-    NzCheckboxModule,
-    NgTemplateOutlet,
-    NzEmptyModule,
-    NzTransferSearchComponent,
-    NzIconModule,
-    NzButtonModule
-  ],
-  standalone: true
+  imports: [NzCheckboxModule, NgTemplateOutlet, NzEmptyModule, NzTransferSearchComponent, NzIconModule, NzButtonModule]
 })
 export class NzTransferListComponent implements AfterViewInit {
   // #region fields
@@ -199,9 +187,9 @@ export class NzTransferListComponent implements AfterViewInit {
 
   // events
   @Output() readonly handleSelectAll: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() readonly handleSelect: EventEmitter<TransferItem> = new EventEmitter();
-  @Output() readonly filterChange: EventEmitter<{ direction: TransferDirection; value: string }> = new EventEmitter();
-  @Output() readonly moveToLeft: EventEmitter<void> = new EventEmitter();
+  @Output() readonly handleSelect = new EventEmitter<TransferItem>();
+  @Output() readonly filterChange = new EventEmitter<{ direction: TransferDirection; value: string }>();
+  @Output() readonly moveToLeft = new EventEmitter<void>();
 
   @ViewChild('headerCheckbox', { read: NzCheckboxComponent }) headerCheckbox?: NzCheckboxComponent;
 
@@ -299,10 +287,7 @@ export class NzTransferListComponent implements AfterViewInit {
 
   // #endregion
 
-  constructor(
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   markForCheck(): void {
     this.updateCheckStatus();
@@ -315,15 +300,8 @@ export class NzTransferListComponent implements AfterViewInit {
         startWith(this.checkboxes),
         switchMap(() => {
           const checkboxes = this.checkboxes.toArray();
-          // Caretaker note: we explicitly should call `subscribe()` within the root zone.
-          // `runOutsideAngular(() => fromEvent(...))` will just create an observable within the root zone,
-          // but `addEventListener` is called when the `fromEvent` is subscribed.
-          return new Observable<MouseEvent>(subscriber =>
-            this.ngZone.runOutsideAngular(() =>
-              merge(...checkboxes.map(checkbox => fromEvent<MouseEvent>(checkbox.nativeElement, 'click'))).subscribe(
-                subscriber
-              )
-            )
+          return merge(
+            ...checkboxes.map(checkbox => fromEventOutsideAngular<MouseEvent>(checkbox.nativeElement, 'click'))
           );
         })
       )

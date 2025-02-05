@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ENTER, LEFT_ARROW, RIGHT_ARROW, SPACE } from '@angular/cdk/keycodes';
 import { ApplicationRef, Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
@@ -310,11 +315,10 @@ describe('switch', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzSwitchModule],
   template: `
-    <ng-template #checkedChildrenTemplate><span nz-icon nzType="check"></span></ng-template>
-    <ng-template #unCheckedChildrenTemplate><span nz-icon nzType="closs"></span></ng-template>
+    <ng-template #checkedChildrenTemplate><nz-icon nzType="check" /></ng-template>
+    <ng-template #unCheckedChildrenTemplate><nz-icon nzType="closs" /></ng-template>
     <nz-switch
       [(ngModel)]="value"
       (ngModelChange)="modelChange($event)"
@@ -342,11 +346,10 @@ export class NzTestSwitchBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzSwitchModule],
   template: `
-    <ng-template #checkedChildrenTemplate><span nz-icon nzType="check"></span></ng-template>
-    <ng-template #unCheckedChildrenTemplate><span nz-icon nzType="close"></span></ng-template>
+    <ng-template #checkedChildrenTemplate><nz-icon nzType="check" /></ng-template>
+    <ng-template #unCheckedChildrenTemplate><nz-icon nzType="close" /></ng-template>
     <nz-switch
       [nzCheckedChildren]="checkedChildrenTemplate"
       [nzUnCheckedChildren]="unCheckedChildrenTemplate"
@@ -356,7 +359,6 @@ export class NzTestSwitchBasicComponent {
 export class NzTestSwitchTemplateComponent {}
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzSwitchModule],
   template: `
     <form>
@@ -379,7 +381,6 @@ export class NzTestSwitchFormComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, FormsModule, NzSwitchModule],
   template: `
     <div [dir]="direction">

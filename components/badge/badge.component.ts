@@ -4,7 +4,6 @@
  */
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -43,14 +42,13 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'badge';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [zoomBadgeMotion],
-  standalone: true,
-  imports: [NgStyle, NzBadgeSupComponent, NzOutletModule],
+  imports: [NzBadgeSupComponent, NzOutletModule],
   template: `
     @if (nzStatus || nzColor) {
       <span
         class="ant-badge-status-dot ant-badge-status-{{ nzStatus || presetColor }}"
         [style.background]="!presetColor && nzColor"
-        [ngStyle]="nzStyle"
+        [style]="nzStyle"
       ></span>
       <span class="ant-badge-status-text">
         <ng-container *nzStringTemplateOutlet="nzText">{{ nzText }}</ng-container>
@@ -92,7 +90,7 @@ export class NzBadgeComponent implements OnChanges, OnDestroy, OnInit {
   @Input({ transform: booleanAttribute }) nzDot = false;
   @Input() @WithConfig() nzOverflowCount: number = 99;
   @Input() @WithConfig() nzColor?: string = undefined;
-  @Input() nzStyle: { [key: string]: string } | null = null;
+  @Input() nzStyle: Record<string, string> | null = null;
   @Input() nzText?: string | TemplateRef<void> | null = null;
   @Input() nzTitle?: string | null | undefined;
   @Input() nzStatus?: NzBadgeStatusType | string;

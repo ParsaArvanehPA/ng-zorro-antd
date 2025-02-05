@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -16,7 +21,7 @@ describe('collapse', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideNzIconsTesting(), provideNoopAnimations()]
-    }).compileComponents();
+    });
   }));
   describe('collapse basic', () => {
     let fixture: ComponentFixture<NzTestCollapseBasicComponent>;
@@ -189,7 +194,6 @@ describe('collapse', () => {
 
 @Component({
   selector: 'nz-test-basic-collapse',
-  standalone: true,
   imports: [NzCollapseModule],
   template: `
     <ng-template #headerTemplate>template</ng-template>
@@ -224,7 +228,6 @@ export class NzTestCollapseBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzCollapseModule],
   template: `
     <ng-template #headerTemplate>template</ng-template>
@@ -238,7 +241,6 @@ export class NzTestCollapseBasicComponent {
 export class NzTestCollapseTemplateComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzCollapseModule],
   template: `
     <nz-collapse>
@@ -252,7 +254,7 @@ export class NzTestCollapseTemplateComponent {}
         <p>Panel01</p>
       </nz-collapse-panel>
       <ng-template #expandedIcon>
-        <span nz-icon nzType="caret-right" class="ant-collapse-arrow"></span>
+        <nz-icon nzType="caret-right" class="ant-collapse-arrow" />
       </ng-template>
     </nz-collapse>
   `
@@ -260,7 +262,6 @@ export class NzTestCollapseTemplateComponent {}
 export class NzTestCollapseIconComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestCollapseBasicComponent],
   template: `
     <div [dir]="direction">

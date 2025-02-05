@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { registerLocaleData } from '@angular/common';
@@ -6,7 +11,7 @@ import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import differenceInDays from 'date-fns/differenceInDays';
 import isSameDay from 'date-fns/isSameDay';
@@ -43,12 +48,8 @@ describe('NzRangePickerComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, NoopAnimationsModule, NzDatePickerModule],
-      providers: [],
-      declarations: [NzTestRangePickerComponent, NzTestRangePickerStatusComponent]
+      providers: [provideNoopAnimations()]
     });
-
-    TestBed.compileComponents();
   }));
 
   beforeEach(() => {
@@ -922,9 +923,7 @@ describe('NzRangePickerComponent', () => {
       openPickerByClickTrigger();
       expect(queryFromOverlay('.ant-picker-ranges .ant-picker-preset')).toBeDefined();
 
-      let selector: HTMLElement;
-
-      selector = queryFromOverlay('.ant-picker-ranges li.ant-picker-preset:first-child');
+      const selector = queryFromOverlay('.ant-picker-ranges li.ant-picker-preset:first-child');
       dispatchMouseEvent(selector, 'mouseenter');
       fixture.detectChanges();
       expect(
@@ -1258,6 +1257,7 @@ describe('NzRangePickerComponent', () => {
 });
 
 @Component({
+  imports: [FormsModule, NzDatePickerModule],
   template: `
     <ng-template #tplDateRender let-current>
       <div [class.test-first-day]="current.getDate() === 1">{{ current.getDate() }}</div>
@@ -1364,7 +1364,8 @@ class NzTestRangePickerComponent {
 }
 
 @Component({
-  template: ` <nz-range-picker [nzStatus]="status"></nz-range-picker> `
+  imports: [NzDatePickerModule],
+  template: `<nz-range-picker [nzStatus]="status"></nz-range-picker>`
 })
 class NzTestRangePickerStatusComponent {
   status: NzStatus = 'error';

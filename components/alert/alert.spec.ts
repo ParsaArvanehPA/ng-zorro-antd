@@ -1,12 +1,17 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ChangeDetectorRef, Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Subject } from 'rxjs';
 
 import { NzConfigService } from 'ng-zorro-antd/core/config';
-import { NzIconTestModule } from 'ng-zorro-antd/icon/testing';
+import { provideNzIconsTesting } from 'ng-zorro-antd/icon/testing';
 
 import { NzAlertComponent } from './alert.component';
 import { NzAlertModule } from './alert.module';
@@ -14,15 +19,8 @@ import { NzAlertModule } from './alert.module';
 describe('alert', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BidiModule, NzAlertModule, NoopAnimationsModule, NzIconTestModule],
-      declarations: [
-        NzDemoTestBasicComponent,
-        NzDemoTestBannerComponent,
-        NzTestAlertRtlComponent,
-        NzTestAlertCustomIconComponent
-      ]
+      providers: [provideNoopAnimations(), provideNzIconsTesting()]
     });
-    TestBed.compileComponents();
   }));
 
   describe('basic alert', () => {
@@ -158,7 +156,7 @@ describe('alert', () => {
 });
 
 @Component({
-  // eslint-disable-next-line
+  imports: [NzAlertModule],
   selector: 'nz-test-basic-alert',
   template: `
     <ng-template #template>template</ng-template>
@@ -191,11 +189,13 @@ export class NzDemoTestBasicComponent {
 }
 
 @Component({
-  template: ` <nz-alert nzBanner></nz-alert> `
+  imports: [NzAlertModule],
+  template: `<nz-alert nzBanner></nz-alert>`
 })
 export class NzDemoTestBannerComponent {}
 
 @Component({
+  imports: [NzDemoTestBasicComponent, BidiModule],
   template: `
     <div [dir]="direction">
       <nz-test-basic-alert></nz-test-basic-alert>
@@ -208,6 +208,7 @@ export class NzTestAlertRtlComponent {
 }
 
 @Component({
+  imports: [NzAlertModule],
   template: `
     <nz-alert
       nzType="success"
@@ -238,16 +239,15 @@ describe('NzAlertComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
       providers: [
-        NzAlertComponent,
+        provideNoopAnimations(),
         { provide: NzConfigService, useValue: nzConfigServiceSpy },
         {
           provide: ChangeDetectorRef,
           useValue: jasmine.createSpyObj('ChangeDetectorRef', ['markForCheck', 'detectChanges'])
         }
       ]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(NzAlertComponent);
     component = fixture.componentInstance;

@@ -5,12 +5,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'nz-demo-dropdown-basic',
-  standalone: true,
   imports: [NzDropDownModule, NzIconModule],
   template: `
     <a nz-dropdown [nzDropdownMenu]="menu">
       Hover me
-      <span nz-icon nzType="down"></span>
+      <nz-icon nzType="down" />
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu nzSelectable>

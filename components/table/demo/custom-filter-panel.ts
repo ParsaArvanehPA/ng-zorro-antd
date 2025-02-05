@@ -14,7 +14,6 @@ interface DataItem {
 }
 @Component({
   selector: 'nz-demo-table-custom-filter-panel',
-  standalone: true,
   imports: [FormsModule, NzButtonModule, NzDropDownModule, NzIconModule, NzInputModule, NzTableModule],
   template: `
     <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed">
@@ -23,7 +22,7 @@ interface DataItem {
           <th nzCustomFilter>
             Name
             <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
-              <span nz-icon nzType="search"></span>
+              <nz-icon nzType="search" />
             </nz-filter-trigger>
           </th>
           <th>Age</th>

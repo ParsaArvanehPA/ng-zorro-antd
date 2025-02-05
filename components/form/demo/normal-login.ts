@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -8,7 +8,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-normal-login',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzCheckboxModule, NzFormModule, NzInputModule],
   template: `
     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
@@ -62,6 +61,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   ]
 })
 export class NzDemoFormNormalLoginComponent {
+  private fb = inject(NonNullableFormBuilder);
   validateForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
@@ -80,6 +80,4 @@ export class NzDemoFormNormalLoginComponent {
       });
     }
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 }

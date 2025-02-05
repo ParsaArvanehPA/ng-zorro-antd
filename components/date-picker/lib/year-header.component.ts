@@ -3,21 +3,18 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
+import { NzDateMode } from '../standard-types';
 import { AbstractPanelHeader } from './abstract-panel-header';
 import { PanelSelector } from './interface';
-import { NzDateMode } from '../standard-types';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'year-header', // eslint-disable-line @angular-eslint/component-selector
   exportAs: 'yearHeader',
-  templateUrl: './abstract-panel-header.html',
-  standalone: true,
-  imports: [NgForOf, NgIf, NgClass]
+  templateUrl: './abstract-panel-header.html'
 })
 export class YearHeaderComponent extends AbstractPanelHeader {
   override mode: NzDateMode = 'year';

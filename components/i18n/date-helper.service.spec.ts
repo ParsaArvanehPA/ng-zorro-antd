@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -7,7 +12,7 @@ import { NZ_DATE_CONFIG } from './date-config';
 import { DateHelperByDatePipe, DateHelperService } from './date-helper.service';
 import en_US from './languages/en_US';
 import { NzI18nModule } from './nz-i18n.module';
-import { NZ_DATE_LOCALE, NZ_I18N } from './nz-i18n.token';
+import { NZ_DATE_LOCALE, provideNzI18n } from './nz-i18n.token';
 
 describe('DateHelperService', () => {
   let injector: Injector;
@@ -17,7 +22,7 @@ describe('DateHelperService', () => {
     beforeEach(() => {
       injector = TestBed.configureTestingModule({
         imports: [NzI18nModule],
-        providers: [{ provide: NZ_I18N, useValue: en_US }]
+        providers: [provideNzI18n(en_US)]
       });
 
       dateHelper = injector.get(DateHelperService);

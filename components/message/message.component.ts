@@ -3,10 +3,8 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -39,22 +37,22 @@ import { NzMessageData } from './typings';
       (mouseleave)="onLeave()"
     >
       <div class="ant-message-notice-content">
-        <div class="ant-message-custom-content" [ngClass]="'ant-message-' + instance.type">
+        <div class="ant-message-custom-content" [class]="'ant-message-' + instance.type">
           @switch (instance.type) {
             @case ('success') {
-              <span nz-icon nzType="check-circle"></span>
+              <nz-icon nzType="check-circle" />
             }
             @case ('info') {
-              <span nz-icon nzType="info-circle"></span>
+              <nz-icon nzType="info-circle" />
             }
             @case ('warning') {
-              <span nz-icon nzType="exclamation-circle"></span>
+              <nz-icon nzType="exclamation-circle" />
             }
             @case ('error') {
-              <span nz-icon nzType="close-circle"></span>
+              <nz-icon nzType="close-circle" />
             }
             @case ('loading') {
-              <span nz-icon nzType="loading"></span>
+              <nz-icon nzType="loading" />
             }
           }
           <ng-container *nzStringTemplateOutlet="instance.content">
@@ -64,14 +62,10 @@ import { NzMessageData } from './typings';
       </div>
     </div>
   `,
-  imports: [NgClass, NzIconModule, NzOutletModule],
-  standalone: true
+  imports: [NzIconModule, NzOutletModule]
 })
 export class NzMessageComponent extends NzMNComponent implements OnInit, OnDestroy {
   @Input() override instance!: Required<NzMessageData>;
   @Output() override readonly destroyed = new EventEmitter<{ id: string; userAction: boolean }>();
-
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
-  }
+  index?: number;
 }

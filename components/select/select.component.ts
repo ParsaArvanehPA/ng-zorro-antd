@@ -13,7 +13,6 @@ import {
   ConnectionPositionPair
 } from '@angular/cdk/overlay';
 import { Platform, _getEventTarget } from '@angular/cdk/platform';
-import { NgStyle } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -41,12 +40,12 @@ import {
   signal
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BehaviorSubject, combineLatest, fromEvent, merge, of as observableOf } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, of as observableOf } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { slideMotion } from 'ng-zorro-antd/core/animation';
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
-import { NzFormNoStatusService, NzFormPatchModule, NzFormStatusService } from 'ng-zorro-antd/core/form';
+import { NzFormItemFeedbackIconComponent, NzFormNoStatusService, NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { NzNoAnimationDirective } from 'ng-zorro-antd/core/no-animation';
 import { NzOverlayModule, POSITION_MAP, POSITION_TYPE, getPlacementName } from 'ng-zorro-antd/core/overlay';
 import { cancelRequestAnimationFrame, reqAnimFrame } from 'ng-zorro-antd/core/polyfill';
@@ -60,7 +59,7 @@ import {
   OnChangeType,
   OnTouchedType
 } from 'ng-zorro-antd/core/types';
-import { getStatusClassNames, isNotNil } from 'ng-zorro-antd/core/util';
+import { fromEventOutsideAngular, getStatusClassNames, isNotNil } from 'ng-zorro-antd/core/util';
 import { NZ_SPACE_COMPACT_ITEM_TYPE, NZ_SPACE_COMPACT_SIZE, NzSpaceCompactItemDirective } from 'ng-zorro-antd/space';
 
 import { NzOptionContainerComponent } from './option-container.component';
@@ -167,14 +166,14 @@ export type NzSelectSizeType = NzSizeLDSType;
       (positionChange)="onPositionChange($event)"
     >
       <nz-option-container
-        [ngStyle]="nzDropdownStyle"
+        [style]="nzDropdownStyle"
         [itemSize]="nzOptionHeightPx"
         [maxItemLength]="nzOptionOverflowSize"
         [matchWidth]="nzDropdownMatchSelectWidth"
-        [class.ant-select-dropdown-placement-bottomLeft]="dropDownPosition === 'bottomLeft'"
-        [class.ant-select-dropdown-placement-topLeft]="dropDownPosition === 'topLeft'"
-        [class.ant-select-dropdown-placement-bottomRight]="dropDownPosition === 'bottomRight'"
-        [class.ant-select-dropdown-placement-topRight]="dropDownPosition === 'topRight'"
+        [class.ant-select-dropdown-placement-bottomLeft]="dropdownPosition === 'bottomLeft'"
+        [class.ant-select-dropdown-placement-topLeft]="dropdownPosition === 'topLeft'"
+        [class.ant-select-dropdown-placement-bottomRight]="dropdownPosition === 'bottomRight'"
+        [class.ant-select-dropdown-placement-topRight]="dropdownPosition === 'topRight'"
         [@slideMotion]="'enter'"
         [@.disabled]="!!noAnimation?.nzNoAnimation"
         [nzNoAnimation]="noAnimation?.nzNoAnimation"
@@ -215,14 +214,12 @@ export type NzSelectSizeType = NzSizeLDSType;
     CdkOverlayOrigin,
     NzNoAnimationDirective,
     NzSelectArrowComponent,
-    NzFormPatchModule,
+    NzFormItemFeedbackIconComponent,
     NzSelectClearComponent,
     CdkConnectedOverlay,
     NzOverlayModule,
-    NzOptionContainerComponent,
-    NgStyle
-  ],
-  standalone: true
+    NzOptionContainerComponent
+  ]
 })
 export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterContentInit, OnChanges, OnDestroy {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;
@@ -234,7 +231,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
   @Input() nzOptionOverflowSize = 8;
   @Input() nzDropdownClassName: string[] | string | null = null;
   @Input() nzDropdownMatchSelectWidth = true;
-  @Input() nzDropdownStyle: { [key: string]: string } | null = null;
+  @Input() nzDropdownStyle: Record<string, string> | null = null;
   @Input() nzNotFoundContent: string | TemplateRef<NzSafeAny> | undefined = undefined;
   @Input() nzPlaceHolder: string | TemplateRef<NzSafeAny> | null = null;
   @Input() nzPlacement: NzSelectPlacementType | null = null;
@@ -314,7 +311,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
 
   onChange: OnChangeType = () => {};
   onTouched: OnTouchedType = () => {};
-  dropDownPosition: NzSelectPlacementType = 'bottomLeft';
+  dropdownPosition: NzSelectPlacementType = 'bottomLeft';
   triggerWidth: number | null = null;
   listOfContainerItem: NzSelectItemInterface[] = [];
   listOfTopItem: NzSelectItemInterface[] = [];
@@ -569,7 +566,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
 
   onPositionChange(position: ConnectedOverlayPositionChange): void {
     const placement = getPlacementName(position);
-    this.dropDownPosition = placement as NzSelectPlacementType;
+    this.dropdownPosition = placement as NzSelectPlacementType;
   }
 
   updateCdkConnectedOverlayStatus(): void {
@@ -597,7 +594,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
   }
 
   noAnimation = inject(NzNoAnimationDirective, { host: true, optional: true });
-  private nzFormStatusService = inject(NzFormStatusService, { optional: true });
+  protected nzFormStatusService = inject(NzFormStatusService, { optional: true });
   private nzFormNoStatusService = inject(NzFormNoStatusService, { optional: true });
 
   constructor(
@@ -680,7 +677,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
     }
     if (nzPlacement) {
       const { currentValue } = nzPlacement;
-      this.dropDownPosition = currentValue as NzSelectPlacementType;
+      this.dropdownPosition = currentValue as NzSelectPlacementType;
       const listOfPlacement = ['bottomLeft', 'topLeft', 'bottomRight', 'topRight'];
       if (currentValue && listOfPlacement.includes(currentValue)) {
         this.positions = [POSITION_MAP[currentValue as POSITION_TYPE]];
@@ -758,17 +755,15 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
 
     this.dir = this.directionality.value;
 
-    this.ngZone.runOutsideAngular(() =>
-      fromEvent(this.host.nativeElement, 'click')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          if ((this.nzOpen && this.nzShowSearch) || this.nzDisabled) {
-            return;
-          }
+    fromEventOutsideAngular(this.host.nativeElement, 'click')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if ((this.nzOpen && this.nzShowSearch) || this.nzDisabled) {
+          return;
+        }
 
-          this.ngZone.run(() => this.setOpenState(!this.nzOpen));
-        })
-    );
+        this.ngZone.run(() => this.setOpenState(!this.nzOpen));
+      });
 
     // Caretaker note: we could've added this listener within the template `(overlayKeydown)="..."`,
     // but with this approach, it'll run change detection on each keyboard click, and also it'll run

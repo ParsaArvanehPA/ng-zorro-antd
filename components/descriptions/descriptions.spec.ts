@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -138,7 +143,6 @@ describe('nz descriptions', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzDescriptionsModule],
   selector: 'nz-test-descriptions',
   template: `
@@ -158,7 +162,6 @@ export class NzTestDescriptionsComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestDescriptionsComponent],
   template: `
     <div [dir]="direction">

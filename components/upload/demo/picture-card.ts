@@ -14,7 +14,6 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 
 @Component({
   selector: 'nz-demo-upload-picture-card',
-  standalone: true,
   imports: [NzIconModule, NzModalModule, NzUploadModule],
   template: `
     <nz-upload
@@ -25,7 +24,7 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
       [nzPreview]="handlePreview"
     >
       <div>
-        <span nz-icon nzType="plus"></span>
+        <nz-icon nzType="plus" />
         <div style="margin-top: 8px">Upload</div>
       </div>
     </nz-upload>

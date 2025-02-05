@@ -40,7 +40,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   template: `
     <ng-content></ng-content>
     @if (nzMode === 'closeable') {
-      <span nz-icon nzType="close" class="ant-tag-close-icon" tabindex="-1" (click)="closeTag($event)"></span>
+      <nz-icon nzType="close" class="ant-tag-close-icon" tabindex="-1" (click)="closeTag($event)" />
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,8 +55,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     '[class.ant-tag-borderless]': `!nzBordered`,
     '(click)': 'updateCheckedStatus()'
   },
-  imports: [NzIconModule],
-  standalone: true
+  imports: [NzIconModule]
 })
 export class NzTagComponent implements OnChanges, OnDestroy, OnInit {
   isPresetColor = false;

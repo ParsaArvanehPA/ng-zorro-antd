@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,11 +15,6 @@ describe('NgxColorBlockComponent', () => {
   let resultEl: DebugElement;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [NzxTestColorBlockComponent],
-      imports: [NgAntdColorBlockComponent]
-    }).compileComponents();
-
     fixture = TestBed.createComponent(NzxTestColorBlockComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
@@ -37,7 +37,8 @@ describe('NgxColorBlockComponent', () => {
 });
 
 @Component({
-  template: ` <ng-antd-color-block [color]="color" (nzOnClick)="clickHandle($event)"></ng-antd-color-block> `
+  imports: [NgAntdColorBlockComponent],
+  template: `<ng-antd-color-block [color]="color" (nzOnClick)="clickHandle($event)"></ng-antd-color-block>`
 })
 export class NzxTestColorBlockComponent {
   color = '#1677ff';

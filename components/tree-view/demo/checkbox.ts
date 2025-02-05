@@ -41,7 +41,6 @@ interface FlatNode {
 
 @Component({
   selector: 'nz-demo-tree-view-checkbox',
-  standalone: true,
   imports: [NzIconModule, NzTreeViewModule],
   template: `
     <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
@@ -59,7 +58,7 @@ interface FlatNode {
 
       <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
         <nz-tree-node-toggle>
-          <span nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></span>
+          <nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon />
         </nz-tree-node-toggle>
         <nz-tree-node-checkbox
           [nzDisabled]="node.disabled"

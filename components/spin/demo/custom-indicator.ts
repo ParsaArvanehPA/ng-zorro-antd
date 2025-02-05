@@ -5,15 +5,14 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'nz-demo-spin-custom-indicator',
-  standalone: true,
   imports: [NzIconModule, NzSpinModule],
   template: `
-    <ng-template #indicatorTemplate><span nz-icon nzType="loading"></span></ng-template>
+    <ng-template #indicatorTemplate><nz-icon nzType="loading" /></ng-template>
     <nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
   `,
   styles: [
     `
-      span[nz-icon] {
+      nz-icon {
         font-size: 24px;
       }
     `

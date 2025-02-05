@@ -19,13 +19,12 @@ import { NzBreadCrumbSeparatorComponent } from './breadcrumb-separator.component
   selector: 'nz-breadcrumb-item',
   exportAs: 'nzBreadcrumbItem',
   preserveWhitespaces: false,
-  standalone: true,
   imports: [NgTemplateOutlet, NzBreadCrumbSeparatorComponent, NzDropDownModule, NzIconModule, NzOutletModule],
   template: `
     @if (!!nzOverlay) {
       <span class="ant-breadcrumb-overlay-link" nz-dropdown [nzDropdownMenu]="nzOverlay">
         <ng-template [ngTemplateOutlet]="noMenuTpl"></ng-template>
-        <span nz-icon nzType="down"></span>
+        <nz-icon nzType="down" />
       </span>
     } @else {
       <ng-template [ngTemplateOutlet]="noMenuTpl" />

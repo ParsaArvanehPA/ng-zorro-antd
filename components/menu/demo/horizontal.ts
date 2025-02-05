@@ -5,16 +5,15 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'nz-demo-menu-horizontal',
-  standalone: true,
   imports: [NzIconModule, NzMenuModule],
   template: `
     <ul nz-menu nzMode="horizontal">
       <li nz-menu-item nzSelected>
-        <span nz-icon nzType="mail"></span>
+        <nz-icon nzType="mail" />
         Navigation One
       </li>
       <li nz-menu-item nzDisabled>
-        <span nz-icon nzType="appstore"></span>
+        <nz-icon nzType="appstore" />
         Navigation Two
       </li>
       <li nz-submenu nzTitle="Navigation Three - Submenu" nzIcon="setting">

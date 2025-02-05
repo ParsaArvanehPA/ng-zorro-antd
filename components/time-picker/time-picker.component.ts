@@ -4,9 +4,9 @@
  */
 
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { CdkOverlayOrigin, ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
+import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Platform, _getEventTarget } from '@angular/cdk/platform';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -37,7 +37,7 @@ import { isValid } from 'date-fns';
 
 import { slideMotion } from 'ng-zorro-antd/core/animation';
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
-import { NzFormNoStatusService, NzFormPatchModule, NzFormStatusService } from 'ng-zorro-antd/core/form';
+import { NzFormItemFeedbackIconComponent, NzFormNoStatusService, NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { warn } from 'ng-zorro-antd/core/logger';
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet';
 import { NzOverlayModule } from 'ng-zorro-antd/core/overlay';
@@ -77,7 +77,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'timePicker';
       />
       <span class="ant-picker-suffix">
         <ng-container *nzStringTemplateOutlet="nzSuffixIcon; let suffixIcon">
-          <span nz-icon [nzType]="suffixIcon"></span>
+          <nz-icon [nzType]="suffixIcon" />
         </ng-container>
         @if (hasFeedback && !!status) {
           <nz-form-item-feedback-icon [status]="status"></nz-form-item-feedback-icon>
@@ -111,7 +111,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'timePicker';
         <div class="ant-picker-panel-container">
           <div tabindex="-1" class="ant-picker-panel">
             <nz-time-picker-panel
-              [ngClass]="nzPopupClassName"
+              [class]="nzPopupClassName"
               [format]="nzFormat"
               [nzHourStep]="nzHourStep"
               [nzMinuteStep]="nzMinuteStep"
@@ -159,13 +159,11 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'timePicker';
     FormsModule,
     NzOutletModule,
     NzIconModule,
-    NzFormPatchModule,
+    NzFormItemFeedbackIconComponent,
     NzTimePickerPanelComponent,
-    NgClass,
     NzOverlayModule,
     OverlayModule
-  ],
-  standalone: true
+  ]
 })
 export class NzTimePickerComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
   readonly _nzModuleName: NzConfigKey = NZ_CONFIG_MODULE_NAME;
@@ -179,7 +177,6 @@ export class NzTimePickerComponent implements ControlValueAccessor, OnInit, Afte
   inputValue: string = '';
   value: Date | null = null;
   preValue: Date | null = null;
-  origin!: CdkOverlayOrigin;
   inputSize?: number;
   i18nPlaceHolder$: Observable<string | undefined> = of(undefined);
   overlayPositions: ConnectionPositionPair[] = [
@@ -218,6 +215,10 @@ export class NzTimePickerComponent implements ControlValueAccessor, OnInit, Afte
   statusCls: NgClassInterface = {};
   status: NzValidateStatus = '';
   hasFeedback: boolean = false;
+
+  get origin(): ElementRef {
+    return this.element;
+  }
 
   @ViewChild('inputElement', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
   @Input() nzId: string | null = null;
@@ -404,8 +405,6 @@ export class NzTimePickerComponent implements ControlValueAccessor, OnInit, Afte
       });
 
     this.inputSize = Math.max(8, this.nzFormat.length) + 2;
-    this.origin = new CdkOverlayOrigin(this.element);
-
     this.i18nPlaceHolder$ = this.i18n.localeChange.pipe(
       map((nzLocale: NzI18nInterface) => nzLocale.TimePicker.placeholder)
     );

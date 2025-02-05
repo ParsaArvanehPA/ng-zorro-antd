@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ApplicationRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -288,7 +293,6 @@ describe('anchor', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule],
   template: `
     <button
@@ -319,11 +323,10 @@ export class TestButtonComponent {
 
 // https://github.com/NG-ZORRO/ng-zorro-antd/issues/2191
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button nzType="primary" (click)="load()" [nzLoading]="loading">
-      <span nz-icon nzType="poweroff"></span>
+      <nz-icon nzType="poweroff" />
       {{ 'Click me!' }}
     </button>
   `
@@ -338,12 +341,11 @@ export class TestButtonBindingComponent {
 
 // https://github.com/NG-ZORRO/ng-zorro-antd/issues/3079
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button>
       {{ title }}
-      <span nz-icon nzType="caret-down"></span>
+      <nz-icon nzType="caret-down" />
     </button>
   `
 })
@@ -355,18 +357,16 @@ export class TestButtonWithIconComponent implements OnInit {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button>
-      <span nz-icon nzType="caret-down"></span>
+      <nz-icon nzType="caret-down" />
     </button>
   `
 })
 export class TestButtonIconOnlyComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button>
@@ -377,7 +377,6 @@ export class TestButtonIconOnlyComponent {}
 export class TestButtonIconOnlyWithAnyTagComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button>
@@ -389,7 +388,6 @@ export class TestButtonIconOnlyWithAnyTagComponent {}
 export class TestButtonIconOnlyWithCommentComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button>
@@ -401,7 +399,6 @@ export class TestButtonIconOnlyWithCommentComponent {}
 export class TestButtonIconOnlyWithTextComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule],
   template: `
     <button nz-button>
@@ -412,18 +409,16 @@ export class TestButtonIconOnlyWithTextComponent {}
 export class TestButtonIconOnlyWithoutIconComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzButtonModule],
   template: `
     <button nz-button nzLoading>
-      <span nz-icon nzType="caret-down"></span>
+      <nz-icon nzType="caret-down" />
     </button>
   `
 })
 export class TestButtonIconOnlyLoadingComponent {}
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzButtonModule],
   template: `
     <div [dir]="direction">
@@ -449,7 +444,6 @@ export class TestButtonRtlComponent extends TestButtonComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzButtonModule],
   template: '<a nz-button [disabled]="disabled">anchor</a>'
 })

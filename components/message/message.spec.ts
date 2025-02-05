@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
@@ -19,7 +24,7 @@ describe('message', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideNoopAnimations(), provideNzConfig({ message: { nzMaxStack: 2, nzTop: 24 } }), NzMessageService]
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(NzTestMessageComponent);
     testComponent = fixture.componentInstance;
@@ -190,8 +195,6 @@ describe('message', () => {
     overlayContainerElement = overlayContainer.getContainerElement();
     const messageContainerElement = overlayContainerElement.querySelector('.ant-message') as HTMLElement;
     expect(messageContainerElement.style.top).toBe('24px');
-
-    tick(50000);
   }));
 
   describe('RTL', () => {
@@ -207,7 +210,6 @@ describe('message', () => {
 });
 
 @Component({
-  standalone: true,
   template: `<ng-template #contentTemplate>Content in template</ng-template>`
 })
 export class NzTestMessageComponent {

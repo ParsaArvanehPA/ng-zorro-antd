@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, DebugElement, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
@@ -151,10 +156,9 @@ describe('spin', () => {
 
 @Component({
   selector: 'nz-test-basic-spin',
-  standalone: true,
   imports: [NzIconModule, NzSpinModule],
   template: `
-    <ng-template #indicatorTemplate><span nz-icon nzType="loading" style="font-size: 24px;"></span></ng-template>
+    <ng-template #indicatorTemplate><nz-icon nzType="loading" style="font-size: 24px;" /></ng-template>
     <nz-spin
       [nzTip]="tip"
       [nzSize]="size"
@@ -181,7 +185,6 @@ export class NzTestSpinBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestSpinBasicComponent],
   template: `
     <div [dir]="direction">

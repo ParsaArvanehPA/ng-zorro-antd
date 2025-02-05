@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
@@ -21,7 +26,7 @@ describe('Calendar', () => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       providers: [{ provide: NZ_DATE_CONFIG, useValue: { firstDayOfWeek: 0 } }]
-    }).compileComponents();
+    });
   }));
 
   describe('mode', () => {
@@ -416,7 +421,6 @@ describe('Calendar', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar></nz-calendar>
@@ -428,7 +432,6 @@ class NzTestCalendarModeComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzCalendarModule],
   template: `
     <nz-calendar></nz-calendar>
@@ -445,7 +448,6 @@ class NzTestCalendarValueComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar></nz-calendar>
@@ -458,7 +460,6 @@ class NzTestCalendarFullscreenComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar [nzDateCell]="tpl"></nz-calendar>
@@ -471,7 +472,6 @@ class NzTestCalendarFullscreenComponent {
 class NzTestCalendarDateCellComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar [nzDateFullCell]="tpl"></nz-calendar>
@@ -484,7 +484,6 @@ class NzTestCalendarDateCellComponent {}
 class NzTestCalendarDateFullCellComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar nzMode="year" [nzMonthCell]="tpl"></nz-calendar>
@@ -497,7 +496,6 @@ class NzTestCalendarDateFullCellComponent {}
 class NzTestCalendarMonthCellComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzCalendarModule],
   template: `
     <nz-calendar nzMode="year" [nzMonthFullCell]="tpl"></nz-calendar>
@@ -510,7 +508,6 @@ class NzTestCalendarMonthCellComponent {}
 class NzTestCalendarMonthFullCellComponent {}
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzCalendarModule],
   template: `
     <nz-calendar
@@ -529,7 +526,6 @@ class NzTestCalendarChangesComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzCalendarModule],
   template: `
     <div [dir]="direction">

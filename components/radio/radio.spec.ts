@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ApplicationRef, Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
@@ -414,7 +419,6 @@ describe('radio', () => {
 
 @Component({
   selector: 'nz-test-radio-single',
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `
     <label
@@ -437,7 +441,6 @@ export class NzTestRadioSingleComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `<label nz-radio-button>Radio</label>`
 })
@@ -445,7 +448,6 @@ export class NzTestRadioButtonComponent {}
 
 @Component({
   selector: 'nz-test-radio-group',
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `
     <nz-radio-group
@@ -471,7 +473,6 @@ export class NzTestRadioGroupComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzRadioModule],
   template: `
     <form>
@@ -494,7 +495,6 @@ export class NzTestRadioFormComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzRadioModule],
   template: `
     <form>
@@ -523,7 +523,6 @@ export class NzTestRadioGroupFormComponent {
 /** https://github.com/NG-ZORRO/ng-zorro-antd/issues/1543 **/
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `
     <nz-radio-group [(ngModel)]="value" [nzName]="name" [nzDisabled]="disabled" [nzSize]="size">
@@ -544,7 +543,6 @@ export class NzTestRadioGroupDisabledComponent {
 
 /** https://github.com/NG-ZORRO/ng-zorro-antd/issues/1735 **/
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzRadioModule],
   template: `
     <form>
@@ -562,7 +560,6 @@ export class NzTestRadioGroupDisabledFormComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `
     <nz-radio-group [(ngModel)]="value" nzButtonStyle="solid">
@@ -580,7 +577,6 @@ export class NzTestRadioGroupSolidComponent {
 
 /** https://github.com/NG-ZORRO/ng-zorro-antd/issues/7254 */
 @Component({
-  standalone: true,
   imports: [FormsModule, NzRadioModule],
   template: `
     <nz-radio-group>
@@ -614,7 +610,6 @@ export class NzTestRadioGroupLabelNgModelComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestRadioSingleComponent],
   template: `
     <div [dir]="direction">
@@ -628,7 +623,6 @@ export class NzTestRadioSingleRtlComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzRadioModule],
   template: `
     <div [dir]="direction">
@@ -642,7 +636,6 @@ export class NzTestRadioButtonRtlComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestRadioGroupComponent],
   template: `
     <div [dir]="direction">

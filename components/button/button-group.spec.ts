@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { Component, Input, ViewChild } from '@angular/core';
 import { fakeAsync, TestBed } from '@angular/core/testing';
@@ -37,7 +42,6 @@ describe('button-group', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzButtonGroupComponent],
   template: `<nz-button-group [nzSize]="nzSize"></nz-button-group>`
 })
@@ -46,7 +50,6 @@ export class TestButtonGroupComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzButtonGroupComponent],
   template: `
     <div [dir]="direction">

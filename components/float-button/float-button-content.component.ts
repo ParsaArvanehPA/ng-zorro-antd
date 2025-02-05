@@ -10,7 +10,6 @@ import { NzStringTemplateOutletDirective } from 'ng-zorro-antd/core/outlet';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
-  standalone: true,
   selector: 'nz-float-button-content',
   exportAs: 'nzFloatButtonContent',
   imports: [NzIconModule, NgTemplateOutlet, NzStringTemplateOutletDirective],
@@ -33,7 +32,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
           }
         } @else {
           <div class="ant-float-btn-icon">
-            <span nz-icon nzType="file-text" nzTheme="outline"></span>
+            <nz-icon nzType="file-text" nzTheme="outline" />
           </div>
         }
       </div>

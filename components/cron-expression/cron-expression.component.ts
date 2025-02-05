@@ -126,8 +126,7 @@ function labelsOfType(type: NzCronExpressionType): TimeType[] {
     NzCronExpressionLabelComponent,
     NzCronExpressionPreviewComponent,
     NgTemplateOutlet
-  ],
-  standalone: true
+  ]
 })
 export class NzCronExpressionComponent implements OnInit, OnChanges, ControlValueAccessor, AsyncValidator {
   @Input() nzSize: NzCronExpressionSize = 'default';
@@ -249,7 +248,7 @@ export class NzCronExpressionComponent implements OnInit, OnChanges, ControlValu
         this.interval.next().toDate(),
         this.interval.next().toDate()
       ];
-    } catch (err: NzSafeAny) {
+    } catch {
       return;
     }
   }
@@ -291,7 +290,7 @@ export class NzCronExpressionComponent implements OnInit, OnChanges, ControlValu
           cron.push(control.value[label]);
         });
         parseExpression(cron.join(' '));
-      } catch (err: unknown) {
+      } catch {
         return { error: true };
       }
     }

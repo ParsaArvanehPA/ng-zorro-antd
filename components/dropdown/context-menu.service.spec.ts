@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { OverlayContainer, ScrollDispatcher } from '@angular/cdk/overlay';
 import { ApplicationRef, Component, Provider, Type, ViewChild } from '@angular/core';
@@ -19,7 +24,7 @@ describe('context-menu', () => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       providers
-    }).compileComponents();
+    });
 
     inject([OverlayContainer], (oc: OverlayContainer) => {
       overlayContainer = oc;
@@ -152,7 +157,6 @@ describe('context-menu', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzDropDownModule, NzMenuModule],
   template: `
     <nz-dropdown-menu>

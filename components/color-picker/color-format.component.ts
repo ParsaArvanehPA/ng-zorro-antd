@@ -38,7 +38,6 @@ import { NzColorPickerFormatType, ValidFormKey } from './typings';
   selector: 'nz-color-format',
   exportAs: 'NzColorFormat',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [ReactiveFormsModule, NzSelectModule, NzInputDirective, NzInputGroupComponent, NzInputNumberComponent],
   template: `
     <div [formGroup]="validateForm" class="ant-color-picker-input-container">
@@ -162,7 +161,7 @@ export class NzColorFormatComponent implements OnChanges, OnInit, OnDestroy {
   }>;
 
   formatterPercent = (value: number): string => `${value} %`;
-  parserPercent = (value: string): string => value.replace(' %', '');
+  parserPercent = (value: string): number => +value.replace(' %', '');
 
   constructor(private formBuilder: FormBuilder) {
     this.validateForm = this.formBuilder.nonNullable.group({
@@ -207,7 +206,7 @@ export class NzColorFormatComponent implements OnChanges, OnInit, OnDestroy {
               a: Number(value.roundA) / 100
             }).toRgbString();
             break;
-          default:
+          default: {
             const hex = generateColor(value.hex as NzColorPickerFormatType);
             const hexColor = generateColor({
               r: hex.r,
@@ -217,6 +216,7 @@ export class NzColorFormatComponent implements OnChanges, OnInit, OnDestroy {
             });
             color = hexColor.getAlpha() < 1 ? hexColor.toHex8String() : hexColor.toHexString();
             break;
+          }
         }
         this.formatChange.emit({ color, format: value.isFormat || this.format || 'hex' });
       });

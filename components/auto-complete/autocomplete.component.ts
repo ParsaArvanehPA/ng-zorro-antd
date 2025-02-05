@@ -5,7 +5,7 @@
 
 import { AnimationEvent } from '@angular/animations';
 import { Direction, Directionality } from '@angular/cdk/bidi';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -65,8 +65,7 @@ function normalizeDataSource(value: AutocompleteDataSource): AutocompleteDataSou
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [NgClass, NgStyle, NgTemplateOutlet, NzAutocompleteOptionComponent, NzNoAnimationDirective],
+  imports: [NgTemplateOutlet, NzAutocompleteOptionComponent, NzNoAnimationDirective],
   template: `
     <ng-template>
       <div
@@ -74,8 +73,8 @@ function normalizeDataSource(value: AutocompleteDataSource): AutocompleteDataSou
         class="ant-select-dropdown ant-select-dropdown-placement-bottomLeft"
         [class.ant-select-dropdown-hidden]="!showPanel"
         [class.ant-select-dropdown-rtl]="dir === 'rtl'"
-        [ngClass]="nzOverlayClassName"
-        [ngStyle]="nzOverlayStyle"
+        [class]="nzOverlayClassName"
+        [style]="nzOverlayStyle"
         [nzNoAnimation]="noAnimation?.nzNoAnimation"
         @slideMotion
         (@slideMotion.done)="onAnimationEvent($event)"
@@ -104,7 +103,7 @@ function normalizeDataSource(value: AutocompleteDataSource): AutocompleteDataSou
 export class NzAutocompleteComponent implements AfterContentInit, AfterViewInit, OnDestroy, OnInit, OnChanges {
   @Input({ transform: numberAttributeWithZeroFallback }) nzWidth?: number;
   @Input() nzOverlayClassName = '';
-  @Input() nzOverlayStyle: { [key: string]: string } = {};
+  @Input() nzOverlayStyle: Record<string, string> = {};
   @Input({ transform: booleanAttribute }) nzDefaultActiveFirstOption = true;
   @Input({ transform: booleanAttribute }) nzBackfill = false;
   @Input() compareWith: CompareWith = (o1, o2) => o1 === o2;

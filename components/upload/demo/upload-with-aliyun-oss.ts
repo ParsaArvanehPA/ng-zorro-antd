@@ -6,7 +6,6 @@ import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd
 
 @Component({
   selector: 'nz-demo-upload-upload-with-aliyun-oss',
-  standalone: true,
   imports: [NzButtonModule, NzIconModule, NzUploadModule],
   template: `
     <nz-upload
@@ -19,7 +18,7 @@ import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd
     >
       Photos:
       <button nz-button>
-        <span nz-icon nzType="upload"></span>
+        <nz-icon nzType="upload" />
         Click to Upload
       </button>
     </nz-upload>

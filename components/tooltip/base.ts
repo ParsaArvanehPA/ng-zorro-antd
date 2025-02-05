@@ -42,20 +42,21 @@ export type NzTooltipTrigger = 'click' | 'focus' | 'hover' | null;
 
 @Directive()
 export abstract class NzTooltipBaseDirective implements AfterViewInit, OnChanges, OnDestroy {
-  arrowPointAtCenter?: boolean;
   config?: Required<PopoverConfig | PopConfirmConfig>;
-  directiveTitle?: NzTSType | null;
-  directiveContent?: NzTSType | null;
-  title?: NzTSType | null;
-  content?: NzTSType | null;
-  trigger?: NzTooltipTrigger;
-  placement?: string | string[];
-  origin?: ElementRef<HTMLElement>;
-  visible?: boolean;
-  mouseEnterDelay?: number;
-  mouseLeaveDelay?: number;
-  overlayClassName?: string;
-  overlayStyle?: NgStyleInterface;
+  abstract arrowPointAtCenter?: boolean;
+  abstract directiveTitle?: NzTSType | null;
+  abstract directiveContent?: NzTSType | null;
+  abstract title?: NzTSType | null;
+  abstract content?: NzTSType | null;
+  abstract trigger?: NzTooltipTrigger;
+  abstract placement?: string | string[];
+  abstract origin?: ElementRef<HTMLElement>;
+  abstract visible?: boolean;
+  abstract mouseEnterDelay?: number;
+  abstract mouseLeaveDelay?: number;
+  abstract overlayClassName?: string;
+  abstract overlayStyle?: NgStyleInterface;
+  abstract overlayClickable?: boolean;
   cdkConnectedOverlayPush?: boolean;
   visibleChange = new EventEmitter<boolean>();
 
@@ -97,6 +98,10 @@ export abstract class NzTooltipBaseDirective implements AfterViewInit, OnChanges
 
   protected get _overlayStyle(): NgStyleInterface | null {
     return this.overlayStyle || null;
+  }
+
+  protected get _overlayClickable(): boolean {
+    return this.overlayClickable ?? true;
   }
 
   private internalVisible = false;
@@ -272,6 +277,7 @@ export abstract class NzTooltipBaseDirective implements AfterViewInit, OnChanges
       mouseLeaveDelay: ['nzMouseLeaveDelay', () => this._mouseLeaveDelay],
       overlayClassName: ['nzOverlayClassName', () => this._overlayClassName],
       overlayStyle: ['nzOverlayStyle', () => this._overlayStyle],
+      overlayClickable: ['nzOverlayClickable', () => this._overlayClickable],
       arrowPointAtCenter: ['nzArrowPointAtCenter', () => this.arrowPointAtCenter],
       cdkConnectedOverlayPush: ['cdkConnectedOverlayPush', () => this.cdkConnectedOverlayPush],
       ...this.getProxyPropertyMap()
@@ -329,7 +335,6 @@ export abstract class NzTooltipBaseDirective implements AfterViewInit, OnChanges
 }
 
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class NzTooltipBaseComponent implements OnDestroy, OnInit {
   @ViewChild('overlay', { static: false }) overlay!: CdkConnectedOverlay;
 
@@ -342,6 +347,7 @@ export abstract class NzTooltipBaseComponent implements OnDestroy, OnInit {
   nzArrowPointAtCenter: boolean = false;
   nzOverlayClassName!: string;
   nzOverlayStyle: NgStyleInterface = {};
+  nzOverlayClickable: boolean = true;
   nzBackdrop = false;
   nzMouseEnterDelay?: number;
   nzMouseLeaveDelay?: number;
@@ -467,6 +473,9 @@ export abstract class NzTooltipBaseComponent implements OnDestroy, OnInit {
   }
 
   onClickOutside(event: MouseEvent): void {
+    if (!this.nzOverlayClickable) {
+      return;
+    }
     const target = _getEventTarget(event);
     if (!this.origin.nativeElement.contains(target) && this.nzTrigger !== null) {
       this.hide();
@@ -484,9 +493,19 @@ export abstract class NzTooltipBaseComponent implements OnDestroy, OnInit {
 
   protected updateStyles(): void {
     this._classMap = {
-      [this.nzOverlayClassName]: true,
+      ...this.transformClassListToMap(this.nzOverlayClassName),
       [`${this._prefix}-placement-${this.preferredPlacement}`]: true
     };
+  }
+
+  protected transformClassListToMap(klass: string): Record<string, boolean> {
+    const result: Record<string, boolean> = {};
+    /**
+     * @see https://github.com/angular/angular/blob/f6e97763cfab9fa2bea6e6b1303b64f1b499c3ef/packages/common/src/directives/ng_class.ts#L92
+     */
+    const classes = klass !== null ? klass.split(/\s+/) : [];
+    classes.forEach(className => (result[className] = true));
+    return result;
   }
 
   /**

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { LEFT_ARROW, RIGHT_ARROW } from '@angular/cdk/keycodes';
 import { Component, DebugElement, ViewChild } from '@angular/core';
@@ -305,7 +310,6 @@ describe('rate', () => {
 
 @Component({
   selector: 'nz-test-rate',
-  standalone: true,
   imports: [FormsModule, NzRateModule],
   template: `
     <nz-rate
@@ -339,7 +343,6 @@ export class NzTestRateBasicComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, NzRateModule],
   template: `
     <form>
@@ -362,7 +365,6 @@ export class NzTestRateFormComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestRateBasicComponent],
   template: `
     <div [dir]="direction">
@@ -377,7 +379,6 @@ export class NzTestRateRtlComponent {
 
 @Component({
   selector: 'nz-test-rate-character',
-  standalone: true,
   imports: [FormsModule, NzRateModule],
   template: `
     <nz-rate [(ngModel)]="value" [nzCharacter]="characterTpl"></nz-rate>

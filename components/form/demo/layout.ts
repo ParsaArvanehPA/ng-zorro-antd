@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -8,7 +8,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @Component({
   selector: 'nz-demo-form-layout',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzInputModule, NzRadioModule],
   template: `
     <form
@@ -55,6 +54,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
   ]
 })
 export class NzDemoFormLayoutComponent {
+  private fb = inject(NonNullableFormBuilder);
   validateForm = this.fb.group({
     formLayout: this.fb.control<NzFormLayoutType>('horizontal'),
     fieldA: this.fb.control('', [Validators.required]),
@@ -77,6 +77,4 @@ export class NzDemoFormLayoutComponent {
   get isHorizontal(): boolean {
     return this.validateForm.controls.formLayout.value === 'horizontal';
   }
-
-  constructor(private fb: NonNullableFormBuilder) {}
 }

@@ -20,13 +20,14 @@ import {
   afterNextRender,
   inject
 } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, fromEvent } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { first, switchMap, takeUntil } from 'rxjs/operators';
 
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet';
 import { NzDestroyService } from 'ng-zorro-antd/core/services';
 import { NzTransButtonModule } from 'ng-zorro-antd/core/trans-button';
 import { NzTSType } from 'ng-zorro-antd/core/types';
+import { fromEventOutsideAngular } from 'ng-zorro-antd/core/util';
 import { NzI18nService, NzTextI18nInterface } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAutosizeDirective, NzInputModule } from 'ng-zorro-antd/input';
@@ -39,7 +40,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     @if (editing) {
       <textarea #textarea nz-input nzAutosize (blur)="confirm()"></textarea>
       <button nz-trans-button class="ant-typography-edit-content-confirm" (click)="confirm()">
-        <span nz-icon nzType="enter"></span>
+        <nz-icon nzType="enter" />
       </button>
     } @else {
       <button
@@ -50,7 +51,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
         (click)="onClick()"
       >
         <ng-container *nzStringTemplateOutlet="icon; let icon">
-          <span nz-icon [nzType]="icon"></span>
+          <nz-icon [nzType]="icon" />
         </ng-container>
       </button>
     }
@@ -59,8 +60,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   encapsulation: ViewEncapsulation.None,
   preserveWhitespaces: false,
   providers: [NzDestroyService],
-  imports: [NzInputModule, NzTransButtonModule, NzIconModule, NzToolTipModule, NzOutletModule],
-  standalone: true
+  imports: [NzInputModule, NzTransButtonModule, NzIconModule, NzToolTipModule, NzOutletModule]
 })
 export class NzTextEditComponent implements OnInit {
   editing = false;
@@ -79,7 +79,7 @@ export class NzTextEditComponent implements OnInit {
 
   beforeText?: string;
   currentText?: string;
-  nativeElement = this.host.nativeElement;
+  nativeElement: HTMLElement = inject(ElementRef).nativeElement;
 
   // We could've saved the textarea within some private property (e.g. `_textarea`) and have a getter,
   // but having subject makes the code more reactive and cancellable (e.g. event listeners will be
@@ -90,7 +90,6 @@ export class NzTextEditComponent implements OnInit {
 
   constructor(
     private ngZone: NgZone,
-    private host: ElementRef<HTMLElement>,
     private cdr: ChangeDetectorRef,
     private i18n: NzI18nService,
     private destroy$: NzDestroyService
@@ -104,18 +103,7 @@ export class NzTextEditComponent implements OnInit {
 
     this.textarea$
       .pipe(
-        switchMap(textarea =>
-          // Caretaker note: we explicitly should call `subscribe()` within the root zone.
-          // `runOutsideAngular(() => fromEvent(...))` will just create an observable within the root zone,
-          // but `addEventListener` is called when the `fromEvent` is subscribed.
-          textarea
-            ? new Observable<KeyboardEvent>(subscriber =>
-                this.ngZone.runOutsideAngular(() =>
-                  fromEvent<KeyboardEvent>(textarea.nativeElement, 'keydown').subscribe(subscriber)
-                )
-              )
-            : EMPTY
-        ),
+        switchMap(textarea => fromEventOutsideAngular<KeyboardEvent>(textarea?.nativeElement, 'keydown')),
         takeUntil(this.destroy$)
       )
       .subscribe(event => {
@@ -139,15 +127,7 @@ export class NzTextEditComponent implements OnInit {
 
     this.textarea$
       .pipe(
-        switchMap(textarea =>
-          textarea
-            ? new Observable<KeyboardEvent>(subscriber =>
-                this.ngZone.runOutsideAngular(() =>
-                  fromEvent<KeyboardEvent>(textarea.nativeElement, 'input').subscribe(subscriber)
-                )
-              )
-            : EMPTY
-        ),
+        switchMap(textarea => fromEventOutsideAngular<KeyboardEvent>(textarea?.nativeElement, 'input')),
         takeUntil(this.destroy$)
       )
       .subscribe(event => {

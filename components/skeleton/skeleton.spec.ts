@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -213,7 +218,6 @@ describe('skeleton element', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzSkeletonModule],
   template: `
     <nz-skeleton
@@ -234,7 +238,6 @@ export class NzTestSkeletonComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzSkeletonModule],
   template: `
     @switch (useSuite) {

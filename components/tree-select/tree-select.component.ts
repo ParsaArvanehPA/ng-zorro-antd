@@ -13,7 +13,7 @@ import {
   ConnectionPositionPair
 } from '@angular/cdk/overlay';
 import { _getEventTarget } from '@angular/cdk/platform';
-import { NgClass, NgStyle, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -42,7 +42,7 @@ import { distinctUntilChanged, filter, map, startWith, takeUntil, tap, withLates
 
 import { slideMotion } from 'ng-zorro-antd/core/animation';
 import { NzConfigKey, NzConfigService, WithConfig } from 'ng-zorro-antd/core/config';
-import { NzFormNoStatusService, NzFormPatchModule, NzFormStatusService } from 'ng-zorro-antd/core/form';
+import { NzFormItemFeedbackIconComponent, NzFormNoStatusService, NzFormStatusService } from 'ng-zorro-antd/core/form';
 import { NzNoAnimationDirective } from 'ng-zorro-antd/core/no-animation';
 import { NzOverlayModule, POSITION_MAP } from 'ng-zorro-antd/core/overlay';
 import { reqAnimFrame } from 'ng-zorro-antd/core/polyfill';
@@ -84,19 +84,16 @@ const listOfPositions = [
 @Component({
   selector: 'nz-tree-select',
   exportAs: 'nzTreeSelect',
-  standalone: true,
   imports: [
     NzOverlayModule,
     CdkConnectedOverlay,
-    NgClass,
     NzNoAnimationDirective,
-    NgStyle,
     NzTreeModule,
     NzEmptyModule,
     CdkOverlayOrigin,
     SlicePipe,
     NzSelectModule,
-    NzFormPatchModule
+    NzFormItemFeedbackIconComponent
   ],
   animations: [slideMotion],
   template: `
@@ -116,14 +113,14 @@ const listOfPositions = [
     >
       <div
         [@slideMotion]="'enter'"
-        [ngClass]="dropdownClassName"
+        [class]="dropdownClassName"
         [@.disabled]="!!noAnimation?.nzNoAnimation"
         [nzNoAnimation]="noAnimation?.nzNoAnimation"
-        [class.ant-select-dropdown-placement-bottomLeft]="dropDownPosition === 'bottom'"
-        [class.ant-select-dropdown-placement-topLeft]="dropDownPosition === 'top'"
+        [class.ant-select-dropdown-placement-bottomLeft]="dropdownPosition === 'bottom'"
+        [class.ant-select-dropdown-placement-topLeft]="dropdownPosition === 'top'"
         [class.ant-tree-select-dropdown-rtl]="dir === 'rtl'"
         [dir]="dir"
-        [ngStyle]="nzDropdownStyle"
+        [style]="nzDropdownStyle"
       >
         <nz-tree
           #treeRef
@@ -155,7 +152,7 @@ const listOfPositions = [
           (nzClick)="nzTreeClick.emit($event)"
           (nzCheckedKeysChange)="updateSelectedNodes()"
           (nzSelectedKeysChange)="updateSelectedNodes()"
-          (nzCheckBoxChange)="nzTreeCheckBoxChange.emit($event)"
+          (nzCheckboxChange)="nzTreeCheckboxChange.emit($event)"
           (nzSearchValueChange)="setSearchValues($event)"
         ></nz-tree>
         @if (nzNodes.length === 0 || isNotFound) {
@@ -312,7 +309,7 @@ export class NzTreeSelectComponent extends NzTreeBase implements ControlValueAcc
   @Output() readonly nzRemoved = new EventEmitter<NzTreeNode>();
   @Output() readonly nzExpandChange = new EventEmitter<NzFormatEmitEvent>();
   @Output() readonly nzTreeClick = new EventEmitter<NzFormatEmitEvent>();
-  @Output() readonly nzTreeCheckBoxChange = new EventEmitter<NzFormatEmitEvent>();
+  @Output() readonly nzTreeCheckboxChange = new EventEmitter<NzFormatEmitEvent>();
 
   @ViewChild(NzSelectSearchComponent, { static: false }) nzSelectSearchComponent!: NzSelectSearchComponent;
   @ViewChild('treeRef', { static: false }) treeRef!: NzTreeComponent;
@@ -340,7 +337,7 @@ export class NzTreeSelectComponent extends NzTreeBase implements ControlValueAcc
   isNotFound = false;
   focused = false;
   inputValue = '';
-  dropDownPosition: 'top' | 'center' | 'bottom' = 'bottom';
+  dropdownPosition: 'top' | 'center' | 'bottom' = 'bottom';
   selectedNodes: NzTreeNode[] = [];
   expandedKeys: string[] = [];
   value: string[] = [];
@@ -569,7 +566,9 @@ export class NzTreeSelectComponent extends NzTreeBase implements ControlValueAcc
   }
 
   closeDropDown(): void {
-    this.onTouched();
+    if (!this.isDestroy) {
+      this.onTouched();
+    }
     this.nzOpen = false;
     this.inputValue = '';
     this.isNotFound = false;
@@ -641,7 +640,7 @@ export class NzTreeSelectComponent extends NzTreeBase implements ControlValueAcc
           return this.nzCheckable ? !node.isDisabled && !node.isDisableCheckbox : !node.isDisabled && node.isSelectable;
         })
       ),
-      this.nzCheckable ? this.nzTreeCheckBoxChange.asObservable() : observableOf(),
+      this.nzCheckable ? this.nzTreeCheckboxChange.asObservable() : observableOf(),
       this.nzCleared,
       this.nzRemoved
     )
@@ -703,7 +702,7 @@ export class NzTreeSelectComponent extends NzTreeBase implements ControlValueAcc
   }
 
   onPositionChange(position: ConnectedOverlayPositionChange): void {
-    this.dropDownPosition = position.connectionPair.originY;
+    this.dropdownPosition = position.connectionPair.originY;
   }
 
   onClearSelection(): void {

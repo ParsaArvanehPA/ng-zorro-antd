@@ -22,12 +22,11 @@ import { loadScript } from '../utils/load-script';
 declare const docsearch: any;
 
 @Component({
-  standalone: true,
   selector: 'div[app-searchbar]',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NzIconModule, NzInputModule],
   template: `
-    <span nz-icon nzType="search"></span>
+    <nz-icon nzType="search" />
     <input
       nz-input
       #searchInput
@@ -59,7 +58,7 @@ export class SearchbarComponent implements OnChanges {
     return window && window.location.href.indexOf('/version') === -1;
   }
 
-  constructor(private cdr: ChangeDetectorRef, private platform: Platform) {}
+  constructor(private cdr: ChangeDetectorRef, private platform: Platform) { }
 
   triggerFocus(focus: boolean): void {
     if (this.docsearch) {

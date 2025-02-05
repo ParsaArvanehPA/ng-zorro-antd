@@ -6,20 +6,19 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'nz-demo-select-custom-content',
-  standalone: true,
   imports: [FormsModule, NzIconModule, NzSelectModule],
   template: `
     <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select OS" [(ngModel)]="selectedValue">
       <nz-option nzCustomContent nzLabel="Windows" nzValue="windows">
-        <span nz-icon nzType="windows"></span>
+        <nz-icon nzType="windows" />
         Windows
       </nz-option>
       <nz-option nzCustomContent nzLabel="Mac" nzValue="mac">
-        <span nz-icon nzType="apple"></span>
+        <nz-icon nzType="apple" />
         Mac
       </nz-option>
       <nz-option nzCustomContent nzLabel="Android" nzValue="android">
-        <span nz-icon nzType="android"></span>
+        <nz-icon nzType="android" />
         Android
       </nz-option>
     </nz-select>

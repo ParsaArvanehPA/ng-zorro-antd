@@ -5,10 +5,10 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @Component({
   selector: 'nz-demo-select-status',
-  standalone: true,
   imports: [NzSelectModule, NzSpaceModule],
   template: `
     <nz-select nzStatus="error"></nz-select>
+    <br />
     <br />
     <nz-select nzStatus="warning"></nz-select>
   `,

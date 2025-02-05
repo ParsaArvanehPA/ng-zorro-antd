@@ -51,14 +51,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
     <ul class="ant-cron-expression-preview-icon">
       @if (isExpand) {
-        <li><span nz-icon nzType="down" nzTheme="outline" (click)="setExpand()"></span></li>
+        <li><nz-icon nzType="down" nzTheme="outline" (click)="setExpand()" /></li>
       } @else {
-        <li><span nz-icon nzType="up" nzTheme="outline" (click)="setExpand()"></span></li>
+        <li><nz-icon nzType="up" nzTheme="outline" (click)="setExpand()" /></li>
       }
     </ul>
   </div>`,
-  imports: [NgTemplateOutlet, DatePipe, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, DatePipe, NzIconModule]
 })
 export class NzCronExpressionPreviewComponent {
   @Input() TimeList: Date[] = [];

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, NgZone } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +27,7 @@ describe('autoresize', () => {
           }
         }
       ]
-    }).compileComponents();
+    });
   }));
 
   describe('single input', () => {
@@ -209,7 +214,6 @@ describe('autoresize', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzInputModule],
   template: `<textarea nz-input nzAutosize [ngModel]="value"></textarea>`
 })
@@ -218,7 +222,6 @@ export class NzTestInputWithTextAreaAutoSizeStringComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzInputModule],
   template: `<textarea nz-input ngModel [nzAutosize]="{ minRows, maxRows }"></textarea>`
 })
@@ -228,7 +231,6 @@ export class NzTestInputWithTextAreaAutoSizeObjectComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzInputModule],
   template: `<textarea nz-input [nzAutosize]="true" [ngModel]="value"></textarea>`
 })

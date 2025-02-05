@@ -33,13 +33,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     }
     <ng-template #defaultTrigger>
       @if (nzReverseArrow) {
-        <span nz-icon [nzType]="nzCollapsed ? 'left' : 'right'"></span>
+        <nz-icon [nzType]="nzCollapsed ? 'left' : 'right'" />
       } @else {
-        <span nz-icon [nzType]="nzCollapsed ? 'right' : 'left'"></span>
+        <nz-icon [nzType]="nzCollapsed ? 'right' : 'left'" />
       }
     </ng-template>
     <ng-template #defaultZeroTrigger>
-      <span nz-icon nzType="bars"></span>
+      <nz-icon nzType="bars" />
     </ng-template>
   `,
   host: {
@@ -49,8 +49,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     '[class.ant-layout-sider-zero-width-trigger-right]': 'isZeroTrigger && nzReverseArrow',
     '[class.ant-layout-sider-zero-width-trigger-left]': 'isZeroTrigger && !nzReverseArrow'
   },
-  imports: [NgTemplateOutlet, NzIconModule],
-  standalone: true
+  imports: [NgTemplateOutlet, NzIconModule]
 })
 export class NzSiderTriggerComponent implements OnChanges, OnInit {
   @Input() nzCollapsed = false;

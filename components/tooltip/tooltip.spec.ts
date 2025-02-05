@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
@@ -203,7 +208,7 @@ describe('nz-tooltip', () => {
       expect(overlayContainerElement.querySelector<HTMLElement>('.ant-tooltip')!.style.color).toBe('rgb(0, 0, 0)');
     }));
 
-    it('should change overlayClass when the overlayClass is changed', fakeAsync(() => {
+    it('should change overlayClass when the nzTooltipOverlayClassName is changed', fakeAsync(() => {
       const triggerElement = component.titleString.nativeElement;
 
       dispatchMouseEvent(triggerElement, 'mouseenter');
@@ -212,7 +217,19 @@ describe('nz-tooltip', () => {
       component.class = 'testClass2';
       fixture.detectChanges();
 
+      expect(overlayContainerElement.querySelector<HTMLElement>('.testClass')).toBeNull();
       expect(overlayContainerElement.querySelector<HTMLElement>('.testClass2')).not.toBeNull();
+    }));
+
+    it('should nzTooltipOverlayClassName support classes listed in the string (space delimited)', fakeAsync(() => {
+      const triggerElement = component.titleString.nativeElement;
+      component.class = 'testClass1 testClass2';
+      fixture.detectChanges();
+
+      dispatchMouseEvent(triggerElement, 'mouseenter');
+      waitingForTooltipToggling();
+
+      expect(overlayContainerElement.querySelector<HTMLElement>('.testClass1.testClass2')).not.toBeNull();
     }));
 
     it('should hide when the title is changed to null', fakeAsync(() => {
@@ -359,7 +376,6 @@ function getOverlayElementForTooltip(tooltip: NzTooltipBaseDirective): HTMLEleme
 }
 
 @Component({
-  standalone: true,
   imports: [NzToolTipModule],
   template: `
     <a
@@ -443,7 +459,6 @@ export class NzTooltipTestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzElementPatchModule, NzToolTipModule],
   template: `
     <button nz-element #button="nzElement">Action</button>
@@ -455,7 +470,6 @@ export class NzTestTooltipTargetComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzToolTipModule],
   template: `
     <a

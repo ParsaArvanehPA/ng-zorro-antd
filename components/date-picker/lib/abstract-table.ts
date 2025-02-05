@@ -23,7 +23,6 @@ import { NzCalendarI18nInterface } from 'ng-zorro-antd/i18n';
 import { DateBodyRow, DateCell } from './interface';
 
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class AbstractTable implements OnInit, OnChanges {
   headRow: DateCell[] = [];
   bodyRows: DateBodyRow[] = [];
@@ -52,13 +51,11 @@ export abstract class AbstractTable implements OnInit, OnChanges {
     }
   }
 
-
-
   hasRangeValue(): boolean {
     return this.selectedValue?.length > 0 || this.hoverValue?.length > 0;
   }
 
-  getClassMap(cell: DateCell): { [key: string]: boolean } {
+  getClassMap(cell: DateCell): Record<string, boolean> {
     return {
       [`ant-picker-cell`]: true,
       [`ant-picker-cell-in-view`]: true,

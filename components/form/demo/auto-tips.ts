@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   NonNullableFormBuilder,
@@ -17,7 +17,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'nz-demo-form-auto-tips',
-  standalone: true,
   imports: [ReactiveFormsModule, NzButtonModule, NzFormModule, NzInputModule],
   template: `
     <form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm" (ngSubmit)="submitForm()">
@@ -75,6 +74,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   ]
 })
 export class NzDemoFormAutoTipsComponent implements OnInit, OnDestroy {
+  private fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
   validateForm = this.fb.group({
     username: this.fb.control(
@@ -101,8 +101,6 @@ export class NzDemoFormAutoTipsComponent implements OnInit, OnDestroy {
       email: '邮箱格式不正确/The input is not valid email'
     }
   };
-
-  constructor(private fb: NonNullableFormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm.controls.password.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {

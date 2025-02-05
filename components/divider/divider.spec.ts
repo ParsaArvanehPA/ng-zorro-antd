@@ -1,9 +1,14 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzIconTestModule } from 'ng-zorro-antd/icon/testing';
+import { provideNzIconsTesting } from 'ng-zorro-antd/icon/testing';
 
 import { NzDividerComponent } from './divider.component';
 import { NzDividerModule } from './divider.module';
@@ -15,8 +20,8 @@ describe('divider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NzIconTestModule]
-    }).compileComponents();
+      providers: [provideNzIconsTesting()]
+    });
     fixture = TestBed.createComponent(TestDividerComponent);
     context = fixture.componentInstance;
     dl = fixture.debugElement;
@@ -56,10 +61,9 @@ describe('divider', () => {
     }
 
     it('should be custom template', () => {
-      let fixtureTemplate: ComponentFixture<TestDividerTextTemplateComponent>;
-      fixtureTemplate = TestBed.createComponent(TestDividerTextTemplateComponent);
-      fixtureTemplate.detectChanges();
-      expect(fixtureTemplate.debugElement.query(By.css('.anticon-plus')) != null).toBe(true);
+      const fixture = TestBed.createComponent(TestDividerTextTemplateComponent);
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('.anticon-plus')) != null).toBe(true);
     });
   });
 
@@ -89,7 +93,6 @@ describe('divider', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [NzDividerModule],
   template: `
     <nz-divider
@@ -110,12 +113,11 @@ class TestDividerComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzDividerModule, NzIconModule],
   template: `
     <nz-divider nzDashed [nzText]="text">
       <ng-template #text>
-        <span nz-icon nzType="plus"></span>
+        <nz-icon nzType="plus" />
         Add
       </ng-template>
     </nz-divider>

@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCascaderModule } from 'ng-zorro-antd/cascader';
+import { NzCascaderModule, NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -16,7 +16,6 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 
 @Component({
   selector: 'nz-demo-space-compact',
-  standalone: true,
   imports: [
     NzSpaceModule,
     NzButtonModule,
@@ -51,7 +50,7 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
     <nz-space-compact nzBlock>
       <input nz-input value="git@github.com:NG-ZORRO/ng-zorro-antd.git" [style.width]="'calc(100% - 200px)'" />
       <button nz-button nz-tooltip nzTooltipTitle="copy git url">
-        <span nz-icon nzType="copy"></span>
+        <nz-icon nzType="copy" />
       </button>
     </nz-space-compact>
     <br />
@@ -67,19 +66,25 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
       <nz-input-group nzSearch [nzAddOnAfter]="addonTmpl" [style.width.%]="30">
         <input nz-input value="0571" />
         <ng-template #addonTmpl>
-          <button nz-button><span nz-icon nzType="search"></span></button>
+          <button nz-button class="ant-input-search-button">
+            <nz-icon nzType="search" />
+          </button>
         </ng-template>
       </nz-input-group>
       <nz-input-group nzSearch [nzAddOnAfter]="addonTmpl" [style.width.%]="50">
         <input nz-input value="26888888" />
         <ng-template #addonTmpl>
-          <button nz-button><span nz-icon nzType="search"></span></button>
+          <button nz-button class="ant-input-search-button">
+            <nz-icon nzType="search" />
+          </button>
         </ng-template>
       </nz-input-group>
       <nz-input-group nzSearch [nzAddOnAfter]="addonTmpl" [style.width.%]="20">
         <input nz-input value="+1" />
         <ng-template #addonTmpl>
-          <button nz-button><span nz-icon nzType="search"></span></button>
+          <button nz-button class="ant-input-search-button">
+            <nz-icon nzType="search" />
+          </button>
         </ng-template>
       </nz-input-group>
     </nz-space-compact>
@@ -174,6 +179,18 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
       ></nz-tree-select>
       <button nz-button nzType="primary">Submit</button>
     </nz-space-compact>
+    <br />
+    <nz-space-compact nzBlock>
+      <nz-input-group nzAddOnBefore="Http://" nzAddOnAfter=".com" [style.width.%]="50">
+        <input nz-input placeholder="input here" />
+      </nz-input-group>
+      <nz-input-number>
+        <span nzInputPrefix>$</span>
+      </nz-input-number>
+      <nz-input-number>
+        <span nzInputAddonBefore>$</span>
+      </nz-input-number>
+    </nz-space-compact>
   `,
   styles: [
     `
@@ -202,7 +219,7 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
   ]
 })
 export class NzDemoSpaceCompactComponent {
-  cascaderOptions = [
+  cascaderOptions: NzCascaderOption[] = [
     {
       value: 'zhejiang',
       label: 'Zhejiang',
@@ -213,7 +230,8 @@ export class NzDemoSpaceCompactComponent {
           children: [
             {
               value: 'xihu',
-              label: 'West Lake'
+              label: 'West Lake',
+              isLeaf: true
             }
           ]
         }
@@ -229,7 +247,8 @@ export class NzDemoSpaceCompactComponent {
           children: [
             {
               value: 'zhonghuamen',
-              label: 'Zhong Hua Men'
+              label: 'Zhong Hua Men',
+              isLeaf: true
             }
           ]
         }

@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { ApplicationRef, Component, DebugElement, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
@@ -574,7 +579,6 @@ interface AbstractTestTransferComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTransferModule],
   selector: 'nz-test-transfer',
   template: `
@@ -664,12 +668,11 @@ class TestTransferComponent implements OnInit, AbstractTestTransferComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzTransferModule],
   template: `
     <nz-transfer #comp nzShowSearch [nzRender]="render" [nzDataSource]="nzDataSource">
       <ng-template #render let-item>
-        <span nz-icon nzType="{{ item.icon }}"></span>
+        <nz-icon nzType="{{ item.icon }}" />
         {{ item.title }}
       </ng-template>
     </nz-transfer>
@@ -708,7 +711,6 @@ class TestTransferCustomRenderComponent implements OnInit, AbstractTestTransferC
 
 // https://github.com/NG-ZORRO/ng-zorro-antd/issues/996
 @Component({
-  standalone: true,
   imports: [NzTransferModule],
   template: `<nz-transfer [nzDataSource]="list"></nz-transfer>`
 })
@@ -730,7 +732,6 @@ class Test996Component implements OnInit {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, TestTransferComponent],
   template: `
     <div [dir]="direction">
@@ -744,7 +745,6 @@ export class NzTestTransferRtlComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzTransferModule],
   template: `<nz-transfer [nzDataSource]="[]" [nzStatus]="status"></nz-transfer>`
 })
@@ -753,7 +753,6 @@ export class NzTestTransferStatusComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzFormModule, NzTransferModule],
   template: `
     <form nz-form>

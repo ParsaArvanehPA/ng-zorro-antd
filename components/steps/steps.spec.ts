@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Dir, Direction } from '@angular/cdk/bidi';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -26,7 +31,7 @@ describe('steps', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideNzIconsTesting()]
-    }).compileComponents();
+    });
   }));
   describe('outer steps', () => {
     let fixture: ComponentFixture<NzTestOuterStepsComponent>;
@@ -509,7 +514,6 @@ describe('steps', () => {
 
 @Component({
   selector: 'nz-test-outer-steps',
-  standalone: true,
   imports: [NgTemplateOutlet, NzStepsModule],
   template: `
     <nz-steps
@@ -546,7 +550,6 @@ export class NzTestOuterStepsComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzStepsModule],
   template: `
     <nz-steps [nzCurrent]="current">
@@ -556,7 +559,7 @@ export class NzTestOuterStepsComponent {
     </nz-steps>
     <ng-template #titleTemplate>titleTemplate</ng-template>
     <ng-template #descriptionTemplate>descriptionTemplate</ng-template>
-    <ng-template #iconTemplate><span nz-icon nzType="smile-o"></span></ng-template>
+    <ng-template #iconTemplate><nz-icon nzType="smile-o" /></ng-template>
   `
 })
 export class NzTestInnerStepStringComponent {
@@ -571,7 +574,6 @@ export class NzTestInnerStepStringComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzIconModule, NzStepsModule],
   template: `
     <nz-steps [nzCurrent]="1">
@@ -581,13 +583,12 @@ export class NzTestInnerStepStringComponent {
     </nz-steps>
     <ng-template #titleTemplate>titleTemplate</ng-template>
     <ng-template #descriptionTemplate>descriptionTemplate</ng-template>
-    <ng-template #iconTemplate><span nz-icon nzType="smile-o"></span></ng-template>
+    <ng-template #iconTemplate><nz-icon nzType="smile-o" /></ng-template>
   `
 })
 export class NzTestInnerStepTemplateComponent {}
 
 @Component({
-  standalone: true,
   imports: [NzStepsModule],
   template: `
     <nz-steps>
@@ -605,7 +606,6 @@ export class NzTestStepForComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzStepsModule],
   template: `
     <nz-steps [nzCurrent]="1">
@@ -626,7 +626,6 @@ export class NzTestStepAsyncComponent implements OnInit {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzTestOuterStepsComponent],
   template: `<nz-test-outer-steps [dir]="direction"></nz-test-outer-steps>`
 })

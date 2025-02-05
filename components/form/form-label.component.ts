@@ -47,7 +47,7 @@ function toTooltipIcon(value: string | NzFormTooltipIcon): Required<NzFormToolti
       @if (nzTooltipTitle) {
         <span class="ant-form-item-tooltip" nz-tooltip [nzTooltipTitle]="nzTooltipTitle">
           <ng-container *nzStringTemplateOutlet="tooltipIcon.type; let tooltipIconType">
-            <span nz-icon [nzType]="tooltipIconType" [nzTheme]="tooltipIcon.theme"></span>
+            <nz-icon [nzType]="tooltipIconType" [nzTheme]="tooltipIcon.theme" />
           </ng-container>
         </span>
       }
@@ -58,8 +58,7 @@ function toTooltipIcon(value: string | NzFormTooltipIcon): Required<NzFormToolti
     '[class.ant-form-item-label-left]': `nzLabelAlign === 'left'`,
     '[class.ant-form-item-label-wrap]': `nzLabelWrap`
   },
-  imports: [NzOutletModule, NzTooltipDirective, NzIconModule],
-  standalone: true
+  imports: [NzOutletModule, NzTooltipDirective, NzIconModule]
 })
 export class NzFormLabelComponent implements OnDestroy {
   @Input() nzFor?: string;

@@ -3,8 +3,8 @@
  * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
  */
 
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, EventEmitter, Input, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
 
 import { notificationMotion } from 'ng-zorro-antd/core/animation';
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet';
@@ -22,8 +22,8 @@ import { NzNotificationData } from './typings';
   template: `
     <div
       class="ant-notification-notice ant-notification-notice-closable"
-      [ngStyle]="instance.options?.nzStyle || null"
-      [ngClass]="instance.options?.nzClass || ''"
+      [style]="instance.options?.nzStyle || null"
+      [class]="instance.options?.nzClass || ''"
       [@notificationMotion]="state"
       (@notificationMotion.done)="animationStateChanged.next($event)"
       (click)="onClick($event)"
@@ -92,28 +92,22 @@ import { NzNotificationData } from './typings';
         <span class="ant-notification-notice-close-x">
           @if (instance.options?.nzCloseIcon) {
             <ng-container *nzStringTemplateOutlet="instance.options?.nzCloseIcon; let closeIcon">
-              <span nz-icon [nzType]="closeIcon"></span>
+              <nz-icon [nzType]="closeIcon" />
             </ng-container>
           } @else {
-            <span nz-icon nzType="close" class="ant-notification-close-icon"></span>
+            <nz-icon nzType="close" class="ant-notification-close-icon" />
           }
         </span>
       </a>
     </div>
   `,
-  imports: [NgStyle, NgClass, NzIconModule, NzOutletModule, NgTemplateOutlet],
-  standalone: true
+  imports: [NzIconModule, NzOutletModule, NgTemplateOutlet]
 })
 export class NzNotificationComponent extends NzMNComponent implements OnDestroy {
-  @Input() override instance!: Required<NzNotificationData>;
-  @Input() override index!: number;
+  @Input() instance!: Required<NzNotificationData>;
+  @Input() index!: number;
   @Input() placement?: string;
-
-  @Output() override readonly destroyed = new EventEmitter<{ id: string; userAction: boolean }>();
-
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
-  }
+  @Output() readonly destroyed = new EventEmitter<{ id: string; userAction: boolean }>();
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();

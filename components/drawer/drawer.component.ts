@@ -8,7 +8,7 @@ import { Direction, Directionality } from '@angular/cdk/bidi';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { CdkScrollable, Overlay, OverlayConfig, OverlayKeyboardDispatcher, OverlayRef } from '@angular/cdk/overlay';
 import { CdkPortalOutlet, ComponentPortal, PortalModule, TemplatePortal } from '@angular/cdk/portal';
-import { DOCUMENT, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -79,7 +79,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'drawer';
         [style.zIndex]="nzZIndex"
       >
         @if (nzMask && isOpen) {
-          <div @drawerMaskMotion class="ant-drawer-mask" (click)="maskClick()" [ngStyle]="nzMaskStyle"></div>
+          <div @drawerMaskMotion class="ant-drawer-mask" (click)="maskClick()" [style]="nzMaskStyle"></div>
         }
         <div
           class="ant-drawer-content-wrapper {{ nzWrapClassName }}"
@@ -96,29 +96,25 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'drawer';
                     @if (nzClosable) {
                       <button (click)="closeClick()" aria-label="Close" class="ant-drawer-close">
                         <ng-container *nzStringTemplateOutlet="nzCloseIcon; let closeIcon">
-                          <span nz-icon [nzType]="closeIcon"></span>
+                          <nz-icon [nzType]="closeIcon" />
                         </ng-container>
                       </button>
                     }
 
                     @if (nzTitle) {
                       <div class="ant-drawer-title">
-                        <ng-container *nzStringTemplateOutlet="nzTitle">
-                          <div [innerHTML]="nzTitle"></div>
-                        </ng-container>
+                        <ng-container *nzStringTemplateOutlet="nzTitle">{{ nzTitle }}</ng-container>
                       </div>
                     }
                   </div>
                   @if (nzExtra) {
                     <div class="ant-drawer-extra">
-                      <ng-container *nzStringTemplateOutlet="nzExtra">
-                        <div [innerHTML]="nzExtra"></div>
-                      </ng-container>
+                      <ng-container *nzStringTemplateOutlet="nzExtra">{{ nzExtra }}</ng-container>
                     </div>
                   }
                 </div>
               }
-              <div class="ant-drawer-body" [ngStyle]="nzBodyStyle" cdkScrollable>
+              <div class="ant-drawer-body" [style]="nzBodyStyle" cdkScrollable>
                 <ng-template cdkPortalOutlet />
                 @if (nzContent) {
                   @if (isNzContentTemplateRef) {
@@ -132,9 +128,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'drawer';
               </div>
               @if (nzFooter) {
                 <div class="ant-drawer-footer">
-                  <ng-container *nzStringTemplateOutlet="nzFooter">
-                    <div [innerHTML]="nzFooter"></div>
-                  </ng-container>
+                  <ng-container *nzStringTemplateOutlet="nzFooter">{{ nzFooter }}</ng-container>
                 </div>
               }
             </div>
@@ -146,16 +140,7 @@ const NZ_CONFIG_MODULE_NAME: NzConfigKey = 'drawer';
   preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [drawerMaskMotion],
-  imports: [
-    NzNoAnimationDirective,
-    NgStyle,
-    NzOutletModule,
-    NzIconModule,
-    PortalModule,
-    NgTemplateOutlet,
-    CdkScrollable
-  ],
-  standalone: true
+  imports: [NzNoAnimationDirective, NzOutletModule, NzIconModule, PortalModule, NgTemplateOutlet, CdkScrollable]
 })
 export class NzDrawerComponent<T extends {} = NzSafeAny, R = NzSafeAny, D extends Partial<T> = NzSafeAny>
   extends NzDrawerRef<T, R>
@@ -528,6 +513,7 @@ export class NzDrawerComponent<T extends {} = NzSafeAny, R = NzSafeAny, D extend
     // We need the extra check, because IE can set the `activeElement` to null in some cases.
     if (this.previouslyFocusedElement && typeof this.previouslyFocusedElement.focus === 'function') {
       this.previouslyFocusedElement.focus();
+      this.previouslyFocusedElement = undefined;
     }
     if (this.focusTrap) {
       this.focusTrap.destroy();

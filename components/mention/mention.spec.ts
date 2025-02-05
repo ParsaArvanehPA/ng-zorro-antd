@@ -1,3 +1,8 @@
+/**
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/LICENSE
+ */
+
 import { BidiModule, Direction, Directionality } from '@angular/cdk/bidi';
 import { DOWN_ARROW, ENTER, ESCAPE, RIGHT_ARROW, TAB, UP_ARROW } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -32,12 +37,11 @@ describe('mention', () => {
   let zone: MockNgZone;
 
   beforeEach(waitForAsync(() => {
-    const dir = 'ltr';
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       providers: [
         provideNzIconsTesting(),
-        { provide: Directionality, useFactory: () => ({ value: dir }) },
+        { provide: Directionality, useClass: MockDirectionality },
         { provide: ScrollDispatcher, useFactory: () => ({ scrolled: () => scrolledSubject }) },
         {
           provide: NgZone,
@@ -47,7 +51,7 @@ describe('mention', () => {
           }
         }
       ]
-    }).compileComponents();
+    });
 
     inject([OverlayContainer], (oc: OverlayContainer) => {
       overlayContainer = oc;
@@ -565,7 +569,6 @@ describe('mention', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzInputModule, NzMentionModule],
   template: `
     <nz-mention [nzSuggestions]="suggestions">
@@ -591,7 +594,6 @@ class NzTestSimpleMentionComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [FormsModule, NzInputModule, NzMentionModule],
   template: `
     <nz-mention
@@ -628,9 +630,7 @@ class NzTestPropertyMentionComponent {
     this.prefix = ['@', '#'];
   }
 
-  onSearchChange(): void {
-    // noop
-  }
+  onSearchChange(): void {}
 
   fetchSuggestions(): void {
     this.webFrameworks = [];
@@ -649,7 +649,6 @@ class NzTestPropertyMentionComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [BidiModule, NzInputModule, NzMentionModule],
   template: `
     <div [dir]="direction">
@@ -664,7 +663,6 @@ class NzTestDirMentionComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzInputModule, NzMentionModule],
   template: `
     <nz-mention [nzSuggestions]="[]" [nzStatus]="status">
@@ -677,7 +675,6 @@ class NzTestStatusMentionComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [NzFormModule, NzMentionModule],
   template: `
     <form nz-form>
@@ -694,4 +691,9 @@ class NzTestStatusMentionComponent {
 class NzTestMentionInFormComponent {
   status: NzFormControlStatusType = 'error';
   feedback = true;
+}
+
+class MockDirectionality {
+  value = 'ltr';
+  change = new Subject();
 }
