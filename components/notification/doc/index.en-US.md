@@ -3,10 +3,10 @@ category: Components
 type: Feedback
 noinstant: true
 title: Notification
-cover: https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg
+cover: 'https://gw.alipayobjects.com/zos/alicdn/Jxm5nw61w/Notification.svg'
+description: Prompt notification message globally.
 ---
 
-Display a notification message globally.
 
 ## When To Use
 
@@ -18,11 +18,6 @@ used in the following cases:
   about upcoming steps the user may have to follow.
 - A notification that is pushed by the application.
 
-```ts
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-
-private readonly notification = inject(NzNotificationService);
-```
 
 ## API
 
@@ -36,16 +31,16 @@ The component provides a number of service methods using the following methods a
 - `NzNotificationService.info(title, content, [options])`
 - `NzNotificationService.warning(title, content, [options])`
 
-| Argument | Description                                                                          | Type                          | Default |
-| -------- | ------------------------------------------------------------------------------------ | ----------------------------- | ------- |
-| title    | Title                                                                                | `string \| TemplateRef<void>` | -       |
-| content  | Notification content                                                                 | `string \| TemplateRef<void>` | -       |
-| options  | Support setting the parameters for the current notification box, see the table below | `object`                      | -       |
+| Argument | Description                                                                          | Type                                                                              | Default |
+|----------|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|---------|
+| title    | Title                                                                                | `string \| TemplateRef<void>`                                                     | -       |
+| content  | Notification content                                                                 | `NzNotificationContentType` | -       |
+| options  | Support setting the parameters for the current notification box, see the table below | `object`                                                                          | -       |
 
 The parameters that are set by the `options` support are as follows:
 
 | Argument       | Description                                                            | Type                                                            |
-| -------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------- |
+|----------------|------------------------------------------------------------------------|-----------------------------------------------------------------|
 | nzKey          | The unique identifier of the Notification                              | `string`                                                        |
 | nzDuration     | Duration (milliseconds), does not disappear when set to 0              | `number`                                                        |
 | nzPauseOnHover | Do not remove automatically when mouse is over while setting to `true` | `boolean`                                                       |
@@ -65,7 +60,7 @@ Methods for destruction are also provided:
 You can use `NzConfigService` to configure this component globally. Please check the [Global Configuration](/docs/global-config/en) chapter for more information.
 
 | Parameter      | Description                                                                             | Type             | Default    |
-| -------------- | --------------------------------------------------------------------------------------- | ---------------- | ---------- |
+|----------------|-----------------------------------------------------------------------------------------|------------------|------------|
 | nzDuration     | Duration (milliseconds), does not disappear when set to 0                               | `number`         | 4500       |
 | nzMaxStack     | The maximum number of notifications that can be displayed at the same time              | `number`         | 8          |
 | nzPauseOnHover | Do not remove automatically when mouse is over while setting to `true`                  | `boolean`        | `true`     |

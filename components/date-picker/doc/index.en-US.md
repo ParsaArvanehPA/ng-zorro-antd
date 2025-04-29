@@ -2,23 +2,20 @@
 category: Components
 type: Data Entry
 title: DatePicker
-cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
+cover: 'https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg'
+description: To select or input a date.
 ---
 
-To select or input a date.
 
 ## When To Use
 
 By clicking the input box, you can select a date from a popup calendar.
 
-```ts
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-```
 
 ## API
 
 **Note:** Some of nz-date-picker's locale are coming from [Angular i18n](https://angular.dev/guide/i18n), that should be
-provided in the file of `app.module.ts`.
+provided in the file `app.config.ts`.
 
 For example:
 

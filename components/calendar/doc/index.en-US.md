@@ -3,22 +3,19 @@ category: Components
 type: Data Display
 cols: 1
 title: Calendar
-cover: https://gw.alipayobjects.com/zos/antfincdn/dPQmLq08DI/Calendar.svg
+cover: 'https://gw.alipayobjects.com/zos/antfincdn/dPQmLq08DI/Calendar.svg'
+description: Container for displaying data in calendar form.
 ---
 
-Container for displaying data in calendar form.
 
 ## When To Use
 
 When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.
 
-```ts
-import { NzCalendarModule } from 'ng-zorro-antd/calendar';
-```
 
 ## API
 
-**Note:** Some of Calendar's locale are coming from [Angular i18n](https://angular.dev/guide/i18n), that should be provided in the file of `app.module.ts`.
+**Note:** Some of Calendar's locale are coming from [Angular i18n](https://angular.dev/guide/i18n), that should be provided in the file `app.config.ts`.
 
 For example:
 

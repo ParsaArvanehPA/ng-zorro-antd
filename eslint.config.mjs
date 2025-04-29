@@ -22,8 +22,7 @@ export default tseslint.config(
       'dist/',
       'scripts/site/{_site,template}/**/*',
       'junit/',
-      'coverage-report/',
-      'components/**/demo/**/*'
+      'coverage-report/'
     ]
   },
   {
@@ -99,10 +98,13 @@ export default tseslint.config(
           default: 'array-simple'
         }
       ],
-      '@typescript-eslint/no-empty-object-type': ['error', {
-        allowInterfaces: 'always',
-        allowObjectTypes: 'always'
-      }],
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        {
+          allowInterfaces: 'always',
+          allowObjectTypes: 'always'
+        }
+      ],
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'error',
       '@typescript-eslint/no-wrapper-object-types': 'error',
@@ -129,15 +131,6 @@ export default tseslint.config(
       '@typescript-eslint/no-this-alias': 'error',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_',
-          varsIgnorePattern: '^_'
-        }
-      ],
       '@typescript-eslint/explicit-function-return-type': [
         'error',
         {
@@ -146,6 +139,17 @@ export default tseslint.config(
         }
       ],
       '@typescript-eslint/no-require-imports': 'warn',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_'
+        }
+      ],
       'prefer-arrow/prefer-arrow-functions': 'off',
       'import/no-duplicates': 'error',
       'import/no-unused-modules': 'error',
@@ -188,12 +192,28 @@ export default tseslint.config(
     }
   },
   {
+    files: ['components/**/demo/*.ts'],
+    rules: {
+      'header/header': 'off'
+    }
+  },
+  {
     files: ['**/*.html'],
+    plugins: {
+      prettier
+    },
     extends: [
       ...angular.configs.templateRecommended
       // todo(a11y)
       // ...angular.configs.templateAccessibility,
     ],
-    rules: {}
+    rules: {
+      'prettier/prettier': [
+        'error',
+        {
+          parser: 'angular'
+        }
+      ]
+    }
   }
 );

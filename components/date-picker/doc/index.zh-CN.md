@@ -3,23 +3,20 @@ category: Components
 type: 数据录入
 title: DatePicker
 subtitle: 日期选择框
-cover: https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg
+cover: 'https://gw.alipayobjects.com/zos/alicdn/RT_USzA48/DatePicker.svg'
+description: 输入或选择日期的控件。
 ---
 
-输入或选择日期的控件。
 
 ## 何时使用
 
 当用户需要输入一个日期，可以点击标准输入框，弹出日期面板进行选择。
 
-```ts
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-```
 
 ## API
 
 **注意：** nz-date-picker 的部分 locale 来自于 Angular 自身的[国际化支持](https://angular.cn/guide/i18n)
-，需要在 `app.module.ts` 文件中 引入相应的 Angular 语言包。
+，需要在 `app.config.ts` 文件中 引入相应的 Angular 语言包。
 例如：
 
 ```typescript

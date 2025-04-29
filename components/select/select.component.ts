@@ -59,7 +59,12 @@ import {
   OnChangeType,
   OnTouchedType
 } from 'ng-zorro-antd/core/types';
-import { fromEventOutsideAngular, getStatusClassNames, isNotNil } from 'ng-zorro-antd/core/util';
+import {
+  fromEventOutsideAngular,
+  getStatusClassNames,
+  isNotNil,
+  numberAttributeWithInfinityFallback
+} from 'ng-zorro-antd/core/util';
 import { NZ_SPACE_COMPACT_ITEM_TYPE, NZ_SPACE_COMPACT_SIZE, NzSpaceCompactItemDirective } from 'ng-zorro-antd/space';
 
 import { NzOptionContainerComponent } from './option-container.component';
@@ -128,7 +133,7 @@ export type NzSelectSizeType = NzSizeLDSType;
       (deleteItem)="onItemDelete($event)"
       (keydown)="onKeyDown($event)"
     ></nz-select-top-control>
-    @if (nzShowArrow || (hasFeedback && !!status) || isMaxTagCountSet) {
+    @if (nzShowArrow || (hasFeedback && !!status) || isMaxMultipleCountSet) {
       <nz-select-arrow
         [showArrow]="nzShowArrow"
         [loading]="nzLoading"
@@ -137,7 +142,7 @@ export type NzSelectSizeType = NzSizeLDSType;
         [feedbackIcon]="feedbackIconTpl"
         [nzMaxMultipleCount]="nzMaxMultipleCount"
         [listOfValue]="listOfValue"
-        [isMaxTagCountSet]="isMaxTagCountSet"
+        [isMaxMultipleCountSet]="isMaxMultipleCountSet"
       >
         <ng-template #feedbackIconTpl>
           @if (hasFeedback && !!status) {
@@ -185,7 +190,7 @@ export type NzSelectSizeType = NzSizeLDSType;
         [dropdownRender]="nzDropdownRender"
         [compareWith]="compareWith"
         [mode]="nzMode"
-        [isMaxLimitReached]="isMaxLimitReached"
+        [isMaxMultipleCountReached]="isMaxMultipleCountReached"
         (keydown)="onKeyDown($event)"
         (itemClick)="onItemClick($event)"
         (scrollToBottom)="nzScrollToBottom.emit()"
@@ -246,7 +251,7 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
   @Input() nzMenuItemSelectedIcon: TemplateRef<NzSafeAny> | null = null;
   @Input() nzTokenSeparators: string[] = [];
   @Input() nzMaxTagPlaceholder: TemplateRef<{ $implicit: NzSafeAny[] }> | null = null;
-  @Input() nzMaxMultipleCount = Infinity;
+  @Input({ transform: numberAttributeWithInfinityFallback }) nzMaxMultipleCount = Infinity;
   @Input() nzMode: NzSelectModeType = 'default';
   @Input() nzFilterOption: NzFilterOptionType = defaultFilterOption;
   @Input() compareWith: (o1: NzSafeAny, o2: NzSafeAny) => boolean = (o1: NzSafeAny, o2: NzSafeAny) => o1 === o2;
@@ -271,8 +276,16 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
     return this._nzShowArrow === undefined ? this.nzMode === 'default' : this._nzShowArrow;
   }
 
-  get isMaxTagCountSet(): boolean {
-    return this.nzMaxMultipleCount !== Infinity;
+  get isMultiple(): boolean {
+    return this.nzMode === 'multiple' || this.nzMode === 'tags';
+  }
+
+  get isMaxMultipleCountSet(): boolean {
+    return this.isMultiple && this.nzMaxMultipleCount !== Infinity;
+  }
+
+  get isMaxMultipleCountReached(): boolean {
+    return this.nzMaxMultipleCount !== Infinity && this.listOfValue.length === this.nzMaxMultipleCount;
   }
 
   @Output() readonly nzOnSearch = new EventEmitter<string>();
@@ -320,7 +333,6 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
   focused = false;
   dir: Direction = 'ltr';
   positions: ConnectionPositionPair[] = [];
-  isMaxLimitReached = false;
 
   // status
   prefixCls: string = 'ant-select';
@@ -434,9 +446,6 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
       this.value = model;
       this.onChange(this.value);
     }
-
-    this.isMaxLimitReached =
-      this.nzMaxMultipleCount !== Infinity && this.listOfValue.length === this.nzMaxMultipleCount;
   }
 
   onTokenSeparate(listOfLabel: string[]): void {
@@ -444,13 +453,21 @@ export class NzSelectComponent implements ControlValueAccessor, OnInit, AfterCon
       .filter(item => listOfLabel.findIndex(label => label === item.nzLabel) !== -1)
       .map(item => item.nzValue)
       .filter(item => this.listOfValue.findIndex(v => this.compareWith(v, item)) === -1);
+    /**
+     * Limit the number of selected item to nzMaxMultipleCount
+     */
+    const limitWithinMaxCount = <T>(value: T[]): T[] =>
+      this.isMaxMultipleCountSet ? value.slice(0, this.nzMaxMultipleCount) : value;
+
     if (this.nzMode === 'multiple') {
-      this.updateListOfValue([...this.listOfValue, ...listOfMatchedValue]);
+      const updateValue = limitWithinMaxCount([...this.listOfValue, ...listOfMatchedValue]);
+      this.updateListOfValue(updateValue);
     } else if (this.nzMode === 'tags') {
       const listOfUnMatchedLabel = listOfLabel.filter(
         label => this.listOfTagAndTemplateItem.findIndex(item => item.nzLabel === label) === -1
       );
-      this.updateListOfValue([...this.listOfValue, ...listOfMatchedValue, ...listOfUnMatchedLabel]);
+      const updateValue = limitWithinMaxCount([...this.listOfValue, ...listOfMatchedValue, ...listOfUnMatchedLabel]);
+      this.updateListOfValue(updateValue);
     }
     this.clearInput();
   }

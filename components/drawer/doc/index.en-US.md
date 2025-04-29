@@ -1,9 +1,9 @@
 ---
 type: Feedback
 category: Components
-subtitle:
 title: Drawer
-cover: https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg
+cover: 'https://gw.alipayobjects.com/zos/alicdn/7z8NJQhFb/Drawer.svg'
+description: A panel that slides out from the edge of the screen.
 ---
 
 A Drawer is a panel that is typically overlaid on top of a page and slides in from the side. It contains a set of
@@ -17,9 +17,6 @@ achieved more efficient within the same context.
   the main task, Drawer comes very handy.
 - When a same Form is needed in multiple places.
 
-```ts
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-```
 
 ## API
 
@@ -58,10 +55,10 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 ### NzDrawerOptions
 
 | Params              | Description                                                                                                                                                                                                    | Type                                                               | Default     | Global Config |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----------- | ------------- |
+| ------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------ | ----------- | ------------- |
 | nzContent           | The drawer body content.                                                                                                                                                                                       | `TemplateRef<{ $implicit: D, drawerRef: NzDrawerRef }> \| Type<T>` | -           |
 | nzContentParams     | Deprecated: Use NzData instead. The component inputs the param / The Template context                                                                                                                          | `D`                                                                | -           |
-| nzData              | Will be a template variable when nzContent is TemplateRef. <br /> object, will be the value of the injection token NZ_MODAL_DATA when nzContent is a component                                                 | `D`                                                                | -           |
+| nzData              | Will be a template variable when nzContent is TemplateRef. <br /> object, will be the value of the injection token NZ_DRAWER_DATA when nzContent is a component                                                | `D`                                                                | -           |
 | nzClosable          | Whether a close (x) button is visible on top left of the Drawer dialog or not.                                                                                                                                 | `boolean`                                                          | `true`      |
 | nzCloseIcon         | Custom close icon                                                                                                                                                                                              | `string \| TemplateRef<void> \| null`                              | `'close'`   |
 | nzExtra             | Extra actions area at corner.                                                                                                                                                                                  | `string \| TemplateRef<void> \| null`                              | -           |

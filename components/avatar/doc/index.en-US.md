@@ -2,21 +2,17 @@
 category: Components
 type: Data Display
 title: Avatar
-cover: https://gw.alipayobjects.com/zos/antfincdn/aBcnbw68hP/Avatar.svg
+cover: 'https://gw.alipayobjects.com/zos/antfincdn/aBcnbw68hP/Avatar.svg'
+description: Used to represent users or things, supporting the display of images, icons, or characters.
 ---
 
-Avatars can be used to represent people or objects. It supports images, `Icon`s, or letters.
-
-```ts
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-```
 
 ## API
 
 ### nz-avatar
 
 | Property     | Description                                                                                        | Type                                        | Default     | Global Config |
-| ------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------- | ----------- | ------------- |
+|--------------|----------------------------------------------------------------------------------------------------|---------------------------------------------|-------------|---------------|
 | `[nzIcon]`   | The `Icon` type for an icon avatar, see `Icon`                                                     | `string`                                    | -           |
 | `[nzShape]`  | The shape of avatar                                                                                | `'circle' \| 'square'`                      | `'circle'`  | ✅             |
 | `[nzSize]`   | The size of the avatar                                                                             | `'large' \| 'small' \| 'default' \| number` | `'default'` | ✅             |
@@ -30,8 +26,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 ### nz-avatar-group
 
 ```html
- <nz-avatar-group>
+<nz-avatar-group>
   <nz-avatar nzIcon="user"></nz-avatar>
-  ...
+  <!--  ...  -->
 </nz-avatar-group>
 ```
